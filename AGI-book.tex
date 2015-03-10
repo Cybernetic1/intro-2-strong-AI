@@ -1,9 +1,13 @@
-\documentclass[12pt, a4paper]{report}
+\documentclass[12pt, UTF8, a4paper]{report}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
 
 %dvips OR pdftex
-\usepackage[pdftex, pdfauthor={YKY}, bookmarks, anchorcolor=blue, colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue, breaklinks, plainpages=false, pdfpagelabels, hypertexnames=false]{hyperref}
-\usepackage{breakurl}
-\usepackage[final]{graphicx}
+\usepackage[xetex, pdfauthor={YKY}, bookmarks, anchorcolor=blue, colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue, breaklinks, plainpages=false, pdfpagelabels, hypertexnames=false]{hyperref}
+% \usepackage{breakurl}
+\usepackage{graphicx}
 \usepackage{float}
 \usepackage[square]{natbib}
 \usepackage{color}
@@ -44,7 +48,8 @@
 \newcommand{\code}   [1]{{\footnotesize{\ttfamily #1}}}
 \newcommand{\formula}[1]{\textcolor{LogicColor}{#1}}
 \newcommand{\todo}   [1]{\textcolor{TodoColor}{To do: #1}}
-\newcommand{\english}[1]{\rmfamily \textit{``#1''}\sffamily}
+\newcommand{\english}[1]{\textit{``#1''}}
+%\newcommand{\english}[1]{\rmfamily \textit{``#1''}\sffamily}
 \newcommand{\kb}     [1]{[s$_#1$]:}
 \renewcommand{\star}{$* \;$}
 \newcommand{\app}{$\circ \;$}
@@ -95,11 +100,13 @@
 %\renewcommand{\mtcSSfont}{\small\sffamily}
 %\renewcommand{\mtcSSSfont}{\small\sffamily}
 %\renewcommand{\mtifont}{\small\sffamily}
+
 \renewcommand{\mtcfont}{\normalsize\sffamily}
 \renewcommand{\mtcSfont}{\normalsize\sffamily}
 \renewcommand{\mtcSSfont}{\normalsize\sffamily}
 \renewcommand{\mtcSSSfont}{\normalsize\sffamily}
 \renewcommand{\mtifont}{\normalsize\sffamily}
+
 %\renewcommand{\mtcfont}{\large\sffamily}
 %\renewcommand{\mtcSfont}{\large\sffamily}
 %\renewcommand{\mtcSSfont}{\large\sffamily}
@@ -123,7 +130,7 @@
 \interfootnotelinepenalty=50000
 
 \title{\textbf{Genifer\\-- an artificial general intelligence}}
-\author{YKY (general.intelligence@Gmail.com)\\ \\
+\author{YKY (甄景贤 general.intelligence@Gmail.com)\\ \\
 with input from:\\
 Abram Demski\\
 Ben Goertzel\\
@@ -161,14 +168,14 @@ Pei Wang
 \fancypagestyle{plain}{\rfoot{\thepage}}
 %\pagestyle{plain}
 
-\includeonly{introduction, architecture, knowledge-representation, logic, vagueness, probabilities, confidence, inference, pattern-recognition, belief-revision, induction, natural-language, memory-systems, planning, program-synthesis, value-judgements, vision, implementation, business-aspects, quick-start, symbols}
+\includeonly{introduction, architecture, knowledge-representation, logic, genifer4, vagueness, probabilities, confidence, inference, pattern-recognition, belief-revision, induction, natural-language, memory-systems, planning, program-synthesis, value-judgements, vision, implementation, business-aspects, quick-start, symbols}
 
 \makeindex
 \makeglossaries
 
 \begin{document}
 %\font\normalfont=cmss14
-\renewcommand{\normalsize}{\fontsize{12pt}{15pt}\selectfont}
+\renewcommand{\normalsize}{\sffamily\fontsize{12pt}{15pt}\selectfont}
 \fontsize{12pt}{15pt} \selectfont
 
 %\pagestyle{plain}
@@ -263,6 +270,7 @@ Pei Wang
 \include{knowledge-representation}
 % % \chapter{Slideshow: logic}
 \include{logic}
+\include{genifer4}
 \include{vagueness}
 \include{probabilities}
 \include{confidence}

@@ -1,0 +1,17 @@
+*.bak
+*.blg
+*.bbl
+*.mtc
+*.mtc?
+*.mtc??
+*.toc
+*.glo
+*.acn
+*.ist
+*.aux
+*.maf
+*.glsdefs
+*.out
+*.idx
+*.gz
+*.log
