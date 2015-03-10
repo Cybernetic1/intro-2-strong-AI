@@ -1,0 +1,112 @@
+\chapter{Natural language}
+\begin{flushright}
+\emph{The fish trap exists because of the fish; once you've gotten the fish,\\
+you can forget the trap. The rabbit snare exists because of the rabbit;\\
+once you've gotten the rabbit, you can forget the snare.\\
+Language exists because of meaning; once you've gotten the meaning,\\
+you can forget language.}\\ --- Zhuangzi (4th Century BC)
+\end{flushright}
+\minitoc
+
+\section{Natural language is not essential to AGI}
+
+Needless to say, fully solving the natural language problem is AGI-complete.  This however is not a show-stopper.  Our ultimate goal is to reach the \textbf{RSI point} (\S\ref{sec:RSI}) with as little effort as possible.  Which means we only need the most basic system that can automatically write programs for us.  Such a system only needs to accept commands in a \textit{restricted} subset of English.  Thus, for all our purposes an NL module that can parse restricted English would suffice.
+
+\section{Unification-based grammars}
+
+The family of unification-based grammars includes LFG (Lexical Functional Grammar), HPSG (Head-Driven Phrase Structure Grammar), and PATR grammar.  The unification algorithm used in unification-based grammar is the same as the unification algorithm used in logic.  This is further evidence that the brain employs first-order symbolic processing.
+
+\section{Cognitive linguistics}
+
+Currently we are using the ``formal semantics'' approach.
+
+\{ TO-DO:  How may cognitive linguistics affect the design of the natural language subsystem? \}
+
+\section{Abduction as interpretation}
+\label{sec:AbductionAsInterpretation}
+
+\subsection{A detailed example}
+
+The general sequence is:\\
+\hspace*{1cm} tokenization $\rightarrow$ POS-tagging $\rightarrow$ syntax parsing $\rightarrow$ semantic parsing\\
+which should be familiar to everyone with experience in NL processing.
+
+I will explain the details using a simple example:\\
+\hspace*{1cm} ``I love Mary''
+
+The crucial thing is that we represent everything in a logic-based framework. First we represent the sentence as "raw data" (ignoring tenses to simplify matters):\\
+\hspace*{1cm} $\mbox{sentence}(e_0)$\\
+\hspace*{1cm} $\mbox{lexeme-I}(e_1)$\\
+\hspace*{1cm} $\mbox{lexeme-love}(e_2)$\\
+\hspace*{1cm} $\mbox{lexeme-Mary}(e_3)$\\
+\hspace*{1cm} $\mbox{begins-with}(e_0, e_1)$\\
+\hspace*{1cm} $\mbox{follows}(e_2, e_1)$\\
+\hspace*{1cm} $\mbox{follows}(e_3, e_2)$\\
+where:\\
+\hspace*{1cm} the $e_i$'s are \textbf{entities} (logical constants).\\
+\hspace*{1cm} the entities $e_1$, $e_2$, and $e_3$ are words.\\
+\hspace*{1cm} follows() means a word follows another word in a sentence.
+
+Up to now, all we have is a sentence as raw text (without meanings).  The next step is to recognize parts of speech (nouns, verbs, adjectives, etc). We can use logical rules to do this.
+
+An example logical rule is:\\
+\hspace*{1cm} $\mbox{lexeme-Mary}(X) \rightarrow \exists e \; \mbox{parse-as}(e, X) \wedge \mbox{noun}(e)$\\
+which simply means that the word "Mary" is a noun. X is a variable (implicitly universally quantified). $e$ is a new entity, which instantiates to $e_4$ when the rule is applied.
+
+We can also use logical rules to parse syntax. We can perform ``VP $\leftarrow verb + noun$'' with this rule\footnote{We need this special rule:\\
+\hspace*{1cm} $\mbox{follows}(X_1, X_2) \wedge \mbox{parse-as}(X_1, X_3) \wedge \mbox{parse-as}(X_2, X_4) \rightarrow \mbox{follows2}(X_3, X_4)$ }:\\
+\hspace*{1cm} $\mbox{verb}(X_1) \wedge \mbox{noun}(X_2) \wedge \mbox{follows2}(X_2, X_1) \rightarrow \exists e \; \mbox{parse-as}(e, X_1, X_2) \wedge vp(e)$\\
+which creates a new entity $e_5$ which is a VP.
+
+Assume that eventually we have a parse of the sentence S, $e_6$. Notice that up to now, it's all syntax parsing.
+
+Next we perform semantic parsing.  The key is to generate partial meanings for phrases, such as the verb phrase ``loves Mary''.
+
+\textbf{Lambda operator.}  In formal semantics, it is customary to use the $\lambda$ operator to represent the meaning of phrases.  The reason is that first-order logic do not have the expressive power to represent such phrases.  For example, the VP ``loves Mary'' denotes ``somebody's loving Mary'', which may be represented as $love(\_ \,,mary)$; but that is not a well-formed formula in FOL.  Instead we can represent it using the $\lambda$ expression $\lambda x \; love(x,mary)$.  This is no longer FOL, but is a so-called \textit{quasi-logical} form.  I propose to use an alternative method which is within FOL.  It employs the composition functor.
+
+\textbf{Composition functor.}  (See also \S\ref{sec:CompositionFunctor})  Under this method, all phrases are represented by compositions.  For example, the VP ``loves Mary'' can be represented by $comp(loves,mary)$, or in short-hand $loves * mary$.  This composite is a \textit{first-order object}, which cannot be further reduced, but when we compose it with $john$, we get $john * (loves * mary)$ which is equivalent to the first-order statement $loves(john,mary)$.  So we need special inference rules to convert such composites into statements.
+
+I think this method is superior to $\lambda$ because the meanings of phrases can be represented by first-order objects.  It also makes semantic parsing very intuitive.
+
+\{ TO-DO:  Explain semantic parsing with examples. \}
+
+%A semantic rule is similar to a syntactic one:\\
+%\hspace*{1cm} $\mbox{lexeme-love}(X) \rightarrow \exists e \; \mbox{parse-as}(e, X) \wedge \mbox{verb}(e) \wedge \mbox{means}(e, \mbox{concept-love})$\\
+%
+%\hspace*{1cm} $\mbox{verb}(X_1) \wedge \mbox{np}(X_2) \wedge \mbox{follows2}(X_2, X_1) \wedge \mbox{means}(X_1, Y_1) \wedge \mbox{means}(X_2, Y_2)$\\
+%\hspace*{1cm} $\rightarrow \exists e \; \mbox{parse-as}(e, X_1, X_2) \wedge vp(e) \wedge \mbox{means}(e, comp(Y_1,Y_2))$\\
+%
+%For example, we can augment the syntactic rule\\
+%\hspace*{1cm} $\mbox{VP} \leftarrow \mbox{verb}, \mbox{NP} $\\
+%with\\
+%\hspace*{1cm} $\mbox{VP}(\mbox{comp}(Sem_1,Sem_2)) \leftarrow \mbox{verb}(Sem_1), \mbox{NP}(Sem_2)$\\
+%where the $Sem$'s are variables containing the ``semantics'' of phrases.\\
+%\hspace*{1cm} $\mbox{S} \leftarrow \mbox{NP}, \mbox{VP} $\\
+%\hspace*{1cm} $\mbox{S}(Predicate) \leftarrow \mbox{NP}(Subject), \mbox{VP}(Subject * Predicate) $\\
+%\hspace*{1cm} $\mbox{VP}(X) \rightarrow \mbox{com}(\mbox{loves},\mbox{mary})$\\
+%which creates a new entity $e_7$ with the meaning of "love".\\
+%\hspace*{1cm} $\mbox{lexeme-love}(X_1) \rightarrow \exists e \; \mbox{concept}(e) \wedge \mbox{means}(e, \mbox{concept-love})$\\
+%
+%The final step of semantic parsing uses a special trick,  ``de-reification'' (\S\ref{sec:reification}):\\
+%\hspace*{1cm} (assume that $e_{8}, e_{9}$ denote the persons John and Mary)\\
+%\hspace*{1cm} $\mbox{de-reify}(\mbox{concept-love}, e_{8}, e_{9})$\\
+%which generates the logical statement:\\
+%\hspace*{1cm} $\mbox{loves}_1(e_{8},e_{9})$\\
+%
+%Finally we have:\\
+%\hspace*{1cm} $\mbox{means}(e_0, \mbox{loves}_1)$
+
+\section{Universal logical form}
+\label{sec:UniversalLogicalForm}
+
+An immediate question is how to translate ``nearly every text sentence under the sun'' into logical form.  To which we employ several rules to quickly reduce the problem space:
+
+1.  Every noun (except special nouns such as pronouns) corresponds to a concept which is represented by a predicate.  For example, the word:chair corresponds to the concept:chair and is represented by the predicate \code{concept-chair()}.
+
+%2.  Every verb
+
+%3. 
+
+\section{Some example English sentences}
+\label{sec:English-examples}
+

@@ -1,0 +1,72 @@
+#!/usr/bin/bash
+
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe 16Junctions.PNG  /resample /bpp=24 /convert=16Junctions.png 
+echo "changing type: 16Junctions.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe 1DClasses.PNG  /resample /bpp=24 /convert=1DClasses.png 
+echo "changing type: 1DClasses.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe 3DContours.PNG  /resample /bpp=24 /convert=3DContours.png 
+echo "changing type: 3DContours.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe BiedermanHummelNN.PNG  /resample /bpp=24 /convert=BiedermanHummelNN.png 
+echo "changing type: BiedermanHummelNN.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe ComplexCurves.PNG  /resample /bpp=24 /convert=ComplexCurves.png 
+echo "changing type: ComplexCurves.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe ComplexLoops.PNG  /resample /bpp=24 /convert=ComplexLoops.png 
+echo "changing type: ComplexLoops.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe ContourSimplification.PNG  /resample /bpp=24 /convert=ContourSimplification.png 
+echo "changing type: ContourSimplification.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe CurvesClasses.PNG  /resample /bpp=24 /convert=CurvesClasses.png 
+echo "changing type: CurvesClasses.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe EllipsesClasses.PNG  /resample /bpp=24 /convert=EllipsesClasses.png 
+echo "changing type: EllipsesClasses.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe GI-Vision.PNG  /resample /bpp=24 /convert=GI-Vision.png 
+echo "changing type: GI-Vision.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe GestaltContours.PNG  /resample /bpp=24 /convert=GestaltContours.png 
+echo "changing type: GestaltContours.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe GoodContinuation.PNG  /resample /bpp=24 /convert=GoodContinuation.png 
+echo "changing type: GoodContinuation.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Junctions-L.PNG  /resample /bpp=24 /convert=Junctions-L.png 
+echo "changing type: Junctions-L.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Junctions-T.PNG  /resample /bpp=24 /convert=Junctions-T.png 
+echo "changing type: Junctions-T.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Junctions-X.PNG  /resample /bpp=24 /convert=Junctions-X.png 
+echo "changing type: Junctions-X.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Junctions-Y.PNG  /resample /bpp=24 /convert=Junctions-Y.png 
+echo "changing type: Junctions-Y.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line1.PNG  /resample /bpp=24 /convert=Line1.png 
+echo "changing type: Line1.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line10.PNG  /resample /bpp=24 /convert=Line10.png 
+echo "changing type: Line10.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line2.PNG  /resample /bpp=24 /convert=Line2.png 
+echo "changing type: Line2.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line3.PNG  /resample /bpp=24 /convert=Line3.png 
+echo "changing type: Line3.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line4.PNG  /resample /bpp=24 /convert=Line4.png 
+echo "changing type: Line4.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line5.PNG  /resample /bpp=24 /convert=Line5.png 
+echo "changing type: Line5.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line6.PNG  /resample /bpp=24 /convert=Line6.png 
+echo "changing type: Line6.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line7.PNG  /resample /bpp=24 /convert=Line7.png 
+echo "changing type: Line7.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line8.PNG  /resample /bpp=24 /convert=Line8.png 
+echo "changing type: Line8.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Line9.PNG  /resample /bpp=24 /convert=Line9.png 
+echo "changing type: Line9.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Marr3DModel.PNG  /resample /bpp=24 /convert=Marr3DModel.png 
+echo "changing type: Marr3DModel.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe MarrVisionFramework.PNG  /resample /bpp=24 /convert=MarrVisionFramework.png 
+echo "changing type: MarrVisionFramework.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Movie.PNG  /resample /bpp=24 /convert=Movie.png 
+echo "changing type: Movie.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe PolygonDecomposition.PNG  /resample /bpp=24 /convert=PolygonDecomposition.png 
+echo "changing type: PolygonDecomposition.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe Quadrilateral.PNG  /resample /bpp=24 /convert=Quadrilateral.png 
+echo "changing type: Quadrilateral.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe UnderConst.PNG  /resample /bpp=24 /convert=UnderConst.png 
+echo "changing type: UnderConst.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe VisioLogicalTransform.PNG  /resample /bpp=24 /convert=VisioLogicalTransform.png 
+echo "changing type: VisioLogicalTransform.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe VisionArchitecture.PNG  /resample /bpp=24 /convert=VisionArchitecture.png 
+echo "changing type: VisionArchitecture.PNG " 
+/cygdrive/c/Program\ Files/IrfanView/i_view32.exe geons.PNG  /resample /bpp=24 /convert=geons.png 
+echo "changing type: geons.PNG " 

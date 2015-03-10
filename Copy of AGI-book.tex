@@ -1,0 +1,263 @@
+\documentclass[12pt, a4paper]{report}
+
+%dvips
+\usepackage[pdflatex, pdfauthor={Yan King Yin}, bookmarks, anchorcolor=blue, colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue, breaklinks, plainpages=false, pdfpagelabels, hypertexnames=false]{hyperref}
+\usepackage{breakurl}
+\usepackage[final]{graphicx}
+\usepackage{float}
+\usepackage[square]{natbib}
+\usepackage{color}
+\usepackage{amsmath}   % for {equation} {cases} {xleftarrow}
+\usepackage{bbm}         % for math fonts with double lines
+\usepackage{amssymb}   % for \curlyvee
+\usepackage{stmaryrd}   % for \bigcurlyvee, \widetilde{\bigwedge}
+\usepackage{wasysym}   % for \iint (double integral)
+\usepackage{makeidx}
+\usepackage[style=list,acronym=true,number=none]{glossary}
+\usepackage{alg}
+\usepackage{minitoc}
+\usepackage[pointedenum]{paralist}
+\usepackage[sf,bf,big,raggedright,compact]{titlesec}
+\usepackage{fancyhdr}
+\usepackage{movie15}
+\usepackage{caption}
+
+\definecolor{DarkGreen}{rgb}{0.1,0.4,0.1}
+
+\newcommand{\code}[1]{{\footnotesize{\ttfamily #1}}}
+\newcommand{\formula}[1]{\textcolor{DarkGreen}{#1}}
+\renewcommand{\star}{$* \;$}
+\newcommand{\app}{$\cdot \;$}
+\newcommand{\eg}{\textbf{Example:} }
+\newcommand{\tab}{\hspace*{1cm} }
+\newcommand{\underconst}{\includegraphics{UnderConst.png}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+%%%%%%%%%%%%%%%%% Symbols defined by me %%%%%%%%%%%%%%%%%%%
+% fuzzy and probabilistic logic operators
+\newcommand{\Zand}{\stackrel{Z}{\wedge}}
+\newcommand{\Zor}{\stackrel{Z}{\vee}}
+\newcommand{\Pand}{\stackrel{P}{\wedge}}
+\newcommand{\Por}{\stackrel{P}{\vee}}
+\newcommand{\bigZand}{\stackrel{Z}{\bigwedge}}
+\newcommand{\bigZor}{\stackrel{Z}{\bigvee}}
+\newcommand{\bigPand}{\stackrel{P}{\bigwedge}}
+\newcommand{\bigPor}{\stackrel{P}{\bigvee}}
+\newcommand{\Pimp}{\rightarrowtriangle}
+% categories
+\newcommand{\catP}{\mathcal{P}}
+\newcommand{\catZ}{\mathcal{Z}}
+\newcommand{\catB}{\mathcal{B}}
+\newcommand{\catPB}{\mathcal{P(B)}}
+\newcommand{\catPZ}{\mathcal{P(Z)}}
+
+\fontsize{13pt}{15pt} \selectfont
+\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\mtcfont}{\small\sffamily}
+%\renewcommand{\mtcSfont}{\small\sffamily}
+%\renewcommand{\mtcSSfont}{\small\sffamily}
+%\renewcommand{\mtcSSSfont}{\small\sffamily}
+%\renewcommand{\mtifont}{\small\sffamily}
+\renewcommand{\mtcfont}{\normalsize\sffamily}
+\renewcommand{\mtcSfont}{\normalsize\sffamily}
+\renewcommand{\mtcSSfont}{\normalsize\sffamily}
+\renewcommand{\mtcSSSfont}{\normalsize\sffamily}
+\renewcommand{\mtifont}{\normalsize\sffamily}
+%\renewcommand{\mtcfont}{\large\sffamily}
+%\renewcommand{\mtcSfont}{\large\sffamily}
+%\renewcommand{\mtcSSfont}{\large\sffamily}
+%\renewcommand{\mtcSSSfont}{\large\sffamily}
+%\renewcommand{\mtifont}{\large\sffamily}
+\renewcommand{\mtctitle}{}
+\renewcommand{\chaptername}{Ch }
+
+\titlespacing{\chapter}{0pt}{0pt}{0pt}
+\titleformat{\chapter}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+\titleformat{\appendix}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+\titleformat{\section}[hang]{\sffamily\bfseries\Large\color{blue}}{\thesection \hspace{10pt}}{0pt}{}
+\titleformat{\subsection}[hang]{\sffamily\bfseries\large\color{blue}}{\thesubsection \hspace{5pt}}{0pt}{}
+\titleformat{\subsubsection}[hang]{\sffamily\bfseries\color{blue}}{\thesubsubsection \hspace{5pt}}{0pt}{}
+
+\newcommand{\algrepeatforever}{\textbf{repeat forever}\\\algbegin}
+
+\interfootnotelinepenalty=50000
+
+\title{\textbf{Genifer\\-- an artificial general intelligence}}
+\author{Yan King Yin (general.intelligence@Gmail.com)\\ \\
+with input from:\\
+Abram Demski\\
+Ben Goertzel\\
+Martin Magnusson\\
+Russell Wallace\\
+Pei Wang
+}
+\date{\copyright \quad latest revision: \today}
+
+\setlength{\headheight}{0cm}
+\setlength{\hoffset}{0cm}
+\setlength{\topmargin}{0cm}
+\setlength{\oddsidemargin}{-2cm}
+\setlength{\evensidemargin}{-2cm}
+\setlength{\textwidth}{19.5cm}
+\setlength{\textheight}{26cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\footskip}{0.9cm}  % between bottom of page and page number
+\setlength{\floatsep}{0cm}
+\setlength{\textfloatsep}{0.6cm}
+\setlength{\intextsep}{0.5cm}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{7pt}
+\setlength{\pltopsep}{-5pt}   % for compact-enum
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\rhead{}
+\lhead{}
+\cfoot{}
+\rfoot{\thepage}
+\fancypagestyle{plain}{\rfoot{\thepage}}
+%\pagestyle{plain}
+
+\includeonly{introduction, architecture, knowledge-representation, logic, vagueness, probabilities, confidence, inference, pattern-recognition, belief-revision, induction, natural-language, memory-systems, planning, program-synthesis, value-judgements, vision, implementation, business-aspects, quick-start, symbols}
+
+\makeindex
+\makeglossary
+
+\begin{document}
+%\font\normalfont=cmss14
+\renewcommand{\normalsize}{\fontsize{13pt}{15pt}\selectfont}
+\fontsize{13pt}{15pt} \selectfont
+
+%\pagestyle{plain}
+%\newcommand\ps@plain{
+%\renewcommand\@oddhead{}
+%\let\@evenhead\@oddhead
+%\renewcommand\@evenfoot
+%    {\hfil{\thepage}}
+%\let\@oddfoot\@evenfoot
+%}
+
+\maketitle
+\dominitoc
+\tableofcontents
+
+\setcounter{chapter}{-1}
+\chapter{Preface}
+
+\begin{enumerate}
+
+\item  This book is a perpetual draft.  Some people get upset that it is very unpolished and contains ideas that I often retract later.  I find the pros of doing this out-weight the cons:  It allows us to develop our theory much more rapidly.  Very often the details I glossed over are superceded by higher-level design changes and the previous details recede to much lesser importance.  The con is that this book may not be up to scholarly standards.
+
+\item  My \textit{personal} top priority is to obtain life extension if and when the technology is available.  I guess:\\
+\hspace*{1cm} if sufficiently many people want technology X,\\
+\hspace*{1cm} and X can be achieved at a cost affordable by those people,\\
+\hspace*{1cm} then X is likely to happen.\\
+I estimate my natural death would be around 2048, so for me AGI must happen before 2023, to allow 25 years of AGI diffusion (just to be safe!)  That means I have $\sim$13 years to build an AGI.  I don't mean to sound selfish, this is just to let people understand my priorities and motives better.
+
+\item  The source code of $\mbox{Genifer}$ is hosted on \href{http://code.google.com/p/genifer/}{Google Code}, including some very nice \href{http://code.google.com/p/genifer/downloads/list}{tutorial slides}.  Also feel free to \href{mailto:Generic.Intelligence@Gmail.com}{contact me}!
+
+\end{enumerate}
+
+\begin{flushright}
+--- YKY
+\end{flushright}
+
+\include{introduction}
+\include{architecture}
+\include{knowledge-representation}
+\chapter{Slideshow: logic}
+\include{logic}
+\include{vagueness}
+\include{probabilities}
+\include{confidence}
+\include{inference}
+\include{pattern-recognition}
+\include{belief-revision}
+\include{induction}
+\include{natural-language}
+\include{memory-systems}
+\include{planning}
+\include{program-synthesis}
+\include{value-judgements}
+\include{vision}
+\include{implementation}
+\include{business-aspects}
+\include{quick-start}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\chapter*{Acknowledgements}
+
+In addition to the people listed on the title page, I'd like to thank the AGI mailing-list participants for years of discussions.
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Symbols}
+\include{symbols}
+
+%\glossary{name={},description={}}
+\glossary{name={ATMS},description={assumption-based truth maintenance system}}
+\glossary{name={ATP},description={automated theorem proving}}
+\glossary{name={backward chaining},description={a deduction algorithm that makes deduction steps backwards, starting with the goal to be proved}}
+\glossary{name={BDI},description={belief-desire-intention (architecture)}}
+\glossary{name={BN},description={Bayesian network}}
+\glossary{name={CDF},description={cumulative distribution function}}
+\glossary{name={CNF},description={conjunctive normal form}}
+\glossary{name={DNF},description={disjunctive normal form}}
+\glossary{name={DP},description={deductive planning}}
+\glossary{name={EA},description={evolutionary algorithm}}
+\glossary{name={FOL},description={first-order logic}}
+\glossary{name={forward chaining},description={a deduction algorithm that performs deduction steps starting from the premises}}
+\glossary{name={ground},description={(logic) a formula is ground if it does not contain variables}}
+\glossary{name={HO},description={higher-order}}
+\glossary{name={HOL},description={higher-order logic}}
+\glossary{name={IE},description={inference engine}}
+\glossary{name={ILP},description={inductive logic programming}}
+\glossary{name={JTMS},description={justification-based truth maintenance system}}
+\glossary{name={KB},description={knowledge base}}
+\glossary{name={KR},description={knowledge representation}}
+\glossary{name={LBAI},description={logic-based AI}}
+\glossary{name={LGG},description={least general generalization}}
+\glossary{name={literal},description={(logic) a literal is an atomic formula or its negation}}
+\glossary{name={LTM},description={Long-Term Memory}}
+\glossary{name={MDL},description={minimum description length}}
+\glossary{name={MEA},description={means-end analysis}}
+\glossary{name={NL},description={natural language}}
+\glossary{name={NP},description={noun phrase}}
+\glossary{name={NR},description={natural reasoning (= common-sense / human-like reasoning)}}
+\glossary{name={PCA},description={principal component analysis}}
+\glossary{name={PDF},description={probability density function}}
+\glossary{name={RL},description={reinforcement learning}}
+\glossary{name={RRL},description={relational reinforcement learning}}
+\glossary{name={RSI},description={recursive self-improvement}}
+\glossary{name={rule},description={a logic formula with variables (opposite of ground)}}
+\glossary{name={SAT},description={logical satisfiability}}
+\glossary{name={SLD},description={selective linear definite clause resolution}}
+\glossary{name={SLS},description={stochastic local search}}
+\glossary{name={SVM},description={support vector machines}}
+\glossary{name={term},description={in FOL, terms are the arguments of predicates;  a term can be a variable, a constant, or recursive applications of functions to terms}}
+\glossary{name={TV},description={truth value}}
+\glossary{name={VP},description={verb phrase}}
+\glossary{name={WM},description={Working Memory, part of the KB that has faster processing speed}}
+\glossary{name={ZOL},description={zeroth-order logic (= propositional logic)}}
+
+\index{RSI (recursive self-improvement) |see{self-programming}}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Abbreviations and glossary}
+\printglossary
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{plainnat}
+\bibliography{AGI-book}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+
+\end{document}

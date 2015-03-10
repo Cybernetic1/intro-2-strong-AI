@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="628"
+   height="195.78809"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     transform="translate(-48,-425.36218)"
+     id="layer1">
+    <image
+       xlink:href="pastedpic_01082009_213445.png"
+       x="264"
+       y="426.36218"
+       width="198"
+       height="192"
+       id="image2405" />
+    <image
+       xlink:href="pastedpic_01082009_213533.png"
+       x="48"
+       y="425.36218"
+       width="198"
+       height="192"
+       id="image2418" />
+    <image
+       xlink:href="pastedpic_01082009_213611.png"
+       x="478"
+       y="426.36218"
+       width="198"
+       height="192"
+       id="image2431" />
+    <text
+       x="119"
+       y="492.36218"
+       id="text2435"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="119"
+         y="492.36218"
+         id="tspan2437">α or β &lt; 1</tspan></text>
+    <text
+       x="339.59814"
+       y="493.12585"
+       id="text2439"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="339.59814"
+         y="493.12585"
+         id="tspan2441">α or β = 1</tspan></text>
+    <text
+       x="548.59814"
+       y="493.12585"
+       id="text2443"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="548.59814"
+         y="493.12585"
+         id="tspan2445">α or β &gt; 1</tspan></text>
+    <text
+       x="88"
+       y="617.36218"
+       id="text2447"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="88"
+         y="617.36218"
+         id="tspan2449">binary character</tspan></text>
+    <text
+       x="337"
+       y="616.36218"
+       id="text2451"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="337"
+         y="616.36218"
+         id="tspan2453">&quot;watershed&quot;</tspan></text>
+    <text
+       x="530"
+       y="616.36218"
+       id="text2455"
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="530"
+         y="616.36218"
+         id="tspan2457">fuzzy character</tspan></text>
+  </g>
+</svg>

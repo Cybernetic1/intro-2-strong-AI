@@ -1,0 +1,275 @@
+\contentsline {chapter}{\numberline {0}Preface, executive summary, to-do list}{1}{chapter.1}
+\contentsline {chapter}{\numberline {1}Introduction}{8}{chapter.6}
+\contentsline {section}{\numberline {1.1}Some background of AI}{8}{section.7}
+\contentsline {section}{\numberline {1.2}Why logic?}{9}{section.8}
+\contentsline {section}{\numberline {1.3}Why not neural network?}{11}{section.14}
+\contentsline {section}{\numberline {1.4}Recursive self-improvement}{11}{section.15}
+\contentsline {section}{\numberline {1.5}Chicken-and-egg problem}{11}{section.16}
+\contentsline {section}{\numberline {1.6}Natural reasoning}{12}{section.18}
+\contentsline {chapter}{\numberline {2}Architecture}{13}{chapter.19}
+\contentsline {section}{\numberline {2.1}Logical reasoner (blackboard architecture)}{13}{section.20}
+\contentsline {section}{\numberline {2.2}BDI architecture}{14}{section.29}
+\contentsline {section}{\numberline {2.3}Evolutionary architecture}{15}{section.36}
+\contentsline {section}{\numberline {2.4}Decision-theoretic architecture}{15}{section.43}
+\contentsline {section}{\numberline {2.5}Self-programming architecture}{15}{section.51}
+\contentsline {section}{\numberline {2.6}AIXI}{17}{section.71}
+\contentsline {section}{\numberline {2.7}Distributive architecture}{17}{section.72}
+\contentsline {chapter}{\numberline {3}Knowledge representation}{19}{chapter.77}
+\contentsline {section}{\numberline {3.1}Introduction}{19}{section.78}
+\contentsline {section}{\numberline {3.2}Multiplicity of knowledge representation schemes}{19}{section.79}
+\contentsline {section}{\numberline {3.3}Natural language}{20}{section.81}
+\contentsline {subsection}{\numberline {3.3.1}Composition of concepts}{20}{subsection.82}
+\contentsline {subsubsection}{Dynamic interpretation of semantics}{21}{subsection.82}
+\contentsline {subsection}{\numberline {3.3.2}Reification}{21}{subsection.85}
+\contentsline {section}{\numberline {3.4}Representing time}{22}{section.86}
+\contentsline {section}{\numberline {3.5}Contexts}{22}{section.87}
+\contentsline {subsection}{\numberline {3.5.1}Inference in contexts}{22}{subsection.88}
+\contentsline {subsection}{\numberline {3.5.2}Context management}{23}{subsection.96}
+\contentsline {section}{\numberline {3.6}Assumptions and counterfactuals}{24}{section.97}
+\contentsline {chapter}{\numberline {4}Logic}{25}{chapter.98}
+\contentsline {section}{\numberline {4.1}Background}{25}{section.99}
+\contentsline {subsection}{\numberline {4.1.1}Turing universality}{25}{subsection.100}
+\contentsline {subsubsection}{Undecidability of FOL.}{25}{subsection.100}
+\contentsline {subsection}{\numberline {4.1.2}$\lambda $-calculus}{26}{subsection.101}
+\contentsline {subsubsection}{Bound variables:}{26}{subsection.101}
+\contentsline {subsubsection}{Head-normal form:}{26}{subsection.101}
+\contentsline {subsubsection}{De Bruijn indexes.}{26}{subsection.101}
+\contentsline {subsubsection}{Director strings.}{26}{subsection.101}
+\contentsline {subsection}{\numberline {4.1.3}Functional programming}{26}{subsection.102}
+\contentsline {subsection}{\numberline {4.1.4}Combinatory logic}{26}{subsection.103}
+\contentsline {subsection}{\numberline {4.1.5}Term-rewriting systems}{26}{subsection.104}
+\contentsline {subsection}{\numberline {4.1.6}Simple type theory}{26}{subsection.105}
+\contentsline {subsection}{\numberline {4.1.7}Higher-order logic}{26}{subsection.106}
+\contentsline {subsubsection}{Standard semantics and general semantics (of higher-order logic).}{26}{subsection.106}
+\contentsline {subsection}{\numberline {4.1.8}Model theory}{26}{subsection.107}
+\contentsline {subsection}{\numberline {4.1.9}Proof theory}{26}{subsection.108}
+\contentsline {subsection}{\numberline {4.1.10}Deduction systems}{26}{subsection.109}
+\contentsline {subsubsection}{Hilbert systems.}{26}{subsection.109}
+\contentsline {subsubsection}{Sequent calculus.}{26}{subsection.109}
+\contentsline {subsubsection}{Natural deduction.}{26}{subsection.109}
+\contentsline {subsubsection}{Tableau.}{26}{subsection.109}
+\contentsline {subsubsection}{Resolution.}{27}{subsection.109}
+\contentsline {section}{\numberline {4.2}Concept composition}{27}{section.110}
+\contentsline {subsection}{\numberline {4.2.1}Fragments}{27}{subsection.111}
+\contentsline {section}{\numberline {4.3}Uncertainty}{28}{section.113}
+\contentsline {section}{\numberline {4.4}Nonmonotonicity and defeasible reasoning}{28}{section.115}
+\contentsline {subsection}{\numberline {4.4.1}An example}{29}{subsection.119}
+\contentsline {section}{\numberline {4.5}Unification}{30}{section.120}
+\contentsline {subsection}{\numberline {4.5.1}Higher-order unification}{30}{subsection.123}
+\contentsline {subsubsection}{Huet's algorithm}{30}{subsection.123}
+\contentsline {subsection}{\numberline {4.5.2}Equational unification / narrowing}{30}{subsection.124}
+\contentsline {section}{\numberline {4.6}Equality}{31}{section.128}
+\contentsline {subsection}{\numberline {4.6.1}Morning star / evening star problem}{31}{subsection.129}
+\contentsline {section}{\numberline {4.7}Modal logic}{31}{section.131}
+\contentsline {section}{\numberline {4.8}Logical paradoxes}{31}{section.132}
+\contentsline {subsection}{\numberline {4.8.1}Russell's or Liar's paradox.}{31}{subsection.133}
+\contentsline {subsection}{\numberline {4.8.2}Curry's paradox.}{31}{subsection.134}
+\contentsline {subsection}{\numberline {4.8.3}Skolem's paradox.}{31}{subsection.135}
+\contentsline {subsection}{\numberline {4.8.4}Tarski's paradox.}{31}{subsection.136}
+\contentsline {subsection}{\numberline {4.8.5}Non-axiomatizability.}{32}{subsection.137}
+\contentsline {section}{\numberline {4.9}Shortcomings of the current logic}{32}{section.138}
+\contentsline {section}{\numberline {4.10}Meta-reasoning}{32}{section.140}
+\contentsline {section}{\numberline {4.11}Higher order logic}{32}{section.141}
+\contentsline {section}{\numberline {4.12}Algebraic logic}{32}{section.142}
+\contentsline {subsection}{\numberline {4.12.1}Survey of algebraic logic}{33}{subsection.143}
+\contentsline {subsection}{\numberline {4.12.2}Speeding up inference and learning}{33}{subsection.144}
+\contentsline {chapter}{\numberline {5}Vagueness (Z)}{35}{chapter.146}
+\contentsline {section}{\numberline {5.1}Vague phenomena}{35}{section.147}
+\contentsline {section}{\numberline {5.2}Why vagueness is needed for AGI}{36}{section.150}
+\contentsline {section}{\numberline {5.3}Why \textit {numerical} vagueness?}{36}{section.152}
+\contentsline {section}{\numberline {5.4}Semantics of Z}{37}{section.153}
+\contentsline {section}{\numberline {5.5}Probabilistic interpretation of vagueness?}{38}{section.156}
+\contentsline {section}{\numberline {5.6}Reference classes}{39}{section.157}
+\contentsline {section}{\numberline {5.7}Numerical scale of Z}{39}{section.158}
+\contentsline {section}{\numberline {5.8}Why Z obeys min-max calculus}{40}{section.163}
+\contentsline {section}{\numberline {5.9}Axiomatic description}{41}{section.165}
+\contentsline {section}{\numberline {5.10}A fuzzy paradox}{41}{section.166}
+\contentsline {section}{\numberline {5.11}Unifying AND and OR}{41}{section.167}
+\contentsline {section}{\numberline {5.12}``Soft'' min-max and concept learning}{42}{section.170}
+\contentsline {section}{\numberline {5.13}Z modifiers}{43}{section.174}
+\contentsline {section}{\numberline {5.14}Z-conditionals}{44}{section.179}
+\contentsline {subsection}{\numberline {5.14.1}Traditional fuzzy logic}{44}{subsection.181}
+\contentsline {section}{\numberline {5.15}Combining B, P, Z}{45}{section.183}
+\contentsline {subsection}{\numberline {5.15.1}The truth value P(Z)}{45}{subsection.184}
+\contentsline {subsection}{\numberline {5.15.2}An example}{46}{subsection.187}
+\contentsline {subsection}{\numberline {5.15.3}Unifying all truth values to PZ}{46}{subsection.189}
+\contentsline {subsubsection}{Type $\mathcal {B}$}{46}{table.caption.190}
+\contentsline {subsubsection}{Type $\mathcal {Z}$}{48}{figure.caption.192}
+\contentsline {subsubsection}{Type $\mathcal {P(B)}$}{48}{figure.caption.192}
+\contentsline {chapter}{\numberline {6}Probabilities (P)}{49}{chapter.194}
+\contentsline {section}{\numberline {6.1}Why P is needed}{49}{section.195}
+\contentsline {section}{\numberline {6.2}Gaussian and Beta distributions}{49}{section.196}
+\contentsline {section}{\numberline {6.3}Causality}{50}{section.200}
+\contentsline {section}{\numberline {6.4}Predicate logic and Bayesian networks}{50}{section.201}
+\contentsline {section}{\numberline {6.5}Classical logic must give way to Bayesian logic}{51}{section.203}
+\contentsline {subsection}{\numberline {6.5.1}Classical implication is ``out''}{51}{subsection.204}
+\contentsline {subsection}{\numberline {6.5.2}The probabilistic quantifier ``$\#$''}{52}{subsection.205}
+\contentsline {section}{\numberline {6.6}Interval-valued probabilities}{52}{section.206}
+\contentsline {section}{\numberline {6.7}Why point-valued probability is sufficient for AGI}{53}{section.207}
+\contentsline {section}{\numberline {6.8}Probabilistic AND and OR}{54}{section.209}
+\contentsline {chapter}{\numberline {7}Confidence (C)}{56}{chapter.217}
+\contentsline {section}{\numberline {7.1}Positive and negative evidence}{56}{section.218}
+\contentsline {section}{\numberline {7.2}Confidence}{56}{section.219}
+\contentsline {section}{\numberline {7.3}Confidence and probability}{57}{section.224}
+\contentsline {section}{\numberline {7.4}Confidence and logic}{57}{section.226}
+\contentsline {chapter}{\numberline {8}Inference}{58}{chapter.228}
+\contentsline {section}{\numberline {8.1}Some background}{58}{section.229}
+\contentsline {subsection}{\numberline {8.1.1}Resolution}{58}{subsection.230}
+\contentsline {subsection}{\numberline {8.1.2}Horn clauses and Prolog}{58}{subsection.231}
+\contentsline {subsection}{\numberline {8.1.3}Forward- and backward- chaining}{58}{subsection.232}
+\contentsline {subsection}{\numberline {8.1.4}Complexity of inference}{59}{subsection.233}
+\contentsline {section}{\numberline {8.2}Deduction}{59}{section.235}
+\contentsline {subsection}{\numberline {8.2.1}Predicate logic and substitution management}{59}{subsection.236}
+\contentsline {subsection}{\numberline {8.2.2}Pure probabilistic inference, ie, Bayesian network belief propagation}{60}{subsection.242}
+\contentsline {subsubsection}{Factor graph algorithm}{60}{subsection.242}
+\contentsline {subsubsection}{Higher-order Bayesian logic}{62}{figure.caption.249}
+\contentsline {subsubsection}{Loopy inference}{62}{figure.caption.249}
+\contentsline {subsection}{\numberline {8.2.3}Hybrid B,P,Z inference}{62}{subsection.250}
+\contentsline {subsubsection}{$\mathcal {B}$ rule:}{63}{table.caption.251}
+\contentsline {subsubsection}{$\mathcal {Z}$ rule:}{63}{equation.252}
+\contentsline {subsubsection}{$\mathcal {P(B)}$ rule:}{66}{equation.260}
+\contentsline {subsubsection}{$\mathcal {P(Z)}$ rule:}{67}{equation.260}
+\contentsline {subsection}{\numberline {8.2.4}Inference of confidence}{67}{subsection.261}
+\contentsline {subsection}{\numberline {8.2.5}Putting it all together: the deduction algorithm}{68}{subsection.265}
+\contentsline {section}{\numberline {8.3}Abduction}{69}{section.278}
+\contentsline {chapter}{\numberline {9}Pattern recognition}{70}{chapter.279}
+\contentsline {section}{\numberline {9.1}The theory-based theory}{70}{section.282}
+\contentsline {section}{\numberline {9.2}Similarity}{71}{section.293}
+\contentsline {subsection}{\numberline {9.2.1}From equality to similarity}{71}{subsection.295}
+\contentsline {subsection}{\numberline {9.2.2}Leibniz extensionality and intensionality}{71}{subsection.298}
+\contentsline {subsection}{\numberline {9.2.3}Distance metric}{72}{subsection.301}
+\contentsline {subsubsection}{Formulas with variables}{72}{equation.303}
+\contentsline {subsection}{\numberline {9.2.4}Examples}{72}{subsection.304}
+\contentsline {chapter}{\numberline {10}Belief revision}{75}{chapter.308}
+\contentsline {section}{\numberline {10.1}Justifications}{75}{section.309}
+\contentsline {section}{\numberline {10.2}Many-worlds representation}{75}{section.310}
+\contentsline {subsection}{\numberline {10.2.1}Deliberative assumptions and ATMS}{76}{subsection.311}
+\contentsline {section}{\numberline {10.3}Consistency check}{76}{section.312}
+\contentsline {section}{\numberline {10.4}Conflict resolution}{76}{section.313}
+\contentsline {section}{\numberline {10.5}Theory revision}{76}{section.314}
+\contentsline {chapter}{\numberline {11}Inductive learning}{77}{chapter.315}
+\contentsline {section}{\numberline {11.1}``Learn by being told''}{77}{section.316}
+\contentsline {section}{\numberline {11.2}What is inductive logic programming?}{77}{section.320}
+\contentsline {section}{\numberline {11.3}Examples}{78}{section.321}
+\contentsline {section}{\numberline {11.4}Structure of the hypothesis space}{79}{section.323}
+\contentsline {section}{\numberline {11.5}Complexity}{79}{section.326}
+\contentsline {subsection}{\numberline {11.5.1}Inducing one hypothesis}{79}{subsection.327}
+\contentsline {subsection}{\numberline {11.5.2}Inducing a whole theory}{80}{subsection.328}
+\contentsline {section}{\numberline {11.6}Compression}{80}{section.329}
+\contentsline {subsection}{\numberline {11.6.1}Plateau phenomenon (local minima)}{81}{subsection.332}
+\contentsline {subsection}{\numberline {11.6.2}Minimum description length}{81}{subsection.334}
+\contentsline {section}{\numberline {11.7}Algorithm}{82}{section.335}
+\contentsline {chapter}{\numberline {12}Natural language}{83}{chapter.342}
+\contentsline {section}{\numberline {12.1}Natural language is not essential to AGI}{83}{section.343}
+\contentsline {subsection}{\numberline {12.1.1}Background: unification-based grammars}{84}{subsection.344}
+\contentsline {subsection}{\numberline {12.1.2}Background: cognitive linguistics}{84}{subsection.345}
+\contentsline {section}{\numberline {12.2}Abduction as interpretation}{84}{section.346}
+\contentsline {subsection}{\numberline {12.2.1}A detailed example}{84}{subsection.347}
+\contentsline {section}{\numberline {12.3}Comprehensive grammatical categories of English}{85}{section.349}
+\contentsline {subsection}{\numberline {12.3.1}Nouns}{85}{subsection.350}
+\contentsline {subsection}{\numberline {12.3.2}Verbs}{86}{subsection.351}
+\contentsline {subsection}{\numberline {12.3.3}Adjectives}{86}{subsection.352}
+\contentsline {subsection}{\numberline {12.3.4}Adverbs}{86}{subsection.353}
+\contentsline {subsection}{\numberline {12.3.5}Determinatives}{86}{subsection.354}
+\contentsline {subsection}{\numberline {12.3.6}Phrases}{88}{subsection.355}
+\contentsline {subsection}{\numberline {12.3.7}Clauses}{88}{subsection.356}
+\contentsline {subsection}{\numberline {12.3.8}Subordination and coordination}{90}{subsection.357}
+\contentsline {subsection}{\numberline {12.3.9}Information packaging}{91}{subsection.358}
+\contentsline {section}{\numberline {12.4}Geniform -- a logical form for natural language}{93}{section.359}
+\contentsline {subsection}{\numberline {12.4.1}Nouns / noun phrases}{94}{subsection.365}
+\contentsline {subsection}{\numberline {12.4.2}Verbs}{94}{subsection.366}
+\contentsline {subsection}{\numberline {12.4.3}Adjectives}{95}{subsection.367}
+\contentsline {subsection}{\numberline {12.4.4}Adverbs}{95}{subsection.368}
+\contentsline {subsection}{\numberline {12.4.5}Determinatives}{95}{subsection.369}
+\contentsline {subsection}{\numberline {12.4.6}Phrases}{97}{subsection.370}
+\contentsline {subsection}{\numberline {12.4.7}Clauses}{98}{subsection.371}
+\contentsline {subsection}{\numberline {12.4.8}Subordination and coordination}{98}{subsection.372}
+\contentsline {subsection}{\numberline {12.4.9}Information packaging}{99}{subsection.373}
+\contentsline {subsection}{\numberline {12.4.10}Minor word classes}{99}{subsection.374}
+\contentsline {section}{\numberline {12.5}Some example English sentences}{99}{section.375}
+\contentsline {chapter}{\numberline {13}Memory organization and optimization}{101}{chapter.378}
+\contentsline {section}{\numberline {13.1}Introduction}{101}{section.379}
+\contentsline {section}{\numberline {13.2}Efficient rule fetching}{101}{section.380}
+\contentsline {section}{\numberline {13.3}Objective function}{101}{section.381}
+\contentsline {subsection}{\numberline {13.3.1}Interestingness}{102}{subsection.386}
+\contentsline {section}{\numberline {13.4}Genetic / evolutionary methods}{102}{section.389}
+\contentsline {section}{\numberline {13.5}KB organization}{103}{section.397}
+\contentsline {chapter}{\numberline {14}Planning and acting}{106}{chapter.402}
+\contentsline {section}{\numberline {14.1}``Procedural subsumes Declarative''}{106}{section.403}
+\contentsline {section}{\numberline {14.2}The action language}{106}{section.405}
+\contentsline {section}{\numberline {14.3}Procedural learning}{107}{section.406}
+\contentsline {section}{\numberline {14.4}Reinforcement learning}{107}{section.407}
+\contentsline {subsection}{\numberline {14.4.1}Relational reinforcement learning}{107}{subsection.408}
+\contentsline {subsection}{\numberline {14.4.2}RL and logical reasoning}{107}{subsection.411}
+\contentsline {section}{\numberline {14.5}Means-ends analysis (MEA)}{108}{section.412}
+\contentsline {section}{\numberline {14.6}Deductive planning}{108}{section.414}
+\contentsline {subsection}{\numberline {14.6.1}Example}{108}{subsection.415}
+\contentsline {subsection}{\numberline {14.6.2}Combining reinforcement learning and deductive planning}{108}{subsection.416}
+\contentsline {chapter}{\numberline {15}Program synthesis}{110}{chapter.417}
+\contentsline {section}{\numberline {15.1}Formal program synthesis}{110}{section.422}
+\contentsline {chapter}{\numberline {16}Value judgments}{111}{chapter.423}
+\contentsline {section}{\numberline {16.1}My stance on AGI friendliness}{111}{section.424}
+\contentsline {section}{\numberline {16.2}Sentient vs non-sentient AGI}{111}{section.425}
+\contentsline {chapter}{\numberline {17}Vision / perception}{112}{chapter.426}
+\contentsline {section}{\numberline {17.1}Design philosophy}{113}{section.427}
+\contentsline {section}{\numberline {17.2}Relation between cognition and vision}{113}{section.428}
+\contentsline {subsection}{\numberline {17.2.1}What is general cognition?}{113}{subsection.431}
+\contentsline {subsection}{\numberline {17.2.2}The cognitive vision approach}{114}{subsection.441}
+\contentsline {section}{\numberline {17.3}Machine vision --- general theory and background}{115}{section.453}
+\contentsline {subsection}{\numberline {17.3.1}Background of general vision theories}{115}{subsection.454}
+\contentsline {subsection}{\numberline {17.3.2}Our approach}{116}{subsection.459}
+\contentsline {section}{\numberline {17.4}Requirements of general vision}{119}{section.465}
+\contentsline {section}{\numberline {17.5}Basic vision scheme}{119}{section.466}
+\contentsline {subsection}{\numberline {17.5.1}3-2-1-0D reduction}{119}{subsection.477}
+\contentsline {subsection}{\numberline {17.5.2}Logical representation}{120}{subsection.479}
+\contentsline {subsection}{\numberline {17.5.3}Machine learning}{121}{subsection.481}
+\contentsline {subsection}{\numberline {17.5.4}Example: quadrilateral}{121}{subsection.482}
+\contentsline {subsection}{\numberline {17.5.5}Approximate recognition and feedback}{122}{subsection.484}
+\contentsline {subsection}{\numberline {17.5.6}Searchlight attention}{122}{subsection.488}
+\contentsline {subsection}{\numberline {17.5.7}Relations between objects}{123}{subsection.489}
+\contentsline {subsection}{\numberline {17.5.8}Architecture of the vision module}{123}{subsection.490}
+\contentsline {section}{\numberline {17.6}Details of 3-2-1-0D reduction}{123}{section.492}
+\contentsline {subsection}{\numberline {17.6.1}Stage 1: 1D Analysis }{124}{subsection.493}
+\contentsline {subsection}{\numberline {17.6.2}Stage 2: 2D Analysis}{124}{subsection.496}
+\contentsline {subsection}{\numberline {17.6.3}Stage 3: 3D Analysis}{124}{subsection.498}
+\contentsline {section}{\numberline {17.7}Primal sketch project}{125}{section.499}
+\contentsline {subsection}{\numberline {17.7.1}Background}{125}{subsection.500}
+\contentsline {subsection}{\numberline {17.7.2}What we're trying to do }{125}{subsection.504}
+\contentsline {section}{\numberline {17.8}Classification of 1D Shapes}{126}{section.515}
+\contentsline {subsection}{\numberline {17.8.1}Main Classes}{126}{subsection.516}
+\contentsline {subsection}{\numberline {17.8.2}1. Straight Lines}{126}{subsection.518}
+\contentsline {subsection}{\numberline {17.8.3}2. Curves}{126}{subsection.519}
+\contentsline {subsection}{\numberline {17.8.4}3. Junctions}{127}{subsection.524}
+\contentsline {subsection}{\numberline {17.8.5}Examples}{128}{subsection.529}
+\contentsline {section}{\numberline {17.9}Classification of 2D features}{129}{section.540}
+\contentsline {section}{\numberline {17.10}Classification of 3D Shapes}{129}{section.541}
+\contentsline {subsection}{\numberline {17.10.1}3D Edges}{130}{subsection.542}
+\contentsline {subsection}{\numberline {17.10.2}3D Junctions }{130}{subsection.544}
+\contentsline {section}{\numberline {17.11}Inductive learning for vision}{131}{section.546}
+\contentsline {subsection}{\numberline {17.11.1}Background to ILP (inductive logic programming)}{131}{subsection.547}
+\contentsline {subsection}{\numberline {17.11.2}Special concerns related to vision}{131}{subsection.560}
+\contentsline {subsection}{\numberline {17.11.3}Why use logic?}{131}{subsection.561}
+\contentsline {subsection}{\numberline {17.11.4}What's the use of inductive learning?}{132}{subsection.567}
+\contentsline {subsection}{\numberline {17.11.5}Inductive learning methods}{133}{subsection.571}
+\contentsline {subsection}{\numberline {17.11.6}Outstanding questions}{133}{subsection.572}
+\contentsline {section}{\numberline {17.12}Depth / distance estimation}{133}{section.573}
+\contentsline {section}{\numberline {17.13}Motion and event detection}{133}{section.574}
+\contentsline {section}{\numberline {17.14}Texture}{133}{section.575}
+\contentsline {section}{\numberline {17.15}Stereopsis}{133}{section.576}
+\contentsline {section}{\numberline {17.16}Sample images}{133}{section.577}
+\contentsline {chapter}{\numberline {18}Implementation}{134}{chapter.578}
+\contentsline {section}{\numberline {18.1}Choice of programming languages}{134}{section.579}
+\contentsline {subsection}{\numberline {18.1.1}Background: breif survey of programming languages as relates to AGI}{134}{subsection.580}
+\contentsline {subsection}{\numberline {18.1.2}Bootstrapping Genifer in Genifer}{135}{subsection.581}
+\contentsline {chapter}{\numberline {19}Business aspects}{136}{chapter.582}
+\contentsline {section}{\numberline {19.1}Capitalism, AI, and the Singularity}{136}{section.583}
+\contentsline {section}{\numberline {19.2}My political stance}{136}{section.584}
+\contentsline {section}{\numberline {19.3}Collaborative platform}{136}{section.585}
+\contentsline {subsection}{\numberline {19.3.1}Virtual credits}{136}{subsection.586}
+\contentsline {subsection}{\numberline {19.3.2}Voting scheme}{136}{subsection.587}
+\contentsline {chapter}{Appendix A: Quick start guide to AGI}{137}{chapter*.588}
+\contentsline {chapter}{Symbols}{138}{section*.613}
+\contentsline {chapter}{Abbreviations and glossary}{140}{section*.616}
+\contentsline {chapter}{Bibliography}{140}{section*.617}
+\contentsline {chapter}{Index}{145}{section*.619}
+\contentsline {chapter}{Acknowledgements}{146}{section*.620}

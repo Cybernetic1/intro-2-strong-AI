@@ -1,0 +1,53 @@
+\chapter{Implementation}
+
+\begin{flushright}
+\emph{The sooner you start coding your program the longer it's going to take}\\
+--- H F Ledgard 1975
+\end{flushright}
+
+\begin{flushright}
+\emph{Premature optimization is the root of all evil.}\\
+--- Donald Knuth
+\end{flushright}
+
+\begin{flushright}
+\emph{The First Rule of Program Optimization: Don't do it.\\
+The Second Rule of Program Optimization (for experts only!): Don't do it yet.}\\
+--- Michael A Jackson
+\end{flushright}
+
+\minitoc
+
+\section{Choice of programming languages}
+
+\subsection{Background: breif survey of programming languages as relates to AGI}
+
+\textbf{Lisp} is the single most important programming language ever invented in the history of computer science.  Much of the research code in classical AI was written in Lisp, and to this day Lisp (and dialects like Scheme) remains a very practical language (Genifer's first rapid prototyping is in Lisp).  Lisp was first implemented as an interpreter on an IBM 704.
+%``Necessary but not sufficient'':  If you don't know Lisp you'd not be an AI expert, but knowing or using Lisp doesn't necessarily mean you'll succeed in AGI.
+
+Lisp is based on $\lambda$-calculus which is also important in the study of logic.
+
+\textbf{Prolog} seems not as good as Lisp because it imposes the restriction of Horn clauses (over full first-order logic), and forces the programmer to use SLD resolution with a depth-first search strategy.  (Though Peter Norvig pointed out this is not a severe limitation of Prolog as compared to Lisp.)
+
+Interestingly, a logic-based AGI \textit{itself} is like an advanced-version Prolog interpreter, enhanced with better search strategies (eg best-first search), probabilities / fuzziness (eg fuzzy Prolog), higher-order unification (as in $\lambda$-Prolog), abduction (as abductive logic programming), induction (as inductive logic programming), etc.  Thus, a good understanding of Prolog is essential to the study of AGI.
+
+\textbf{ML} was created by Robin Milner in the 1970s for the purpose of automated theorem proving.  ML's type system helps to ensure that theorems are proved correctly.  ML is used to develop the LCF (logic of computable functions) series of theorem provers, which influenced HOL, Isabelle, and HOL Light.  OCaml is derived from ML.  The "CAM" in OCaml stands for ``categorical abstract machine'' which is based on categorical combinatory logic, a variant of combinatory logic influenced by category theory.
+
+\textbf{Haskell} is descended from ML, and has an elegant syntax very close to mathematics.  The optimizing compiler built by Simon Peyton Jones at Glasgow makes it a very fast language in recent benchmarks.  Lazy evaluation is also a strong point when implementing symbolic AI algorithms.
+
+\subsubsection{Low-level languages}
+
+Object-orientation is not particularly natural for some software architectures.
+
+\textbf{Java} is preferable to C\# for its cross-platform maturity.
+
+\textbf{C} may be too old.  (But personally I prefer C to C++.)
+
+\textbf{C++?}  Not bad for AGI, in my opinion.  C++ is also the choice of OpenCog.
+
+\subsection{Bootstrapping Genifer in Genifer}
+\label{sec:bootstrapping}
+
+The design of Genifer is indifferent to the choice of programming languages.
+
+My latest idea is to bootstrap Genifer in its own language.  

@@ -1,0 +1,1164 @@
+\chapter{Logic}
+
+\begin{flushright}
+\emph{An approximate answer to the right question is better than\\
+a precise answer to the wrong question.} --- John Tukey (rephrased)
+\end{flushright}
+
+$\mathcal{BPZ}$-logic is a hybrid logic combining binary ($\mathcal{B}$), probabilistic ($\mathcal{P}$) and fuzzy ($\mathcal{Z}$) logic\footnote{I use $\mathcal{Z}$ instead of $\mathcal{F}$ to denote fuzziness partly in recognition of Lotfi Zadeh's contributions, and also because $F$ and $f$ are often used for the cumulative distribution function and probability density function in probability theory, which may cause confusion when probabilities and fuzziness are used together.}.  It has both binary and numerical truth values, and is specially designed for AGI (Artificial General Intelligence) \citep*{Goertzel2007} and commonsense reasoning.  The $\mathcal{Z}$ part is a novel approach to vagueness that is slightly different from traditional fuzzy logic.  Emphasis is put on simplicity and efficiency of inference, which is critical to the development of machine learning algorithms.
+
+\footnotesize
+* A note on the examples used in this book:  some of them are politically incorrect or somewhat embarrassing.  I prefer examples that are simple, realistic, and relevant to human emotions because they help us think more clearly (cf the Wason selection task).  Usually I just choose the most obvious examples that come to mind.  I'm not trying to be sexist, ageist, sarcastic, etc.
+\normalsize
+
+Reasoning under uncertainty is a vast and nightmarishly complex topic in AI.  Simon Parsons's book \citep*{Parsons2001} contains a very good survey of uncertain reasoning, but even that is not exhaustive.  We may look at the following taxonomy of ``ignorance'' proposed by \citep*{Bosc1997} to convince ourselves that $\mathcal{P}$ and $\mathcal{Z}$ are sufficient to represent all forms of commonsense knowledge:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{IgnoranceTaxonomy.eps}
+\caption{taxonomy of ignorance}
+\end{figure}
+
+At first brush, classical logic appears to be sufficient for AGI.  The ability to handle $\mathcal{P}$ and $\mathcal{Z}$ could be made ``emergent'' in the system.  But there are some considerations that make me think that $\mathcal{P}$ and $\mathcal{Z}$ should be built into a seed AGI, particularly because they provide a useful inductive bias to the learning algorithm.  Otherwise, the algorithm would have to learn the rules of fuzzy and probabilistic reasoning from basic arithmetics.  I will give other reasons in \S\ref{sec:whyZ} and \ref{sec:whyP}.
+
+\textbf{Why not include other uncertainty measures besides P and Z?}
+
+There are other theories of uncertainty, such as possibility, belief functions, and rough sets.  The reason I chose $\mathcal{P}$ and $\mathcal{Z}$ is because they are simple and best understood.  There has been attempts to create systems where the user can create a flexible number of uncertainty measures, but one problem of such systems has been pointed out in \citep*{Parsons2001}:  If we have 3 uncertainty measures, say ``cloud'', ``mist'', and ``fog'', there would be a need to provide mixed inference rules for ``cloud-mist'', ``cloud-fog'' etc, a total of $n^2$ possibilities.  I have worked out the mixed rules for $\mathcal{B}$, $\mathcal{P}$ and $\mathcal{Z}$, and have no more appetite for such things unless there is a strong reason to include a new measure.
+
+%With P and Z, the AGI can express ideas such as:\\
+%\hspace*{1cm} ``Mary is \underline{probably} \underline{fairly} tall.''
+
+\section{B: binary logic}
+\label{sec:binary-logic}
+
+My intuition regarding commonsense reasoning is that it is mainly $\mathcal{B}$, followed by $\mathcal{P}$, and $\mathcal{Z}$ is relatively rare.
+
+It is very important to distinguish between two types of classical logic: \emph{propositional} (zeroth-order) and \emph{first-order}.
+
+A typical propositional statement is:\\
+\hspace*{1cm} $ p \vee q \wedge r $\\
+whereas a first-order statement is:\\
+\hspace*{1cm} $ p(X) \vee q(X,Y) \wedge r(Y) $\\
+the chief distinction being the use of \emph{variables} in first-order logic, which greatly increases its expressivity.
+
+%Horn clauses:  P and Z rules can be expressed in Horn form only.  But it seems that we can use general resolution for B rules, no?  Or, perhaps I want to use something similar to Horn resolution for P and Z?
+
+Each rule will enable one inference step, so the logic is almost truth-functional.  The problem is the intermediate results... I only know how to do that in B form.  Maybe we can keep a set of disjunctions of truth values?
+
+In B logic the proof procedure keeps a current clause / or a line of clauses.  In Bayes net we have a query variable and the algorithm finds its P value.  Z logic may be similar to B logic because it's truth functional?
+
+Perhaps we can work out the general case of a query variable of any TV type?  If we draw a B rule that's easy.  If Z rule, then we have a few Z variables as goals.  They need Z rules to fulfill, but what if we have a B rule for one of the sub-goals?  Then we need to translate the B value to Z value.  We can only do that via P(Z).  So we have a P(Z) value as one of the subgoals.  This may cause the head of the rule to become P(Z) too.  It seems there is a tendency for all TVs to become P(Z).
+That will actually back-propagate along the proof sequence.
+
+Things may be even worse for a P rule.  The application of the rule requires other numbers.  
+
+\section{Z: fuzzy reasoning}
+
+\subsection{Vague phenomena}
+
+There seems to be 3 types of concepts (= predicates).
+
+The first type is \textbf{discrete} in nature, for example:\\
+\hspace*{1cm} sex of a person $\in$ \{ male, female, hermaphrodite, transexual \}\\
+\hspace*{1cm} marital status $\in$ \{ single, engaged, married, divorced \}
+
+The second type represents \textbf{numerical} measures, for example:\\
+\hspace*{1cm} height \hspace*{1cm} weight \hspace*{1cm} age
+
+The third type is not strictly numerical, but is often associated with ``\textbf{gradedness}'':\\
+\hspace*{0.8cm} \begin{tabular}{l l}
+beautiful    & ugly\\
+intelligent  & dumb\\
+simple       & complex\\
+interesting  & boring\\
+good         & bad\\
+easy         & difficult\\
+friendly     & hostile\\
+clear        & unclear
+\end{tabular}
+
+There is no doubt that these predicates can be modified with degrees like ``very'' or ``slightly''.  But we do not know of any exact measures of their degrees.  For example, IQ has been proposed as an inexact measure of intelligence.  Most people would agree that there is some general consensus as to what is intelligent.  Such concepts exhibit \textit{vague phenomena}, which are characterized by:\\
+\hspace*{1cm} 1. borderline cases\\
+\hspace*{1cm} 2. lack of sharp boundaries\\
+\hspace*{1cm} 3. susceptible to sorites paradox\footnote{A solution to the sorites paradox is given in \citep*{Bergmann2008} p268-282, using fuzzy logic and the notion of \textit{decaying validity}.}\\
+\hspace*{1cm} 4. open-texture (ie, if $x$ is a borderline case, one can assert either $Q(x)$ or $\neg Q(x)$ in different contexts)
+
+In philosophical logic, there are a number of theories of vagueness (see eg, \citep*{Graff2002}, \citep*{Keefe2000}, \citep*{Shapiro2006}).  $\mathcal{Z}$ logic is a kind of Degree Theory (\citep*{Edgington1992}, \citep*{Sainsbury1986}), that uses numerical truth values to represent vagueness.  There are other non-numerical theories such as Epistemicism (\citep*{Campbell1974}, \citep*{Williamson1994}), and Supervaluation (\citep*{Fine1975}, \citep*{Keefe2000}).
+
+\subsection{Why vagueness is needed for AGI}
+\label{sec:whyZ}
+
+One of the critical capabilities of AGI is (self-)programming.  Also, it is imperative to be able to instruct an AGI to write programs according to \textit{natural language} specifications and with robust commonsense background knowledge.  Commonsense reasoning and natural language understanding depend on the use of vague concepts.\footnote{Vague concepts are not required for formal reasoning tasks such as formal mathematics and programming according to formal specifications.}  Look at any (technical or non-technical) natural-language text, and one finds that (explicit or implicit) vague concepts are ubiquitous.  It seems to be occur even more frequently than the (explicit or implicit) use of probabilities.
+
+\textbf{Ubiquity of vagueness in commonsense reasoning.}  Some examples are:\\
+\textbullet \, Time: \textit{Mother died \underline{a few days ago}}\\
+\textbullet \, Space: \textit{One bird flew \underline{over the cuckoo's nest}} \hspace*{0.5cm} (lacking exact boundaries)\\
+\textbullet \, Physics of liquids: \textit{A liquid in bulk and at rest has a horizontal surface}\\ (Is soup a liquid? ``In bulk'' is a fuzzy concept. Is the sea at rest? Surface tension can cause surface to curve)\\
+\textbullet \, Physics of solids: \textit{A solid object cannot go from inside to outside a closed box}\\  (``Solid object'' is a fuzzy concept (eg a block of ice, a cat, a bomb). A card box may have small holes. The lid may be slightly ajar.)
+%\textbullet \, Minds: 
+%\textbullet 
+%\textbullet 
+
+\subsection{Why \textit{numerical} vagueness?}
+
+The controversy is whether vagueness should be managed \textbf{quantitatively} (such as $\mathcal{Z}$) or \textbf{qualitatively}.
+
+One objection is that fuzzy logic can sometimes lead to unsound conclusions.  This problem is discussed in \S\ref{sec:exceptions} on nonmonotonic reasoning.
+
+Having numerical vagueness allows us to:\\
+1. Represent quantitative rules.  For example:\\
+\hspace*{1cm} \begin{tabular}{l l l}
+smart & $\leftarrow$ eloquent    & (the more articulate the smarter)\\
+      & $\leftarrow$ humorous    & (the more humorous the smarter)\\
+      & $\leftarrow$ insightful  & (the more insightful the smarter)\\
+      & $\leftarrow$ creative    & (the more creative the smarter)\\
+      & $\leftarrow$ etc...      &
+\end{tabular}\\
+2. Add up graded factors.  For example:\\
+\hspace*{1cm} ``John is eloquent, humorous, insightful and creative'' $\rightarrow$ 0.9 smart\\
+\hspace*{1cm} ``John is humorous and nothing else'' $\rightarrow$ 0.7 smart\\
+3. Accrue contributing factors of a concept over a long period of time:\\
+\hspace*{1cm} ``From my long experience with John, he is 0.9 smart''.
+
+On the other hand, if we do not use numerical vagueness, we face these problems:\\
+1. Failure to recognize ``partial'' concepts.  For example:\\
+\hspace*{1cm} ``John is 0.7 smart'', or\\
+\hspace*{1cm} ``cybersex is 0.7 sex''\\
+2. Conversely, failure to ignore ``very weak'' partial concepts.\\
+3. Each statement must be attached with many qualifications, and they keep accumulating. Each rule would have to recognize a large ``exception set''.
+
+The solution I adopt is to use both qualitative and quantitative information, by representing facts \textit{redundantly} (\S\ref{sec:exceptions}).  For example:\\
+\hspace*{1cm} ``John is smart'', $z = 0.7$ (quantitative)\\
+\hspace*{1cm} ``But he is only penny wise'' (qualitative)
+
+Lastly, what if we don't need the precision of numerical vagueness in some situations?  For example:\\
+\hspace*{1cm} ``Is John really that smart?'' ``Not quite.''\\
+or\\
+\hspace*{1cm} ``John is slightly smarter than Peter.'' (but we don't know the exact difference)\\
+TO-DO:  It seems that we can represent these using $\mathcal{P}(\mathcal{Z})$.
+
+%One suggestion is that we can always use \textit{qualitative} binary statements in place of quantitative ones:\\
+%\hspace*{1cm} ``John is fairly intelligent''\\
+%\hspace*{1cm} \texttt{intelligent$_1$(john), fairly(intelligent$_1$)}\\
+%\hspace*{1cm} ``John is intelligent but only in small matters''\\
+%\hspace*{1cm} \texttt{intelligent$_1$(john), qualifies(intelligent$_1$, "only in small matters")}\\
+%For the second example, we may say that a person who is intelligent only in small matters is not very intelligent, and thus assign, \textit{eg} Z = 0.6, but some qualitative information would be lost using this numerical representation.
+
+%\begin{tabbing}The following example suggests that at least some \textbf{ordinal} relations may be necessary:\\
+%\hspace*{1cm} (A) recently there's been a lot of thefts\hspace*{2cm} \=`that's bad'\\
+%\hspace*{1cm} (B) recently there's been a lot of rapes \>`that's very bad'\\
+%\hspace*{1cm} (C) recently there's been a lot of murders \>`that's extremely bad' ''
+%\end{tabbing}
+%which seems to suggest that the severity of crimes has this order:\\
+%\hspace*{1cm} theft $<$ rape $<$ murder\\
+%but this general ordering can have exceptions depending on circumstances.
+
+%This example shows that sometimes \textbf{quantitative} representations may be necessary:\\
+%\hspace*{1cm} ``During the financial crisis,\\
+%\hspace*{1cm} (A) many people committed suicide;\\
+%\hspace*{1cm} (B) children were sold as prostitutes;\\
+%\hspace*{1cm} (C) decades of savings were destroyed''
+%So one may react with the feeling ``that's very bad''.  But how was ``\underline{very} bad'' inferred?  Assuming we have a KB that let us infer that:\\
+%\hspace*{1cm} A $\rightarrow$ bad\\
+%\hspace*{1cm} B $\rightarrow$ bad\\
+%\hspace*{1cm} C $\rightarrow$ bad\\
+%how can we deduce ``very bad''?  We have 3 heterogeneous contributing factors.  One plausible solution is to assign degrees of badness to each of A, B, and C, and then add them up.
+
+%Note that this example should be a simple reasoning task involving only a few inference steps.
+
+%If the 3 contributing factors \textit{add up} to yield ``very bad'' (even approximately), the individual factors must be \textit{numerical}.  Or, maybe it is a simple counting of contributing factors?  3 bad things?  Not very satisfactory --- the things can have varying degrees.
+
+%``I'm even more sure I don't want to be prostitute, after seeing the bad conditions''.  This is binary.
+
+%But sometimes a rule for a predicate has many antecedents and only some of them are satisfied.  In the binary approach we may qualify them as exceptions.  But there are often many factors that may contribute to a predicate such as $smart$ or $charismatic$.  If you have known John for 10 years there may have been many incidences where he was smart/dumb or charismatic/dull.  In that case we may want to ``add up'' all those contributions.  In other words, it may be desirable to use a single number to summarize a large number of contributions, as long as the contributions are not exceptional.
+
+%Suppose the AGI wants to erect these hypotheses:\\
+%\hspace*{1cm} kind $\leftarrow$ attractive\\
+%\hspace*{1cm} humorous $\leftarrow$ charismatic
+
+%What if Z is not needed.  All we need is to convert results to binary, qualified form?
+
+%Also, might it be necessary to use numerical Z even for single inference steps?\\
+%For example:\\
+%sluttish $\rightarrow$ not good wife (Z to Z)\\
+%criminal $\rightarrow$ should be punished (Z to Z)\\
+%obscene $\rightarrow$ should avoid speaking (Z to Z)\\
+%attractive $\rightarrow$ I like (Z to Z)
+
+%During pattern recognition it is often necessary to recognize an entity \textit{partially}, for example, the picture below may be a ``0.7 face''.  It seems that fuzziness is needed at a very fundamental level.
+%\begin{figure}[H]
+%\centering
+%\input{CrossEyesFace}
+%\caption{a fuzzy face}
+%\end{figure}
+
+\subsection{Semantics of Z}
+
+There is some confusion about the interpretation of fuzziness, which I will try to clarify here.  I am influenced by Pei Wang's ideas \citep*{Wang2006}.
+
+$\mathcal{Z}$ is a measure of \textit{degree} or \textit{gradedness}.  Standard fuzzy theory employs the ``membership function'' to represent \textit{the degree to which an element belongs to a class}, but there is no consensus as to how the membership functions are defined.  Let's think of ``the degree to which a person is smart'', is it really arbitrary?
+
+While there are no exact procedures to measure vague concepts (eg smartness), it is mandatory that a commonsense machine should possess some ways of assessing them, just like the human brain does.  In AGI this can be achieved by having a comprehensive knowledgebase of rules (acquired via machine learning) that compute numerical degrees of concept instances.
+
+Such rules are mini-algorithms (or ``\textbf{micro-theories}'') that are \textbf{emergent properties} of intelligent learning systems.  They establish a \textit{distributed and approximate consensus} of how to measure vague concepts.
+
+If we regard $\mathcal{Z}$ as a measure of degrees, $\mathcal{Z}$ theory is mathematically as rigorous as probability theory.  $\mathcal{Z}$ is a measure of degrees just as the height $H$ is a measure of how tall an object is.  Also, the $\mathcal{Z}$-value can be inexact just as $H$ can be inexact, but this inexactitude is modeled separately by \textit{distributing probabilities over $\mathcal{Z}$} (\S\ref{sec:combinePZ}).
+
+$\mathcal{Z}$ is not an approximation of probability; \S\ref{sec:probabilistic-interpretation} gives a probabilistic interpretation of vagueness, but in practice we can treat $\mathcal{P}$ and $\mathcal{Z}$ as \textbf{orthogonal} to each other.  Possibility theory defines fuzziness as a weaker form of probability (as non-additive probability), but this is not the approach of $\mathcal{Z}$ logic.
+
+Inference in $\mathcal{Z}$ is also different from traditional fuzzy logic (\S\ref{sec:pureZinference}).
+
+\subsection{Probabilistic interpretation of vagueness}
+\label{sec:probabilistic-interpretation}
+
+Consider these 2 statements:\\
+\hspace*{1cm} A: ``Mary is probably bad-looking''  (with probability $p = 0.8$)\\
+\hspace*{1cm} B: ``Jane is rather bad-looking''  (with fuzzy value $z = 0.8$)\\
+Suppose John \emph{must} find a pretty girl.  Then he may try Mary, since she has at least a slight chance of being pretty, but definitely not Jane\footnote{``Good-looking'' with $z = 0.2$ means ``bad-looking'', cf \S\ref{sec:gradedness} }.  Thus the 2 statements seem to be subtly different.  Are they really different?
+
+One way to interpret vagueness as probability is to interpret\\
+\hspace*{1cm} $Q(x); \; z=z_0$\\
+as\\
+\hspace*{1cm} ``Among all possible contexts, $Q(x)$ is true with probability $z_0$''.\\
+For example, if $smart(john); \; z=0.8$ then John is smart in $80\%$ of circumstances.
+
+Here are more examples:\\
+\hspace*{1cm} \begin{tabular}{|l|l|} \hline
+\textbf{z = 0.9}             & \textbf{Interpretation}\\ \hline
+John is very smart           & John is smart in $80\%$ of circumstances\\ \hline
+Peter is very fat            & Peter is fat in $80\%$ of comparisons\\ \hline
+Jane is very pretty          & Jane is judged pretty by $80\%$ of beholders\\ \hline
+\end{tabular}
+
+%Despite this interpretation, it is easier and more elegant to regard $\mathcal{P}$ and $\mathcal{Z}$ as orthogonal to each other.  For example, if we have a rule that says ``the fatter a person, the clumsier s/he is'', we can represent it with this Bayesian network:
+%\begin{figure}[H]
+%\centering
+%\input{BayesNet-fat-clumsy.tex}
+%\caption{Bayesian network with Z-valued nodes}
+%\end{figure}
+%where the nodes are $\mathcal{Z}$-valued (continuously valued).  
+
+There are 2 problems with this interpretation:\\
+1.  Concerning the min-max calculus (\S\ref{sec:min-max-VS-sum-product})\\
+2.  If John has seen Jane and judged her to be 0.2 pretty, then there seems to be no uncertainty about it in this context (John being the judge and Jane having her present looks, etc).  So if John really must find a 0.9 pretty girl then he should prefer Mary (whom he hasn't met and has p=0.2 of being pretty).  The difference is real if we admit that pretty is a matter of degree.
+
+\subsection{Reference classes}
+
+The measure of a $\mathcal{Z}$ value is dependent upon its \textit{reference class}.  For example, if we want to say how ``young'' a person is, the reference class may be ``all people'' or ``all tenured professors''.  The measure of ``youngness'' thus varies depending on the reference class.
+
+Once the reference class is fixed, it seems that $\mathcal{Z}$ is \textit{not} context-dependent.  For example, we can say ``John is a young man who owns an old dog''.  The dog is described as ``old'' using its own reference class (dogs), not John's reference class (humans).
+
+\subsection{Numerical scale of Z}
+\label{sec:gradedness}
+
+Many ``natural'' quantities occur in the range $[0,\infty)$.  For example, the height, weight, age, or ugliness of a person can theoretically range from 0 to $\infty$.  It is unnatural to set artificial upper limits to these measures.  However, it may be possible to extend these concepts to the range $(-\infty,\infty)$.  For example, the age of AGI may be $\sim-10$ because it is not yet born.  I reserve this possibility but will use $[0,\infty)$ for now.
+
+$\mathcal{Z}$ is defined in $[0,1]$.  So we need \textbf{membership functions} to map $[0,\infty)$ to $[0,1]$.  I choose a sigmoid function with parameter $\xi$ because it has some nice properties.  We need two orientations because some concepts get more and more positive as $x \rightarrow \infty$, while others the opposite.
+\begin{equation}
+Z_1(x) = e^{{-\ln 2 \, x^2}/{\xi^2}} \quad \mbox{and} \quad Z_2(x) = 1-e^{{- \ln 2 \, x^2}/{\xi^2}} 
+\end{equation}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{MappingFunctions.eps}
+\caption{membership functions}
+\end{figure}
+
+\textbf{Negation} is defined as $1-z$.  As a consequence of this, for any concept, $z = 0$ means the \textit{antithesis} of that concept.  For example Z(young) = 0 would mean ``old''.  Another consequence is that the point at $z = 0.5$ is the \textbf{point of neutrality}, which is where a concept is neither true nor false.
+
+The interpretation of the parameter $\xi$ is that \textit{it is the point of neutrality on the x-axis}.  This is illustrated as follows:  we map the human age $x$ to the $\mathcal{Z}$-concept of ``young'', where I subjectively define ``40 years old'' as the neutral point:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{NeutralPoint.eps}
+\caption{neutral point}
+\end{figure}
+That means, after 40, one gets more and more ``not young'' according to this definition.  (Cf \S\ref{sec:exceptions} about exceptions handling.)
+
+Thus the numerical scale of $\mathcal{Z}$ is:\\
+\begin{table}[H]
+\parbox{3cm}{\caption{}}
+\begin{tabular}{|l||l|}
+\hline
+{\bfseries z} & {\bfseries interpretation}\\ \hline
+1.0     & definitely or extremely\\
+0.9     & very\\
+0.7-0.8 & moderately\\
+0.6     & slightly\\ \hline
+0.5     & neutral\\ \hline
+0.4     & slightly not so\\
+0.3-0.2 & moderately not so\\
+0.1     & very not so\\
+0.0     & definitely or extremely not so\\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Why Z obeys min-max calculus}
+\label{sec:min-max-VS-sum-product}
+
+Probabilities obey sum-product calculus;  $\mathcal{Z}$ obeys \textbf{min-max calculus} \citep*{Zadeh1965}.  My justification for min-max is as follows:
+
+As an example, consider the statement:\\
+\hspace*{1cm} S1: \textit{``John have had sex with 1000 women''}\\
+but it turns out that all those women had only had cybersex with him.  Most people would agree that cybersex is not quite the same as real sex (it's a borderline case).  Suppose we subjectively think that cybersex is 0.7 real sex (as a measure of degree), then what would be the ``degree of truthfulness'' of the statement S1 (assuming that we accept the fact that he had cybersex with 1000 women)?
+
+If we use the sum-product calculus (as with probabilities), the answer would be $ 0.7^{1000} $ which is almost zero.
+
+Whereas if we use the min-max calculus, the answer would be $min\{0.7, 0.7, ...\} = 0.7$.  So, did John have sex with 1000 women?\\
+\hspace*{1cm} answer A:  ``Of course not.''\\
+\hspace*{1cm} answer B:  ``Well... sort of.''\\
+My view is that the conjunction of 1000 vague events should have the same vagueness as the individual events.  You may try this with other examples of graded events.
+
+%If this is still unclear, consider more examples:\\
+%\hspace*{1cm} S2: ``John ate 100 hotdogs in 1 hour'' (but they are all mini-hotdogs)\\
+%\hspace*{1cm} S3: ``John defeated 20 chessmasters'' (but they each offered him 2 free moves)\\
+%\hspace*{1cm} S4: ``John is fluent in 20 languages'' (but they are computer programming languages)\\
+%\hspace*{1cm} S5: ``John finished reading 50 novels'' (but they are all abridged versions)\\
+%Would you accept these statements as \textit{partially} true?  Min-max calculus would grant that they are ``somewhat'' true.  Sum-product, however, would infer that they are effectively completely false.
+
+\subsection{A fuzzy paradox}
+
+A common problem in fuzzy logic is concerning the truth value of statements such as ``Q and not Q''.  It can be resolved using our understanding of $\mathcal{Z}$ negation:
+
+Suppose $Z(tall(john)) = 0.6$ (which means that John is slightly tall)\\
+then\\
+\hspace*{1cm} $ tall(john) \wedge \neg tall(john) = 0.4$ (which means this is slightly false)\\
+\hspace*{1cm} $ tall(john) \vee \neg tall(john) = 0.6$ (which means this is slightly true)
+
+On the other hand, if $Z(tall(john)) = 0.4$ (which means that John is slightly short)\\
+then\\
+\hspace*{1cm} $ tall(john) \wedge \neg tall(john) = 0.4$ (which means this is slightly false)\\
+\hspace*{1cm} $ tall(john) \vee \neg tall(john) = 0.6$ (which means this is slightly true)
+
+All these are reasonable conclusions.
+
+\subsection{``Soft'' MIN-MAX and concept learning}
+
+As an example, let's consider the concept ``human'' for which there can be many exemplars: male, female, baby, child, adult, tall, short, fat, thin, etc.  Suppose we are given the following logical knowledgebase:\\
+\hspace*{1cm} human $\leftarrow$ short hair, male face, torso, flat chest, 2 arms, 2 legs, penis\\
+\hspace*{1cm} human $\leftarrow$ long hair, female face, torso, breasts, 2 arms, 2 legs, vagina\\
+then at least we need to have a knowledge representation scheme capable of representing:
+
+\hspace*{1cm} \begin{tabular}{|l|l|l|} \hline
+\textbf{features}           & \textbf{degree} &\\ \hline
+(no penis) $\wedge$ vagina  & 1.0             & typical female\\
+(no vagina) $\wedge$ penis  & 1.0             & typical male\\
+penis $\wedge$ vagina       & 0.6             & hermaphrodite (atypical human)\\
+\hline
+\end{tabular}
+
+It seems that ``penis'' and ``vagina'' are both contributing factors to ``human'', but paradoxically their conjunction results in an atypical instance.  ``Crisp'' min-max would be unable to represent this, so I created a ``soft'' version of min-max (the idea is to use $z_1, z_2$ as their own weights in a weighted average):
+
+%Is soft required?  We need nonlinear to take care of hermaphrodite?
+
+\hspace*{1cm} \begin{tabular}{|l|l|}
+\hline
+{\textbf{soft MIN (= AND)}} & {\textbf{soft MAX (= OR)}}\\ \hline
+\rule[-7mm]{0mm}{16mm} 
+$\displaystyle z_1 \; \widetilde{\wedge} \; z_2 = \frac{z_1 (1-z_1) + z_2 (1-z_2)}{1 - z_1 + 1 - z_2} $
+& $\displaystyle z_1 \; \widetilde{\vee} \; z_2 = \frac{z_1 z_1 + z_2 z_2}{z_1 + z_2} $ \\
+\hline
+\end{tabular}
+\parbox{4cm}{\begin{equation}
+\label{eqn:soft-MIN-MAX}
+\end{equation}}
+
+It can be verified that soft-MIN and MAX satisfy the boundary conditions of classical logic, provided that we make $0/0 = 1$ in the MIN case.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{soft-max.eps}
+\caption{comparison of MAX and soft MAX}
+\end{figure}
+
+\{ TODO:  Is soft min-max really needed, and why?  The current argument is a bit unclear. \}
+
+\subsection{Z modifiers}
+
+To make $\mathcal{Z}$ logic more versatile, we need to augment it with \textbf{hedges} which correspond to natural language words like:\\
+\hspace*{1cm} extremely \hspace*{1cm} very \hspace*{1cm} moderately \hspace*{1cm} slightly\\
+so we can express things like:\\
+\hspace*{1cm} $\mbox{lukewarm} \leftarrow \mbox{moderately(warm)}$\\
+\hspace*{1cm} $\mbox{obese} \leftarrow \mbox{very(fat)}$
+
+In general, we can define a $\mathcal{Z}$-modifier as a function $\Gamma: [0,1] \rightarrow [0,1]$,
+\begin{equation}
+z_0 := \Gamma(z_1)
+\end{equation}
+We further restrict the class of $\Gamma$ to make the system simpler.  I suggest to use Gaussian functions with the mean $z^*$ as a parameter, and the variance would be fixed to a certain constant.  So
+\begin{equation}
+z_0 := \Gamma(z_1; z^*_1)
+\end{equation}
+For example, the $\Gamma$'s for ``slightly'' and ``very'' can be:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{fuzzy-modifiers.eps}
+\caption{Fuzzy modifiers with $z^* = 0.6, 1.0$}
+\end{figure}
+
+We can have better control over the shapes of $\Gamma$ by using other functions and having more parameters (cf \S\ref{sec:unified-BPZ-inference}), but I suspect that such sophistication is not needed for commonsense reasoning.
+
+For example, we can define ``lukewarm'' as ``warm'' with $z \in [0.6,0.8]$, or:\\
+\hspace*{1cm} $\mbox{lukewarm} \leftarrow \Gamma_{0.6}(\mbox{warm}) \wedge \Gamma_{0.8}(\mbox{warm})$\\
+using 2 $Gamma$'s with fixed variances.  The result is the blue curve on the left.  We get the interval [0.6,0.8] by taking $> 0.5$ as true, and thus ``lukewarm'' would be a binary predicate.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{Gamma-for-lukewarm.eps}
+\caption{Two representations of ``lukewarm''}
+\end{figure}
+On the other hand, if we use a tailored $\Gamma$ to represent ``lukewarm'' on the right, it would be a $\mathcal{Z}$-predicate with continuous values like ``slightly lukewarm'' and ``very lukewarm''.  This seems to be unnecessarily sophisticated.
+
+TO-DO:  Prove that combinations of $\Gamma$ and $\widetilde{\vee} \; \widetilde{\wedge}$ can be universal approximators.
+
+\subsection{Z rules and Z inference}
+
+$\mathcal{Z}$ inference is driven by $\mathcal{Z}$ rules.  A $\mathcal{Z}$ rule is specified by a combination of soft MIN's and MAX's (similar to DNFs (disjunctive normal forms) in classical logic):
+\begin{equation}
+z_0 \; := \; \widetilde{\bigvee_i} \; \widetilde{\bigwedge_j} \; \Gamma(z_{ij})
+%z_0 \; := \; \widetilde{\bigvee_i} \; \widetilde{\bigwedge_j} \; \Gamma(z_{ij}; z^*_{ij}, v_{ij}) \, = \; \widetilde{\bigvee} \; \{ z_{11} \, \widetilde{\wedge} \, z_{12} \, \widetilde{\wedge} \cdots, z_{21} \, \widetilde{\wedge} \, z_{22} \, \widetilde{\wedge} \cdots, \, \cdots \}
+\end{equation}
+
+Notice that a $\mathcal{Z}$ rule directly assigns a $\mathcal{Z}$ value to $z_0$ \textit{without the use of an implication operator}, which is very different from traditional fuzzy logics.
+
+\subsubsection{Traditional fuzzy logic}
+
+A fuzzy implication is a map $\Rightarrow: [0,1] \times [0,1] \rightarrow [0,1]$ satisfying these boundary conditions from binary logic:\\
+\hspace*{1cm} \begin{tabular}{|l|l|l|} \hline
+$\Rightarrow$ & 0 & 1\\ \hline
+0             & 1 & 1\\
+1             & 0 & 1\\ \hline
+\end{tabular}
+
+A fuzzy implication statement:  $(Z_1 \wedge Z_2) \Rightarrow Z_0$  means that the fuzzy values $z_0,z_1,z_2$ obey the equation:
+$$ ((z_1 \wedge z_2) \Rightarrow z_0) = z_c $$
+where $z_c$ is the truth value of the implication statement.  Compared to my approach, this has an extra level of indirectness.  Is it really necessary that we know the truth value of an implication statement?  (Cf \S\ref{sec:P-and-ClassicalLogic}: In probabilistic logic, the probability conditional $P(A|B)$ serves as the implication statement, but we usually do not ask about its own probability.)  One trouble with traditional fuzzy logic is that we cannot even perform \textit{modus ponens} unless we allow interval fuzzy values.\footnote{Suppose we define the operators for a very simple fuzzy logic: $a \Rightarrow b \equiv \neg a \vee b$, $\neg a \equiv 1-a $, and $a \vee b \equiv min(a,b)$.  \citep*{Kenevan1992} has given an inference algorithm for this logic, but it is very complicated and involves interval fuzzy values, and thus unsuitable for machine learning.}
+
+% Now given that $Z_1 = z_1$ and $Z_1 \Rightarrow Z_0$, ie $ (z_1 \Rightarrow z_0) = z_c $, ie $min(1-z_1,z_0)=z_c$ we still cannot determine $z_0$.}
+
+% TO-DO:  weighted soft min-max may not be needed, if we have fuzzy modifiers
+
+%An example involving vagueness: ``smart''\\
+%\hspace*{1cm} smart $\leftarrow$ humorous\\
+%\hspace*{1cm} smart $\leftarrow$ articulate\\
+%\hspace*{1cm} smart $\leftarrow$ blah
+
+\subsection{Z abduction}
+
+TO-DO:  unfinished.
+
+%Z abduction sometimes gives out-of-bounds Z values.\\
+%\hspace*{1cm} $ z_1 \widetilde \vee z_2 = high $\\
+%\hspace*{1cm} $ z_1 = low $\\
+%\hspace*{1cm} $ \Rightarrow z_2 > 1.0 $
+%
+%Also, there are always 2 solutions, and they are within-bounds in the $z_1 > 0.5$ regime. Why?
+%
+%In fact, abduction using a rule with a point-Z-value is very unnatural.  Perhaps if we use $P(Z)$ the problem will be resolved?  But the ``2 roots'' problem seems to remain...
+
+\subsection{Z inference algorithm}
+\label{sec:pureZinference}
+
+$\mathcal{Z}$ inference (Algorithm \ref{algorithm1}) is analogous to backward-chaining in binary logic (such as Prolog), except that it calculates the $\mathcal{Z}$ value of the query.
+
+\begin{algorithm}
+\caption{backward-chaining Z inference}
+\label{algorithm1}
+\begin{algorithmic}[1]
+
+\REQUIRE a knowledgebase $KB$, a list of query goals $G$ \\
+\ENSURE $z =$ the truth value of $G$.
+
+\REPEAT
+	\STATE choose a literal $L$ from the list $G$, removing it from G
+	\STATE find a rule $z_0 := \widetilde{\bigvee} \widetilde{\bigwedge} z_{ij} $ such that\\
+			 $L$ unifies with the consequent $z_0$ \\
+	\COMMENT{ if $z_{ij}$ is null, $z_0$ is a fact in $KB$ }
+	\STATE add the rule's antecedents ($z_{ij}$) to the list $G$ \\
+	\STATE if depth of recursion $< h$ \\
+			 recurse to resolve the new list of goals $G$ \\
+\UNTIL{ there are no more applicable rules in $KB$. }
+
+\end{algorithmic}
+\end{algorithm}
+
+TO-DO:  include $\mathcal{Z}$-abduction.
+
+\subsection{Handling exceptions (nonmonotonic reasoning)}
+\label{sec:exceptions}
+
+Fuzzy reasoning can sometimes lead to unsound conclusions, for example:\\
+\textit{1. Mary has cybersex with many partners.\\
+2. Cybersex is a kind of sex.\\
+3. Therefore, Mary has many sex partners.\\
+4. A person who has many sex partners has a high chance of STDs.\\
+5. Therefore, Mary has a high chance of STDs.}
+
+What's wrong with this example?  On the one hand, we should admit that cybersex is sex (it is a borderline case), but it lacks certain prominent features of sex, such as physical contact (which is not necessarily a \textit{defining} feature of sex).  Thus, if we carry on reasoning with the idea that cybersex is sex, we may get unsound conclusions.  The key to resolving this problem is to recognize ``cybersex is sex'' with \textbf{qualifications} such as ``but it is sex without physical contact''.
+
+If we have a rule saying that ``sex transmits certain diseases'', we may have to attach the exception ``only if the sex involves physical contact''.  In the end, our rules may be inundated with possibly infinitely many exceptions.  How can we get out of this problem?
+
+\citep*{Wang1994}, \citep*{Wang2006} provided a solution, which I essentially adopt.  His idea is not to store the exceptions to rules, but instead allow a \textit{multitude} of rules to fire, calculate the ``confidence'' (\S\ref{sec:NARSconfidence}) of each conclusion, and pick the conclusion with the highest confidence.  This allows us to handle exceptions relatively easily.
+
+Some more examples:\\
+\hspace*{1cm} \textbullet \textit{ Age, sex, etc, should not be basis for discrimination.}\\
+\hspace*{1cm} \textbullet \textit{ Hermaphrodites are atypical, but no less human than other people.}\\
+\hspace*{1cm} \textbullet \textit{ Penguins are birds but they cannot fly.}
+
+%``Nonmonotonic'' means that, when you add a statement to a KB (knowledgebase), some of the earlier conclusions of the KB may no longer be valid.
+
+%For example, you may have a Prolog rule that says:\\
+%\hspace*{1cm} \ttfamily fly(X) :- bird(X). \rmfamily\\
+%but you may also add an \emph{exception} to this rule:\\
+%\hspace*{1cm} \ttfamily fly(X) :- penguin(X), !, fail. \rmfamily\\
+%which means that if penguin(X) is true, fly(X) would fail.\\
+%The application of the second rule...
+
+\subsection{Doing B inference as Z inference}
+
+TO-DO:  There is a possibility of performing all reasoning in pure $\mathcal{Z}$-logic.  Might it be more advantageous than a hybrid $\mathcal{BPZ}$ logic...?
+
+%$patriot \curlyvee traitor = 0.8$\\
+%$\neg patriot \Rightarrow z(patriot) = 0.25$
+
+\section{P: probabilistic reasoning}
+
+For an excellent introduction to probabilistic reasoning and Bayesian networks, see Judea Pearl's book \citep*{Pearl1988}.
+
+\subsection{Why P is needed}
+\label{sec:whyP}
+
+In machine learning it is often necessary to learn facts that are only \textit{contingently true}, such as the fact that ``females often have long hair''.  Learning algorithms typically need to keep track of the frequencies of how often the hypotheses are true, in order to pick the highly probable ones.  So it seems that probabilistic logic should be built into the knowledge representation.
+
+\subsection{Positive and negative evidence, and confidence}
+\label{sec:NARSconfidence}
+
+Pei Wang's uncertain logic is particularly elegant.  I adopt two ideas from his theory, explained below, but the way I use those numbers differs slightly from Wang's (cf his book \citep*{Wang2006} which describes an AGI called NARS (Non-axiomatic Reasoning System)).
+
+{\bfseries Positive and negative evidence.}  In Wang's logic, each statement is attached with 2 numbers: the number of positive ($w^+$) and negative ($w^-$) examples.  In an AGI system, they are the number of times a statement is observed to be true or false, respectively.
+
+For example, for the statement\\
+\hspace*{1cm} ``if X is female X probably has long hair''\\
+the AGI may have observed 70 females with long hair and 30 females with short hair. The total support for the statement would be $(w^+ + w^-) = 100$ examples.
+
+Using a pair of numbers allows us to know the probability of a statement as well as the the number of examples that support that statement. This is very important because some statements may be supported by very few examples and thus are ``weaker'' than statements with more support.
+
+A major advantage of this 2-number approach is that probabilities can be updated by new examples. For example, if the AGI encounters a new female with long hair, it can update the probability easily with $ (w^+ + 1,w^-)$. Such updating cannot be done with the single-number representation of probability.
+
+{\bfseries Confidence.}  In NARS, the confidence of a statement is a measure of its \emph{support}, ie, the size of $ w = w^+ + w^- $, or how many examples (positive and negative) that support the statement.
+
+We can map w to the $[0,1]$ interval using some transform.
+
+The frequency (or probability) of the statement is simply:
+\begin{equation}
+f = p = \frac{w^+}{w}
+\end{equation}
+Thus, $(w^+,w^-)$ contains information equivalent to the frequency and confidence $ (f,c) $.
+
+\subsection{Gaussian and Beta distributions}
+
+One very useful fact for designing AGI is that many quantities that occur naturally in our physical world seem to obey Gaussian distributions.  This follows from the Central Limit Theorem which states that the sum of a large number of independent and identically-distributed random variables will be approximately normally distributed.
+
+The upshot of this is that the majority of fuzzy quantities, such as tallness, can be represented using Gaussian distributions.  For example, the height of an unknown woman may have a Gaussian distribution with a mean of ``5 feet 4''.  So we can just use 2 numbers, the mean and variance, to represent the distribution, instead of using a table which takes up more memory.
+
+Since $\mathcal{Z}$ values are defined within $[0,1]$, we can use the Beta distribution which is a very versatile distribution:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.65]{BetaDistributions.eps}
+\caption{some shapes of the Beta distribution}
+\end{figure}
+
+\begin{enumerate}
+\item The first graph shows an almost uniform distribution, which represents a high amount of uncertainty. (If $ \alpha = \beta = 1 $ one gets the uniform distribution.)
+\item The second graph is unimodal.
+\item The third graph shows an inverted bell curve.  It may be useful for representing distributions such as ``unhealthiness'' over body weights (people who are too thin or too heavy are unhealthy).
+\end{enumerate}
+
+Sandy Zabell \citep*{Zabell1982} proved that, if we make certain assumptions about an individual's beliefs, then that individual must use the Beta density function to quantify any prior beliefs about a relative frequency \citep*{Neapolitan2004}.
+
+%The multi-variable version of the Beta distribution is the Dirichlet distribution.
+
+\subsection{First order logic and Bayesian networks}
+\label{sec:FOL-BN}
+
+Early developments in Bayesian network are mainly propositional, which means that each node in a network represents a proposition without variables, such as ``the fact that the alarm sounded''.  It has long been recognized that ``lifting'' Bayesian networks to first order is necessary for AI to be able to deal with open domains where \emph{relations} can be defined over many \emph{objects}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{FirstOrderBayesNet.eps}
+\caption{propositional vs first-order Bayesian networks}
+\end{figure}
+
+One key idea in first-order Bayesian networks is the method of Knowledge-Based Model Construction (KBMC), first developed by \citep*{Wellman1992} and \citep*{Haddawy1994}.  The idea is to store a knowledgebase of first-order rules that can be used to construct propositional Bayesian networks on demand.  When a query is asked, a Bayesian network is generated on-the-fly to answer the query.  This idea helps us think of the first-order case in terms of the propositional case (though it may not be the most efficient implementation in practice).
+
+Also, I have chosen the ``directed'' approach based on Bayesian networks, versus the ``undirected'' approach based on Markov networks (eg \citep*{Domingos2007}'s Markov Logic Network (MLN)).  It seems that the directed approach is more intuitive, in which probabilistic conditionals are used to represent \emph{causal} relations.
+
+See the book \citep*{Getoor2007} for a collection of first-order probabilistic logic approaches.
+
+{\bfseries Some first-order probabilistic logics:}
+
+\citep*{Kersting2000}'s Bayesian Logic Program (BLP)
+
+\citep*{Laskey2006}'s Multi-Entity Bayesian Network (MEBN)
+
+\citep*{Getoor2007a}'s Probabilistic Relational Model (PRM)
+
+\citep*{Milch2007}'s Bayesian Logic (BLOG)
+
+{\bfseries Other first-order probabilistic logics I have not looked into:}
+
+\citep*{Sato1997}'s PRISM
+
+\citep*{Muggleton1996}'s Stochastic Logic Program (SLP)
+
+\citep*{Jaeger1997}'s Relational Bayesian Network (RBN), etc...
+
+\subsection{Bayesian networks and classical logic}
+\label{sec:P-and-ClassicalLogic}
+
+Now we examine the relation between Bayesian networks and classical logic.
+
+\textbf{The problem with ``material implication''.}  The notion of implication in classical logic is no longer applicable in a probabilistic setting.  To see why, consider the classical equivalence of implication\\
+\hspace*{1cm} $ A \rightarrow B \equiv \neg A \vee B $\\
+and if we try to calculate the probability truth value of this statement we get\\
+\hspace*{1cm} $ p = P( \neg A \vee B ) = P(\neg A) + P(B) - P(B|\neg A) P(\neg A) $\\
+\hspace*{1cm} = $ 1 - P(A) + P(B|A) P(A) $\\
+using 3 basic rules of probabilities:\\
+\hspace*{1cm} $ P(X \vee Y) \equiv P(X) + P(Y) - P(X \wedge Y) $  (regardless of whether X,Y are independent)\\
+\hspace*{1cm} $ P(X \wedge Y) \equiv P(Y|X)P(X) $\\
+\hspace*{1cm} $ P(X) \equiv P(X|Y)P(Y) + P(X|\neg Y)P(\neg Y) $.
+
+Now we have 4 things:\\
+\hspace*{1cm} 1.  $ P(A) $\\
+\hspace*{1cm} 2.  $ P(B) $\\ 
+\hspace*{1cm} 3.  $ P(B|A) $\\
+\hspace*{1cm} 4.  $ P(A \rightarrow B) = P(\neg A \vee B) = p $\\
+but they cannot be fixed independently of each other: if we fix any 3 the 4th will also be fixed.
+
+What is the problem here?  The classical implication ``$A \rightarrow B$'' serves a function \textit{similar} to the probabilistic conditional $P(B|A)$, but they constrain probabilities in slightly different ways, so they conflict with each other.  If we keep both copies of \#3 and \#4 in our KB, and apply machine learning to learn their truth values, the values may fail to converge.  It seems that classical implication is only \emph{accidentally} equivalent to $\neg A \vee B$ when things are binary.  In the probabilistic setting, we should jettison the binary implication in favor of the probabilistic conditional.
+
+\textbf{Translating classical logic to Bayesian network.}  First, we can translate a first-order KB into Horn form.  This is generally impossible, since Horn logic is a strict subset of first-order logic, but it can be done if we compile the knowledgebase into a pseudo-Horn form and use a special inference algorithm (this is done in \citep*{Stickel1988}).  A Horn formula (which is equivalent to a Prolog statement) having the form:\\
+\hspace*{1cm} \ttfamily A :- B, C, D, ... \rmfamily\\
+would corresponds to:\\
+\hspace*{1cm} $ P(A | B, C, D, ...) = p $\\
+in a Bayesian network.  This approach is also adopted by BLP, MEBN, BLOG, and PRM (see \S\ref{sec:FOL-BN}).
+
+\subsection{Interval-valued probabilities}
+\label{sec:intervalP}
+
+Sometimes, Bayesian networks fail to reproduce analogous results in classical logic unless we use interval probabilities.  Consider this example:
+\begin{quote}
+\emph{China and the US are in conflict. If John sides with the US, he'll be a traitor. If he sides with China, he'll be a loser. Either way, John will be miserable.}
+\end{quote}
+
+We can express the premises as conditional probabilities:\\
+\hspace*{1cm} $P(\mbox{miserable} \,|\, \mbox{traitor} ) = 0.9$ \\
+\hspace*{1cm} $P(\mbox{miserable} \,|\, \neg\mbox{traitor} ) = 0.8$ \\
+and we want to query the probability $P(\mbox{miserable})$, but it is unknown whether John is a traitor or a patriot.
+
+This example is exactly analogous to the ``resolution rule'' in classical logic.  The classical inference step is:
+
+\hspace*{1cm} traitor $\rightarrow$ miserable\\
+\hspace*{1cm} $\neg$ traitor $\rightarrow$ miserable\\ 
+\hspace*{1cm} --------------------------------\\
+\hspace*{1cm} miserable
+
+If we construct a Bayesian network we will have the following CPT (conditional probability table):\\
+\hspace*{1cm} \begin{tabular}{|l|l|} \hline
+\textbf{traitor} & \textbf{miserable}\\ \hline
+true             & 0.9\\
+false            & 0.8\\ \hline
+\end{tabular}
+
+but we cannot evaluate $P(\mbox{miserable})$ since $P(\mbox{traitor})$ is not known.  This is a problem with point-valued Bayesian networks: \emph{they fail to draw some analogous conclusions of classical logic}.
+
+However, according to probability theory:\\
+\hspace*{1cm} $ P(A) = P(A | B) P(B) + P(A | \neg B) P(\neg B) $
+
+Therefore:\\
+\hspace*{1cm} $ P(\mbox{miserable}) = P(\mbox{miserable} \,|\, \mbox{traitor}) P(\mbox{traitor}) + P(\mbox{miserable} \,|\, \neg\mbox{traitor}) P(\neg\mbox{traitor}) $\\
+\hspace*{1cm} $= 0.9 P(\mbox{traitor}) + 0.8 P(\neg\mbox{traitor}) $\\
+\hspace*{1cm} $= 0.9 p + 0.8 (1 - p) $\\ 
+\hspace*{1cm} $= 0.8 + 0.1 p $\\
+\hspace*{1cm} $= [0.8, 0.9] $
+
+In other words, if we allow the use of interval probability, we can infer that $P(\mbox{miserable}) = [0.8, 0.9]$ even when we assume that $P(\mbox{traitor}) = [0,1]$ (ie, unknown). Thus we obtain a result analogous to classical resolution.
+
+We need a Bayesian network inference algorithm that can handle this type of deduction, but first we consider an important simplification in the next section.  The final algorithm will be given in \S\ref{sec:P-inference}.
+
+\subsection{Why point-valued probability is sufficient for AGI}
+\label{sec:PointValued}
+
+In my opinion, second-order probability (such as interval probability or the indefinite probability developed by \citep*{Walley1991} and used in \citep*{Goertzel2008}) is an overkill for AGI.  It makes the deduction algorithm very complex, and since the machine learning algorithm is based on deduction and is \textit{even more} complex, the latter problem becomes practically impossible to solve in those settings.  So we must make the deduction algorithm as simple as possible.  Therefore I suggest using only point-valued probability.
+
+In \S\ref{sec:intervalP} I showed that interval probability is needed for some inference steps.  That means the probability P itself is uncertain, and it lies in an interval.  The \emph{exact} algorithm for interval-probability inference requires us to set up the bounds of various probabilities and then invoke linear programming to solve for the probability bounds of the query variable (This method was first outlined by \citep*{Boole1854} and then developed by \citep*{Hailperin1965}, \citep*{Nilsson1986}, \citep*{Ng1992} et al. Recently \citep*{Hansen2000}, \citep*{Jaumard2006} developed faster algorithms for it, but still, the complexity of these algorithms is too much to handle if we want to design learning algorithms based on them.)
+
+What I propose is that whenever we obtain an interval P value, we should convert it to a point value by \emph{taking the mid-point of the interval}.\footnote{We still need inference algorithms that can handle intervals as demonstrated in \S\ref{sec:intervalP}, but the intervals will be instantly converted to point-values after each step. This reduces complexity greatly.}
+
+For example, John may be unable to decide whether the president is smart or dumb.  He may ascribe $P = [0.2,0.8]$ to the atom $smart(president)$.  According to my scheme, he can use \[ P = (0.2 + 0.8) / 2 = 0.5 \] as a compromise.  This is like saying ``there's 50-50 chance''.  Is this approximation too bad?  It seems that many people think like this anyway.  I'd be surprised if the human brain maintains 2nd-order probabilities internally.
+
+Moreover, the exact values of P often do not affect our behavior that much.  There is evidence that taking the centroid (the center of mass of a belief distribution) can yield reasonably good results in second-order probabilistic decision-making (\citep*{Sundgren2006}).  Also, \citep*{Bier1993} shows that there are broad classes of utility functions for which uncertainty is irrelevant under expected utility theory, and only mean values are significant.  \{ TODO:  There is hand-waving here. \}
+
+Maybe in a much more advanced AGI, we would want 2nd-order precision, but that seems not to be the right priority now.  It may be more effective for an AGI to improve its decisions by:\\
+\hspace*{1cm} 1. considering more factors;\\
+\hspace*{1cm} 2. updating probabilities using more evidence;\\
+\hspace*{1cm} 3. refining explanations (causal relations);  etc.
+
+Using point-valued probabilities (without knowing their error) is not such a big sin, if we compare this with what we do in fuzzy logic all the time.  A fuzzy statement such as:\\
+\hspace*{1cm} ``John is fairly tall''\\
+is often represented simply by:\\
+\hspace*{1cm} tall(john) \hspace{0.5cm} $z = 0.7$\\
+which is analogous to representing the probabilistic statement\\
+\hspace*{1cm} ``John is usually punctual''\\
+with a point-valued probability:\\
+\hspace*{1cm} punctual(john) \hspace{0.5cm} $p = 0.8$.
+
+If fuzziness is a more fundamental phenomenon in our knowledge representation, we should be making more fuss about fuzziness than probabilities.  It seems that we ascribe more ``prestige'' to probability theory merely because of psychological reasons.
+
+\subsection{Probabilistic AND and OR}
+\label{sec:probabilistic-AND-OR}
+
+Specifying the CPT (conditional probability table) of a single node of a Bayesian network, if the node has $n$ parents, would require $2^n$ entries.  The ``noisy'' AND and OR gates are designed to simplify this by reducing the number of independent entries to $n$.  The interpretation of the noisy OR gate is that each parent variable $X$ is associated with an ``inhibition probability'', $q$ (\citep*{Pearl1988} p184-187 or \citep*{Russell2003} p500-501).  This is the textbook definition of noisy OR (and I created noisy AND by applying DeMorgan's laws\footnote{That is, to require $\overline{X_1 \curlyvee X_2} \equiv \overline{X_1} \curlywedge \overline{X_2}$ and $\overline{X_1 \curlywedge X_2} \equiv \overline{X_1} \curlyvee \overline{X_2}$ }):
+
+\hspace*{1cm} \begin{tabular}{|l|l||l||l|} \hline
+\multicolumn{2}{|c||}{} & {\textbf{noisy AND}}           & {\textbf{noisy OR}}\\ \hline
+$X_1$ & $X_2$           & $X_1 \curlywedge X_2$          & $ X_1 \curlyvee X_2 $\\ \hline
+0     & 0               & $ 1 ? $                        & $ 0 $\\
+0     & 1               & $ 1 - q_1 ? $                  & $ 1 - q_1 $\\
+1     & 0               & $ 1 - q_2 ? $                  & $ 1 - q_2 $\\
+1     & 1               & $ 1 - q_1 - q_2 + q_1 q_2 ? $  & $ 1 - q_1 q_2 $\\ \hline
+\end{tabular}
+
+It seem that this definition of noisy AND is problematic (for example, the ``1'' should be close to 0).
+
+So, I define my version of ``probabilistic'' AND and OR via DeMorgan's laws.  Each variable is attached with a ``causal strength'' $c \in [0,1]$, such that when $c \rightarrow 1$ they reduce to classical AND and OR.  (Unfortunately, the original ``noisy-OR'' interpretation is lost.)
+
+\hspace*{1cm} \begin{tabular}{|l|l||l||l|}
+\hline
+\multicolumn{2}{|c||}{} & {\textbf{probabilistic AND}} & {\textbf{probabilistic OR}}\\
+\hline
+%\rule[-3mm]{0mm}{8mm}
+$X_1$ & $X_2$ & $X_1 \curlywedge X_2$          & $X_1 \curlyvee X_2$\\ \hline
+0     & 0     & $(1-c_1) (1-c_2)$              & $1 - c_1 c_2$\\
+0     & 1     & $(1-c_1) \; c_2$               & $1 - c_1 + c_1 c_2$\\
+1     & 0     & $c_1 \; (1-c_2)$               & $1 - c_2 + c_1 c_2$\\
+1     & 1     & $c_1 \; c_2$                   & $c_1 + c_2 - c_1 c_2$\\
+\hline
+\end{tabular}
+\parbox{5cm}{\begin{equation}
+\label{eqn:probabilistic-AND-OR}
+\end{equation}}
+
+This can be easily generalized to $n > 2$.
+
+A CPT can be defined by a combination of probabilistic AND-OR's:
+\begin{equation}
+X_0 := \bigcurlyvee_i \; \bigcurlywedge_j \; X_{ij}
+\end{equation}
+where the $X_{ij}$'s are parents of the node $X_0$ in the Bayesian network.
+
+Notice that in the above equation, each connective is associated with a pair of c parameters, so the actual equation is:
+\begin{equation}
+X_0 := \bigcurlyvee_i \; \bigcurlywedge_j \; X_{ij};c_{ij} \; = \bigcurlyvee \; \{ X_{11};c_{11} \curlywedge X_{12};c_{12} \curlywedge \cdots, X_{21};c_{21} \curlywedge X_{22};c_{22} \curlywedge \cdots, \; \cdots \}
+\end{equation}
+And, because of the c parameters, commutation does not hold in general, ie: $((A \curlyvee B) \curlyvee C) \neq (A \curlyvee (B \curlyvee C))$.
+
+% TO-DO:  weighted noisy AND-OR may not be needed, because the weights are absorbed into the c's
+
+\subsection{P inference algorithm}
+\label{sec:P-inference}
+
+The $\mathcal{P}$ inference algorithm is similar to $\mathcal{Z}$ inference (Algorithm \ref{algorithm1}) except that probabilistic inference can be ``abductive'' --- a conditional probability can work in the reverse direction via Bayes theorem --- thus the branching factor of the search would be higher.
+
+\begin{algorithm}
+\caption{backward-chaining P inference}
+\label{algorithm2}
+\begin{algorithmic}[1]
+
+\REQUIRE a knowledgebase $KB$, a list of query goals $G$ \\
+\ENSURE $p =$ probability of $G$.
+
+\REPEAT
+	\STATE choose a literal $L$ from the list $G$, removing it from G
+	\STATE find a rule $X_0 \leftarrow \bigcurlyvee \bigcurlywedge X_{ij} $ such that\\
+			 $L$ unifies with one of the $X_{ij}$'s, including $X_0$\\
+	\COMMENT{ if $X_{ij}$ is null, $X_0$ is a fact in $KB$ }
+	\STATE add the $X$'s to the list $G$, except the one that unifies with $L$ \\
+	\STATE if depth of recursion $< h$ \\
+			 recurse to resolve the new list of goals $G$ \\
+\UNTIL{ there are no more applicable rules in $KB$. }
+
+\end{algorithmic}
+\end{algorithm}
+
+TO-DO: Deal with loops.
+
+TO-DO: There should be a mechanism to prune low-probability branches early on in the search.
+
+TO-DO: Compare $\mathcal{P}$ inference with standard Bayesian network inference algorithms...?\\
+This algorithm merely outlines the rules involved in computing $P(X)$.
+
+Problems of Bayesian network inference:\\
+1.  Some inference steps analogous to classical logic cannot be performed because probabilities are not truth-functional (ie, the probability of a statement is not the function of the probabilities of its constituents; it may depend on other probabilities not appearing in the statement).\\
+2.  Bayesian network inference cannot be performed one-rule-per-step because of interdependence of variables that require message passing.
+
+The solution to \#1 is to use 0.5 as the substitute for unknown probabilities.
+
+The solution to \#2 is to use only local dependencies.
+
+Case \#1:
+\begin{figure}[H]
+\centering
+\includegraphics{BayesNet-alarm-John.eps}
+\end{figure}
+\textbf{Forward inference}: the answer is simply what is given: $P(J|A)$\\
+\textbf{Backward inference (abduction)}: we seek $P(A|J)$ which is given by Bayes rule:\\
+$$ P(A|J) = \frac{P(J|A)P(A)}{P(J)} $$
+and we search for values of $P(A)$ and $P(J)$; If they don't exist we substitute with 0.5.
+
+It seems that we need to record the rule during inference.  When the subgoals are all found we can obtain the head.  Is there a way not to store the rules?  No.  Not only that, but we need to have backtrack ability too.
+
+Case \#2:
+\begin{figure}[H]
+\centering
+\includegraphics{BayesNet-successful-business.eps}
+\end{figure}
+\textbf{Forward inference}: simply given by $P(S|P,B)$\\
+\textbf{Abduction}: given S, we can infer P and B.  "P or B" is a problem. How to represent that?  
+
+\section{Combining B, P, Z}
+\label{sec:combinePZ}
+
+\subsection{The truth value P(Z)}
+
+How to combine $\mathcal{P}$ and $\mathcal{Z}$?  The answer is simple because there is no other choice:  the semantics of probabilities dictate that $\mathcal{P}$ must be \textit{distributed over events}.  In our AGI, events are either $\mathcal{B}$ or $\mathcal{Z}$ (the latter as \textit{continuous} events).  So we \emph{distribute $\mathcal{P}$ over $\mathcal{B}$ and $\mathcal{Z}$}.  In this sense, fuzziness is more fundamental than probabilities.
+
+If a $\mathcal{Z}$ value is uncertain --- for example, we may not be sure how tall Mary is (the $\mathcal{Z}$-value of her tallness may be 0.6-0.8, say, so we can assume a uniform probability distribution over the interval [0.6,0.8] which is the green rectangle below) --- and we can approximate it by a Beta distribution over $\mathcal{Z}$ with a mean at 0.7 and the same variance:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{P-over-Z-Marys-Tallness2.eps}
+\caption{an example $\mathcal{P}(\mathcal{Z})$ distribution}
+\end{figure}
+where the probability density should sum to 1: $ \int^1_0 P(z) dz = 1 $.
+
+On the other hand, if a $\mathcal{P}$ value is uncertain, we simply \textit{ignore} its error (eg, by choosing the mid-point of a P-interval).  \S\ref{sec:PointValued} tried to justify this.
+
+\subsection{Unifying all truth values as P(Z)}
+
+\textbf{Binary variables.}  Some variables have a strong ``binary flavor''.  For example, in common sense, a person is either dead or alive, although a more nuanced view will have grades of being dead.  If deadness is a $\mathcal{Z}$ variable, z = 0 would be ``definitely alive'', z = 1 would be ``definitely dead'' (eg reduced to ash), and z = 0.5 would correspond to a state that is difficult to classify as dead or alive, eg a brain-dead, vegetative state.  z = 0.7 may be a state that is more dead than brain-dead and yet more alive than ash --- I have to pause for a while to think of an example: a body under cryonic preservation.  And z = 0.2 may be a state of hallucination.  Anyway, one can expect the probability distribution of $z_{dead}$ to be polarized with a trough in the middle.  This can be represented by a Beta distribution with a large variance:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{deadness.eps}
+%\caption{Z = deadness}
+\end{figure}
+The amount of variance (ie degree of polarization) can be estimated statistically, or one can use some typical values if one is reckless.
+
+My observation is that all common-sensical ``binary'' variables are actually \textbf{polarized} $\mathcal{Z}$ variables.  Another example is a person being either married or not married, but there are grey areas like gay marriage or marriage for the green card, etc.
+
+This can be rather arbitrary.  Also, once we established that a variable is polarized, what if we then assert its probability?  Eg P(dead) = 0.7?  This is interesting.
+
+Equally interesting, is when we know P(dead) = 0.7, and then assert its polarity.
+
+\subsection{Hybrid B-P-Z inference}
+
+There are 4 possible types of truth values (TVs):
+
+\begin{table}[H]
+\parbox{3cm}{\caption{}}
+\begin{tabular}{|l|l|l|} \hline
+\multicolumn{3}{|c|}{\textbf{truth values}}\\ \hline
+mnemonic                   & meaning                                      & definition \\ \hline
+$\mathcal{B}$              & binary                                       & $b \in \{true, false\} $\\
+$\mathcal{Z}$              & fuzzy                                        & $z \in [0,1] $\\
+$\mathcal{P}(\mathcal{B})$ & $\mathcal{P}$ distributed over $\mathcal{Z}$ & $ P(b=false) = p_0 $\\
+                           &                                              & $ P(b=true) = p_1 $\\
+$\mathcal{P}(\mathcal{Z})$ & $\mathcal{P}$ distributed over $\mathcal{Z}$ & $ P(z=z_1) \sim Beta(z_1) $\\ \hline
+\end{tabular}
+\end{table}
+
+Rules, which are the building blocks of inference, can be of 3 types:
+
+\begin{table}[H]
+\parbox{3cm}{\caption{}}
+\begin{tabular}{|l|l|} \hline
+\multicolumn{2}{|c|}{\textbf{rules}}\\ \hline
+mnemonic                   & meaning\\ \hline
+$\mathcal{B}$              & Prolog statements of the form\\
+                           & \qquad $L_0 \, \mbox{:--} \, L_1, L_2, L_3, ... $ \\
+$\mathcal{Z}$              & Fuzzy rules of the form\\
+                           & \qquad $z_0 := \widetilde{\bigvee} \; \widetilde{\bigwedge} \; z_{ij}$ \\
+$\mathcal{P}(\mathcal{B})$ & Bayesian network nodes specified by\\
+                           & \qquad $X_0 := \bigcurlyvee \bigcurlywedge X_{ij};c_{ij}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+giving rise to $4 \times 3 = 12$ combinations when we try to ``plug'' variables into rules:
+
+\begin{table}[H]
+\parbox{3cm}{\caption{\label{table:TV-rules-combinations}}}
+\begin{tabular}{|l||l|l|l|} \hline
+                           & \multicolumn{3}{c|}{\textbf{rule}}\\ \hline
+\textbf{variables}         & $\mathcal{B}$ & $\mathcal{Z}$ & $\mathcal{P}(\mathcal{B})$ \\ \hline
+$\mathcal{B}$              & case 1        & case 5        & case 9  \\
+$\mathcal{Z}$              & case 2        & case 6        & case 10 \\
+$\mathcal{P}(\mathcal{B})$ & case 3        & case 7        & case 11 \\
+$\mathcal{P}(\mathcal{Z})$ & case 4        & case 8        & case 12 \\ \hline
+\end{tabular}
+\end{table}
+
+The TV type of a rule is determined by its ``head'' --- eg, if the head is a $\mathcal{B}$ variable then the rule is a $\mathcal{B}$-rule.  A rule may involve factors of TV types other than its own TV type, which is handled by Table \ref{table:TV-rules-combinations}.
+
+For example, ``almost Q'' means ``close to Q, but not being Q'', which translates to this rule:\\
+\hspace*{1cm} $\mbox{almost } Q \leftarrow \mbox{ close-to } Q \wedge \neg Q$\\
+where the head is of type $\mathcal{B}$, the first factor is of type $\mathcal{Z}$, the second factor is of type $\mathcal{B}$.
+
+%In general, inference proceeds by drawing rules from the KB.  Conclusions of various TV types will be generated depending on the TV type of the rules being applied.
+
+To simplify things, I consider single inference steps.  A complete proof involves a series of such steps.
+
+An essential trick is that truth value types can be inter-converted:
+\begin{figure}[H]
+\centering
+\input{TruthValues-conversion-diagram}
+\caption{inter-conversion of truth value types}
+\end{figure}
+where dotted lines indicate disallowed conversions.  The conversions are explained as follows:
+
+1a. $b = true$ if $z > 0.5$, otherwise $b = false$. There is loss of information but it is appropriate for the result type.
+
+1b. If $b = true$ we may assign $z = 0.75$ as the typical value, otherwise $z = 0.25$.  But this is inappropriate because we create extra information (``Mary is tall'' does not imply ``Mary is moderately tall'').
+
+2a. $p = 0$ if $b = false$, $p = 1$ if $b = true$.
+
+2b. If $P(b = true) \geq 0.5$ then $b = true$ otherwise $b = false$.  This introduces error unless $P$ approaches 0 or 1.
+
+3a. Approximate the $\mathcal{P}(\mathcal{Z})$ distribution by 2 rectangular distributions $z < 0.5, z \geq 0.5$.
+
+3b. The reverse of 3a, but is inappropriate because we're creating extra information.
+
+4a. Create a $\mathcal{P}(\mathcal{Z})$ distribution with a very sharp (small variance) peak at $z$.
+
+4b. Assign $z$ to be the mean of the $\mathcal{P}(\mathcal{Z})$ distribution.  This is only appropriate if the variance of $\mathcal{P}(\mathcal{Z})$ is very small.
+
+Now we discuss the rules:
+
+\subsection{Cases 1-4: B rule (= classical Horn clause)}
+
+% The problem is:  we're given this conditional, but the truth values of the antecedents may not be B.  In forward chaining, we need to decide if all the antecedents are satisfied;  and if yes, we put the conclusion into KB / Working Memory.  This may be somewhat inadequate, as antecedents may have TVs other than B.
+
+\textbf{Case \#1}: $\mathcal{B}$ variable\\
+This is standard ``Prolog technology''.
+
+\textbf{Case \#2}: $\mathcal{Z}$ variable\\
+Convert $\mathcal{Z}$ variable to $\mathcal{B}$, then standard Prolog.
+
+%If the B-conditional is single-literal ($A \leftarrow B$), maybe A would be fuzzy too?  If so, then why not state the B-conditional as a Z-conditional with uniform weights?
+
+%An example may be:  $patriot \rightarrow misery$.  It is obviously OK to convert the Z antecedent to a B antecedent and then apply the rule.  But it seems problematic to change the B rule to a Z rule.
+
+\textbf{Case \#3}: $\mathcal{P}(\mathcal{B})$ variable\\
+If the $\mathcal{B}$ rule has a single-literal antecedent, we obtain $P(L_0 = true)$. \\
+If the $\mathcal{B}$-rule is multi-literal (eg $L_0 \; \mbox{:--} \; L_1, L_2, \cdots $), we may need to assume independence of the antecedents.  Then $ P(L_0) := P(L_1) P(L_2) \cdots $.  So we are in effect converting the $\mathcal{B}$ rule to a simple $\mathcal{P}(\mathcal{B})$ rule.
+
+\textbf{Case \#4}: $\mathcal{P}(\mathcal{Z})$ variable\\
+Convert $\mathcal{P}(\mathcal{Z})$ variable to $\mathcal{P}(\mathcal{B})$ variable.  Then apply simple $\mathcal{P}(\mathcal{B})$ step as Case \#3.
+
+\subsection{Cases 5-8: Z rule}
+
+%The rule is a soft-min-max formula.
+
+\textbf{Case \#5}: $\mathcal{B}$ variable\\
+Convert the $\mathcal{B}$ variable to a $\mathcal{Z}$ variable --- but this is disallowed.  We may convert the $\mathcal{B}$ variable to a $\mathcal{P}(\mathcal{Z})$ variable and then invoke Case \#8.
+
+\textbf{Case \#6}: $\mathcal{Z}$ variable\\
+Pure $\mathcal{Z}$ inference --- solved in \S\ref{sec:pureZinference}.
+
+\textbf{Case \#7}: $\mathcal{P}(\mathcal{B})$ variable\\
+It seems that we need to convert the $\mathcal{P}(\mathcal{B})$ variable to a $\mathcal{P}(\mathcal{Z})$ variable, then Case \#8.
+
+\textbf{Case \#8}: $\mathcal{P}(\mathcal{Z})$ variable\\
+\label{case8}
+%My favorite case.  Maybe it can be solved by differentiating soft-min-max?
+For a single fuzzy modifier $\Gamma$(\textperiodcentered), if $z_0 := \Gamma(z_1)$ and $z_1$ is given by the probability density function $f_1(z1)$, then the probability density of $z_0$ would be given by:
+\begin{equation}
+f_0(z_0) = f_1(\Gamma^{-1}(z_0)) \left | \frac{d\Gamma^{-1}}{dz_0} \right |
+\end{equation}
+which is explained in \citep*{Wikipedia2008}.
+
+In general, the $\mathcal{Z}$ rule is $ z_0 := \widetilde{\bigvee} \; \widetilde{\bigwedge} \; z_{ij} $.  For simplicity we consider an instance of only 2 variables:  $$z_0 := z_1 \, \widetilde{\vee} \, z_2 = \widetilde{\vee}(z_1,z_2) = \frac{z_1 z_1 + z_2 z_2}{z_1 + z_2} $$
+What we need to do here is to calculate the pdf of a random variable given by a function of 2 other random variables.  The procedure is given in many textbooks.  This particular example seems to be very hard so I will use an approximation:  recall that soft-MAX is approximately equal to MAX.
+
+$\mathbf{P}$ denotes probability measure which is a set function, $F(t)$ denotes cumulative distribution functions (cdf's), $f(t)$ denotes probability density functions (pdf's).
+
+%Define the region $D_0 := \{ (z_1,z_2): \widetilde{\wedge}(z_1,z_2) \leq z_0 \}$.
+%\begin{eqnarray}
+%F_0(z_0) & = & \mathbf{P}(Z_0 \leq z_0)\\
+%         & = & \mathbf{P}((Z_1,Z_2) \in D_0)\\
+%         & = & \iint_{D_0} f_{12}(z_1,z_2) dz_1 dz_2
+%\end{eqnarray}
+%If we assume $Z_1, Z_2$ independent then $f_{12}(z_1,z_2) = f_1(z_1) f_2(z_2)$.
+
+\hspace*{1.2cm} $ F_0(t) = \mathbf{P}(Z_0 \leq t)$\\
+\hspace*{2cm} $= \mathbf{P}(\widetilde{\vee}(Z_1,Z_2) \leq t)$\\
+\hspace*{2cm} $\approx \mathbf{P}(max(Z_1,Z_2) \leq t)$\\
+\hspace*{2cm} $= \mathbf{P}(Z_1 \leq t \wedge Z_2 \leq t)$\\
+\hspace*{2cm} $= \mathbf{P}(Z_1 \leq t) \, \mathbf{P}(Z_2 \leq t)$ \quad assuming $Z_1, Z_2$ independent\\
+\hspace*{2cm} $= F_1(t) F_2(t)$\\
+where $$ F_1(t) = \int_0^t f_1(z_1) dz_1 , \quad F_2(t) = \int_0^t f_2(z_2) dz_2$$
+
+%The result we want is: $ f_0(t) = dF_0(t) / dt $
+The result we want is:
+\[ f_0(t) = \frac{dF_0(t)}{dt} \approx F_2(t) \frac{dF_1(t)}{dt} + F_1(t) \frac{dF_2(t)}{dt} \]
+and we need to apply Leibnitz's Rule.\footnote{For a function of t defined by: $$ F(t) := \int_a(t)^b(t) \Phi(x,t) dx $$ its differentiation is given by Leibnitz's Rule: $$ \frac{dF(t)}{dt} = \int_{a(t)}^{b(t)} \frac{\partial\Phi(x,t)}{\partial t} dx + \Phi(b(t),t) \frac{db(t)}{dt} - \Phi(a(t),t) \frac{da(t)}{dt} $$ }  Then we get:
+\begin{equation}
+f_0(t) \approx f_1(t) F_2(t) + f_2(t) F_1(t)
+\end{equation}
+
+After some Mathematica experiments I found that the resulting distribution $f_0(z_0)$ is usually unimodal, which is good when we approximate it with Beta distributions.  But sometimes the result can have an irregular shape.  This is one particularly ``bad-looking'' example:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1.0]{A-max-B--ugly-pdf.eps}
+\caption{pdf's of $z_1$, $z_2$, $max\{z_1,z_2\}$}
+\end{figure}
+where the blue line is the Beta distribution approximation (made by setting the mean and variance identical as the real result's).  There may also be problems when some of the input distributions $f_1(z_1),f_2(z_2),...$ are of the 'U' shape.
+
+%If it is $min()$:\\
+%\hspace*{1.2cm} $ F_0(t) = \mathbf{P}(\widetilde{\vee}(Z_1,Z_2) \leq t)$\\
+%\hspace*{2cm} $\approx \mathbf{P}(min(Z_1,Z_2) \leq t)$\\
+%\hspace*{2cm} $= \mathbf{P}(Z_1 \leq t \vee Z_2 \leq t)$\\
+%\hspace*{3cm} assuming $Z_1, Z_2$ independent:\\
+%\hspace*{2cm} $= \mathbf{P}(Z_1 \leq t) + \mathbf{P}(Z_2 \leq t) - \mathbf{P}(Z_1 \leq t) \mathbf{P}(Z_2 \leq t)$\\
+%\hspace*{2cm} $= F_1(t) + F_2(t) - F_1(t) F_2(t)$
+
+The result for $z_0 := z_1 \, \widetilde{\wedge} \, z_2$ is similar (again assuming $Z_1, Z_2$ independent):
+\begin{equation}
+f_0(t) \approx f_1(t) + f_2(t) - f_1(t) F_2(t) + f_2(t) F_1(t)
+\end{equation}
+
+\subsection{Cases 9-12: P(B) rule (= probability conditional)}
+%This is ``Bayesian network technology''.
+
+\textbf{Case \#9}: $\mathcal{B}$ variable\\
+$\mathcal{P}$ inference --- solved in \S\ref{sec:P-inference}.
+
+\textbf{Case \#10}: $\mathcal{Z}$ variable\\
+Convert $\mathcal{Z}$ variable to $\mathcal{B}$ variable, then Case \#9.
+
+\textbf{Case \#11}: $\mathcal{P}(\mathcal{B})$ variable\\
+$\mathcal{P}$ inference --- solved in \S\ref{sec:P-inference}.
+
+\textbf{Case \#12}: $\mathcal{P}(\mathcal{Z})$ variable\\
+Convert $\mathcal{P}(\mathcal{Z})$ variable to $\mathcal{P}(\mathcal{B})$ variable, then Case \#11.
+
+%\textcolor{red}{The stuff below this line are just my notes and may contain many errors.}
+%\hrulefill
+
+%In the probabilistic setting... we have to deal with adding rules and using the ``combination rule''... 
+%
+%\hspace*{1cm} \[ f = \frac{f_1 w_1 + f_2 w_2}{w_1 + w_2} \]
+
+%The assumption is...?
+%
+%The confidence of the result is given by:\\
+%\hspace*{1cm} \[ c = C(c_1, c_2) ? \]
+
+%\subsection{Hybrid rules}
+%\label{sec:hybrid-rules}
+%
+%Some rules may involve factors of various truth-value types.  For example, ``almost'' means ``close to, but not being'', which translates to this rule:\\
+%\hspace*{1cm} $\mbox{almost } Q \leftarrow \mbox{ close-to } Q \wedge \neg Q$\\
+%where the first factor is $\mathcal{Z}$, the second factor is $\mathcal{B}$.
+%
+%Maybe we should disallow $\mathcal{P}(\mathcal{Z})$-rules in the AGI because they are too sophisticated?
+%
+%The hybrid rules can be:\\
+%\hspace*{1cm} \begin{tabular}{|l|l|l|l|l|} \hline
+%                           & $\mathcal{B}$           & $\mathcal{Z}$                     & $\mathcal{P}(\mathcal{B})$ & $\mathcal{P}(\mathcal{Z})$\\ \hline
+%                           & $\vee \wedge$           &                                   &            & \\
+%$\mathcal{Z}$              & case H1                 & $\widetilde\vee \widetilde\wedge$ &                         & \\
+%$\mathcal{P}(\mathcal{B})$ & $\curlyvee \curlywedge$ & case H2                           & $\curlyvee \curlywedge$ & \\
+%$\mathcal{P}(\mathcal{Z})$ & case H3                 & case 8                            & case H4                 & $\widetilde\curlyvee \widetilde\curlywedge$ \\ \hline
+%\end{tabular}
+%
+%TO-DO:  unfinished.
+
+\subsection{Unified BPZ inference}
+\label{sec:unified-BPZ-inference}
+
+This section is optional.  As far as inference goes, the rest of this chapter has outlined the algorithms.  Here we try to see how $\mathcal{B}$, $\mathcal{P}$, and $\mathcal{Z}$ can be unified under the most general logic, $\mathcal{P}(\mathcal{Z})$.  Such a logic may be desirable in machine learning, where the general form of $\mathcal{P}(\mathcal{Z})$-rules may allow us to perform the searching in a continuous space, and some of the rules will degenerate nicely into $\mathcal{B}$, $\mathcal{Z}$, and $\mathcal{P}(\mathcal{B})$ rules.  Anyway, it turns out that $\mathcal{P}(\mathcal{Z})$-rules are not that simple and degeneration is also complex.
+
+First, let's start with a general form of $\mathcal{Z}$-rule which is a function $\mathcal{Z} \times \mathcal{Z} \cdots \rightarrow \mathcal{Z}$:\\
+$$ z_0 := \widetilde{\bigvee_i}\, \widetilde{\bigwedge_j}\, \Gamma_{ij}(z_{ij}) $$
+where $\Gamma_{ij}$ are Gaussian functions with means $z^*_{ij}$ and variances $v_{ij}$ (in other sections we don't use the variance).  The interpretation of $\Gamma$ is:  $z^*_{ij}$ represent the optimal values, which results in $\Gamma = 1$, and when $z_{ij}$ deviates from $z^*_{ij}$, $\Gamma$ drops from 1.
+
+Now generalize this to the $\mathcal{P}(\mathcal{Z})$-rule which is a function $\mathcal{P}(\mathcal{Z}) \times \mathcal{P}(\mathcal{Z}) \cdots \rightarrow \mathcal{P}(\mathcal{Z})$.  Let's denote $\mathcal{P}(\mathcal{Z})$ variables as $\mathbf{W}$.  Each $\mathbf{W}$ is a Beta distribution with mean $z^*$ and variance $v$.  A $\mathcal{P}(\mathcal{Z})$-rule has the general form:\\
+\begin{equation}
+\mathbf{W}_0 \leftarrow \widetilde{\bigcurlyvee_i} \, \widetilde{\bigcurlywedge_j}\, \Gamma_{ij}(\mathbf{W}_{ij})
+\end{equation}
+which contains the parameters $z^*_{ij}$, $v_{ij}$, and $c_{ij}$ (from the probabilistic $\curlyvee \curlywedge$, \S\ref{sec:probabilistic-AND-OR}).  $\widetilde{\curlyvee} \widetilde{\curlywedge}$ is different from $\widetilde{\vee} \widetilde{\wedge}$ and $\curlyvee \curlywedge$, and the rule is interpreted as follows:
+
+\textbullet \, If the rule is $ \mathbf{W}_0 \leftarrow \Gamma_1(\mathbf{W}_1) $ we simply apply $\Gamma_1$ to the distribution $\mathbf{W}_1$.  The variance of $\mathbf{W}$ may change because of $\Gamma$.  This is covered in \hyperref[case8]{Case \#8}.
+
+\textbullet \, Suppose the rule is $ \mathbf{W}_0 \leftarrow \mathbf{W}_1 \, \widetilde{\curlyvee} \, \mathbf{W}_2 $.  In \hyperref[case8]{Case \#8} we considered how to plug a $\mathcal{P}(\mathcal{Z})$-variable into a $\mathcal{Z}$-rule.  There, the $\mathcal{Z}$-rule did not actively affect the probability distributions.  Now the $\widetilde{\curlyvee}$ adds a constraint on the probability of $\mathbf{W}_0$ based on the values $c_1, c_2$ (from eqn (\ref{eqn:probabilistic-AND-OR})).  So we add the constraint:\\
+\hspace*{1cm} $ P(z_0 = z^*_0 \, | \, z_1 = z^*_1, z_2 = z^*_2) = c_1 + c_2 - c_1 c_2 $\\
+where the RHS comes from eqn (\ref{eqn:probabilistic-AND-OR}).  The effect of this is to change the shape of $\mathbf{W}_0$ to ``sharper'' or ``broader''.  The sharper the shape, and thus the smaller the variance, the more certain we are that $z_0 = z^*_0$.  But the formula is incorrect because continuous probabilities at a point is meaningless.  So we need to say\\
+\hspace*{1cm} $ P(z_0 \in N(z^*_0) \, | \, z_1 \in N(z^*_1), z_2 \in N(z^*_2)) = c_1 + c_2 - c_1 c_2 $\\
+where N is the interval $[0,\frac{1}{2}]$ or $[\frac{1}{2},1]$, whichever $z$ is in, thus transforming $z$ as binary.
+
+\textbf{Degeneration of rules.}
+
+\textbullet \, A $\mathcal{P}(\mathcal{B})$-rule reduces to a $\mathcal{B}$-rule when $c_{ij} \rightarrow 1$ (\S\ref{sec:probabilistic-AND-OR}).\\
+\textbullet \, A $\mathcal{P}(\mathcal{Z})$-rule reduces to a $\mathcal{Z}$-rule when $c_{ij} \rightarrow 1$.\\
+\textbullet \, A $\mathcal{Z}$-rule reduces to a $\mathcal{B}$-rule when $\Gamma_{ij} \rightarrow I$, the identity function.\\
+\textbullet \, A $\mathcal{P}(\mathcal{Z})$-rule reduces to a $\mathcal{P}(\mathcal{B})$-rule when $\Gamma_{ij} \rightarrow I$.
+
+One problem is that when we say a $\mathcal{P}$-rule degenerates into a $\mathcal{B}$-rule, it can remain to be a $\mathcal{Z}$-rule with $\Gamma_{ij} = I$.  The rule itself cannot tell us which type it is.
+
+\section{Meta-reasoning of uncertainties}
+
+Meta-reasoning is an important topic that will be treated in \S\ref{ch:meta-reasoning}.
+
+One example of meta-reasoning pertinent to fuzziness is:\\
+\hspace*{1cm} S1: ``You are either a patriot or a traitor.''\\
+\hspace*{1cm} S2: ``No, I can be slightly patriotic or slightly traitorous.''
+
+In S1 the predicates \textit{patriot} and \textit{traitor} are binary.  In S2 they become fuzzy.  It requires the ability for the AGI to reason \textit{about} truth-value types.
+
+\section{PZB logic formulated as FOL axioms}
+
+In this section I give the complete axioms for PZB logic, expressed in FOL.  That means, a FOL system will have the power of PZB logic when equipped with these axioms.  Thus, this allows us to build an AGI using a FOL inference engine as the core.
+
+\textbf{Case \#1:}\\
+(none)
+
+\textbf{Case \#2:}\\
+
+
+\textbf{Case \#3:}
+\textbf{Case \#4:}
+\textbf{Case \#5:}
+\textbf{Case \#6:}
+\textbf{Case \#7:}
+\textbf{Case \#8:}
+\textbf{Case \#9:}
+\textbf{Case \#10:}
+\textbf{Case \#11:}
+\textbf{Case \#12:}
+
+%\section{Outstanding problems}
+
+%1. There will be many factors.  It seems that the structural organization of factors is more important than numerical curve fits.
+
+%2. Often I feel that the numerical values aren't that important at all.  Also I feel that there are many rules that are just B -- for example, $smart \leftarrow creative$.  Even if we have a Z rule, we should be able to talk about the B counterpart.  This is very perplexing... the Z rule may take away the meta-reasoning ability of B rules...?  But the B rule will retain that ability.  Maybe the Z rule can also have the ability of meta-reasoning?  That 'creative' is a component of 'smart'?
+
+%3. The exact form of $P(Z)$ can be irregular, especially when it is given by several factors.
+
+%4. ``Almost P (interpreted as binary)'' is ``close to P (interpreted as Z) $\wedge$ not P (interpreted as binary)''.  So it can be a strictly-B rule with a Z-literal translated to B.  But if the Z-literal is ``not that close to P'' then ``almost P'' may be partially true.  ``Almost P'' can be slightly true, slightly not true, very true etc.  And that seems to depend on the evaluation of ``close to P''.  Because ``close to P'' can be Z, then it seems that ``almost P'' can be Z too.  
+
+%5. The question is whether ``almost P'' is B or Z.  Maybe in various contexts it can be both?  Or may be if it is ``very almost'' then we can as well make it B.  But if it is ``slightly not almost'' then we should make it Z.
+
+%6. The problem now seems to be that we need meta-level intervention to decide what kind of TVs to use.  But the base logic (object-level logic) has difficulty deciding on its own.  This is a problem because the base logic is not well-defined.  We need some simple rules to decide what kind of TVs to use.
+
+%7. It's obvious we need a choice of TVs.  In the ``almost'' case... there is perhaps a distinction between base logic and meta-logic, but this distinction is orthogonal to the choice of TVs.  Maybe there is always a choice of TVs but it is too sophisticated for the base logic?  But somehow the base logic has to make a choice... 
+
+%8. Do rules have ``intrinsic'' TVs for each slot?
+
+%9. Another problem is how to learn B rules *gradually*?  Perhaps we start with P(B) rules and then their P's tend to $\{0,1\}$?  How about Z rules -- do they ever turn into B rules?  Maybe some of the predicates turn binary?

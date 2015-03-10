@@ -1,0 +1,24 @@
+#!/usr/bin/perl -w
+
+# change GIFs to PNGs
+# the command is like:
+# "c:\Program Files\IrfanView\i_view32.exe" XYZ.GIF /color /resample /convert=XYZ.PNG
+
+use File::Basename;
+
+# First, get a list of file names to process
+@files = <STDIN>;
+chomp @files;
+
+open OUT, ">do-changetype" or die "can't open do-changetype: $! \n";
+print OUT "#!/usr/bin/bash\n\n";
+
+foreach $file (@files) {
+    $file =~ /(.*)\.PNG/;
+
+    print OUT "\/cygdrive\/c\/Program\\ Files\/IrfanView\/i_view32.exe $file ";
+    print OUT " \/resample \/bpp=24 \/convert=$1.png \n";
+
+    print OUT "echo \"changing type: $file \" \n";
+}
+close OUT;

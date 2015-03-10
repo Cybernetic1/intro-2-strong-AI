@@ -1,0 +1,63 @@
+\documentclass[11pt]{report}
+
+\usepackage[dvips, pdfauthor={Yan King Yin}, bookmarks, anchorcolor=blue, colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue, breaklinks]{hyperref}
+\usepackage{breakurl}
+\usepackage[dvips]{graphicx}
+\usepackage{float}
+\usepackage[square]{natbib}
+\usepackage{color}
+\usepackage{pstricks}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{amssymb}   % for \curlyvee
+\usepackage{stmaryrd}  % for \bigcurlyvee, \widetilde{\bigwedge}
+\usepackage{wasysym}   % for \iint (double integral)
+\usepackage{makeidx}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmiccomment}[1]{// \textit{#1}}
+
+\interfootnotelinepenalty=50000
+
+%\title{\textbf{Artificial General Intelligence}}
+%\author{Yan King Yin (general.intelligence@Gmail.com)}
+%\date{\copyright September 2008 -- version 0.0\\
+%(Internal document, do not redistribute)}
+
+\setlength{\topmargin}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm}
+\setlength{\textheight}{22cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\footskip}{1cm}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{7pt}
+\pagestyle{plain}
+
+\includeonly{logic}
+%\makeindex
+
+\begin{document}
+%\maketitle
+
+\setcounter{chapter}{3}
+\tableofcontents
+
+\include{logic}
+
+\chapter*{Acknowledgements}
+
+Thanks to Martin Magnusson for providing some valuable feedback.  Also, to the AGI mailing-list for years of discussions, especially to Ben Goertzel, and Pei Wang.
+
+\bibliographystyle{plainnat}
+\bibliography{JJJJ}
+
+%\printindex
+
+%\begin{theindex}
+%\end{theindex}
+
+\end{document}

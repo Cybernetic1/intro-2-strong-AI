@@ -1,0 +1,20 @@
+\chapter{Program synthesis}
+\minitoc
+
+The most critical milestone of our project is to create a system that can perform simple automated programming.  Traditional program synthesis systems are hard to use because:\\
+\begin{compactenum}[1.]
+\item  They require \textit{formal specifications} of program requirements, which are often as hard to write as the programs themselves, sometimes even harder.
+
+\item  The proof search is \textit{too slow} for any problem of practical size, or the systems often require human interaction for guidance.\\
+\end{compactenum}
+
+My proposal to solve these two problems are, respectively:\\
+\begin{compactenum}[1.]
+\item  Allow \textbf{informal} specification of programming goals.  This means using (restricted) natural language, including vague / probabilistic language.
+
+\item  In order to speed up the program search, it seems that the only viable solution is to use knowledge to guide the search.  This is something that has been recognized in the AI community for a long time --- no clever search algorithm or heuristic can improve the search significantly, without domain-specific background knowledge.  Machine learning can be used to acquire such knowledge, but it is often an extremely difficult problem in itself; and we are also talking about a large body of background knowledge.  As I have argued in \S\ref{sec:learn-by-being-told}, the most efficient way to acquire knowledge is to give up machine learning and simply \textbf{learn by being told}.\\
+\end{compactenum}
+
+As with many AI problems, the program synthesis problem can be construed as a search, and we have the usual choice of top-down and bottom-up. % I think the more promising approach is top-down but is this really true?
+
+\section{Formal program synthesis}

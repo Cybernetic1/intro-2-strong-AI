@@ -1,0 +1,692 @@
+\chapter{Vagueness (Z)}
+\label{ch:vagueness}
+\begin{flushright}
+\emph{An approximate answer to the right question is better than\\
+a precise answer to the wrong question.} --- John Tukey (rephrased)
+\end{flushright}
+\minitoc
+
+NOTE:  this section will be re-formulated soon.  In the new version I only make 2 assumptions:
+
+1. There are some quantities known as "degrees" and they are normalized to [0,1].
+
+2. There exist relations amongst these quantities captured by \textbf{statistical models}.
+
+I think the new formulation will be fairly unblemishable and uncontroversial, as opposed to earlier forms of fuzzy logic which many people are skeptical of.  But the new version also falls out of the classification as logic and is more of a fuzzy-probabilistic calculus.
+\\
+
+\footnotesize
+I use $\catZ$ instead of $\mathcal{F}$ to denote fuzziness partly in recognition of Lotfi Zadeh's contributions, and also because $F$ and $f$ are often used for the CDF and PDF in probability theory, which may cause confusion when probabilities and fuzziness are used together.
+
+A note on the examples used in this book:  some of them are politically incorrect or somewhat embarrassing.  I prefer examples that are simple, realistic, and relevant to human emotions because they help us think more clearly (cf the Wason selection task).  Usually I just choose the most obvious examples that come to mind.
+\normalsize
+
+\section{Vague phenomena}
+
+There seems to be 3 types of concepts (= predicates).
+
+The first type is \textbf{discrete} in nature, for example\footnote{I will later argue that even these concepts are not completely binary.}:\\
+\hspace*{1cm} sex of a person $\in$ \{ male, female, hermaphrodite, trans-sexual \}\\
+\hspace*{1cm} marital status $\in$ \{ single, engaged, married, divorced \}
+
+The second type represents \textbf{numerical} measures, for example:\\
+\hspace*{1cm} height \hspace*{1cm} weight \hspace*{1cm} age
+
+The third type is not strictly numerical, but is often associated with ``\textbf{gradedness}'':\\
+\hspace*{0.8cm} \begin{tabular}{l l}
+beautiful    & ugly\\
+intelligent  & dumb\\
+simple       & complex\\
+interesting  & boring\\
+good         & bad\\
+easy         & difficult\\
+friendly     & hostile\\
+clear        & unclear
+\end{tabular}
+
+There is no doubt that these predicates can be modified with degrees like ``very'' or ``slightly''.  But we do not know of any exact measures of their degrees.  For example, IQ has been proposed as an inexact measure of intelligence.  Most people would agree that there is some general consensus as to what is intelligent.  Such concepts exhibit \textit{vague phenomena}, which are characterized by:\\
+\hspace*{1cm} 1. borderline cases\\
+\hspace*{1cm} 2. lack of sharp boundaries\\
+\hspace*{1cm} 3. susceptible to sorites paradox\footnote{A solution to the sorites paradox is given in \citep*{Bergmann2008} p268-282, using fuzzy logic and the notion of \textit{decaying validity}.}\\
+\hspace*{1cm} 4. open-texture (ie, if $x$ is a borderline case, one can assert either $Q(x)$ or $\neg Q(x)$ in different contexts)
+
+In philosophical logic, there are a number of theories of vagueness (see eg, \citep*{Graff2002}, \citep*{Keefe2000}, \citep*{Shapiro2006}).  $\catZ$ logic is a kind of Degree Theory (\citep*{Edgington1992}, \citep*{Sainsbury1986}), that uses numerical truth values to represent vagueness.  There are other non-numerical theories such as Epistemicism (\citep*{Campbell1974}, \citep*{Williamson1994}), and Supervaluation (\citep*{Fine1975}, \citep*{Keefe2000}).
+
+\section{Why vagueness is needed for AGI}
+\label{sec:whyZ}
+
+One of the critical capabilities of AGI is (self-)programming.  Also, it is imperative to be able to instruct an AGI to write programs according to \textit{natural language} specifications and with robust common-sense background knowledge.  common-sense reasoning and natural language understanding depend on the use of vague concepts.\footnote{Vague concepts are not required for formal reasoning tasks such as formal mathematics and programming according to formal specifications.}  Look at any (technical or non-technical) natural-language text, and one finds that (explicit or implicit) vague concepts are ubiquitous.  It seems to be occur even more frequently than the (explicit or implicit) use of probabilities.
+
+\textbf{Ubiquity of vagueness in common-sense reasoning.}  Some examples are:\\
+\textbullet \, Time: \textit{Mother died \underline{a few days ago}}\\
+\textbullet \, Space: \textit{One bird flew \underline{over the cuckoo's nest}} \hspace*{0.5cm} (lacking exact boundaries)\\
+\textbullet \, Physics of liquids: \textit{A liquid in bulk and at rest has a horizontal surface}\\ (Is soup a liquid? ``In bulk'' is a fuzzy concept. Is the sea at rest? Surface tension can cause surface to curve)\\
+\textbullet \, Physics of solids: \textit{A solid object cannot go from inside to outside a closed box}\\  (``Solid object'' is a fuzzy concept (eg a block of ice, a cat, a bomb). A card box may have small holes. The lid may be slightly ajar.)
+%\textbullet \, Minds: 
+%\textbullet 
+%\textbullet 
+
+\section{Why \textit{numerical} vagueness?}
+
+The controversy is whether vagueness should be managed \textbf{quantitatively} (such as $\catZ$) or \textbf{qualitatively}.
+
+One objection is that fuzzy logic can sometimes lead to unsound conclusions.  This problem is discussed in \S\ref{sec:exceptions} on nonmonotonic reasoning.
+
+Having numerical vagueness allows us to:\\
+1. Represent quantitative rules.  For example:\\
+\hspace*{1cm} \begin{tabular}{l l l}
+smart & $\leftarrow$ eloquent    & (the more articulate the smarter)\\
+      & $\leftarrow$ humorous    & (the more humorous the smarter)\\
+      & $\leftarrow$ insightful  & (the more insightful the smarter)\\
+      & $\leftarrow$ creative    & (the more creative the smarter)\\
+      & $\leftarrow$ etc...      &
+\end{tabular}\\
+2. Add up graded factors.  For example:\\
+\hspace*{1cm} ``John is eloquent, humorous, insightful and creative'' $\rightarrow$ 0.9 smart\\
+\hspace*{1cm} ``John is humorous and nothing else'' $\rightarrow$ 0.6 smart\\
+3. Accrue contributing factors of a concept over a long period of time:\\
+\hspace*{1cm} ``From my long experience with John, he is 0.9 smart''.
+
+On the other hand, if we do not use numerical vagueness, we face these problems:\\
+1. Failure to recognize ``partial'' concepts.  For example:\\
+\hspace*{1cm} ``John is 0.7 smart'', or\\
+\hspace*{1cm} ``tomato is 0.7 a fruit''\\
+2. Conversely, failure to ignore ``very weak'' partial concepts.\\
+3. Each statement must be attached with many qualifications, and they keep accumulating. Each rule would have to recognize a large ``exception set''.
+
+The solution I adopt is to use both qualitative and quantitative information, by representing facts \textit{redundantly} (\S\ref{sec:exceptions}).  For example:\\
+\hspace*{1cm} ``John is smart'', $z = 0.7$ (quantitative)\\
+\hspace*{1cm} ``But he is only penny wise'' (qualitative)
+
+Lastly, what if we don't need the precision of numerical vagueness in some situations?  For example:\\
+\hspace*{1cm} ``Is John really that smart?'' ``Not quite.'' (we don't know the exact degree of smartness)\\
+or\\
+\hspace*{1cm} ``John is slightly smarter than Peter.'' (but we don't know the exact difference)\\
+In my theory, these cases can be handled by combining $\catP$ and $\catZ$.
+
+%One suggestion is that we can always use \textit{qualitative} binary statements in place of quantitative ones:\\
+%\hspace*{1cm} ``John is fairly intelligent''\\
+%\hspace*{1cm} \texttt{intelligent$_1$(john), fairly(intelligent$_1$)}\\
+%\hspace*{1cm} ``John is intelligent but only in small matters''\\
+%\hspace*{1cm} \texttt{intelligent$_1$(john), qualifies(intelligent$_1$, "only in small matters")}\\
+%For the second example, we may say that a person who is intelligent only in small matters is not very intelligent, and thus assign, \textit{eg} Z = 0.6, but some qualitative information would be lost using this numerical representation.
+
+%\begin{tabbing}The following example suggests that at least some \textbf{ordinal} relations may be necessary:\\
+%\hspace*{1cm} (A) recently there's been a lot of thefts\hspace*{2cm} \=`that's bad'\\
+%\hspace*{1cm} (B) recently there's been a lot of rapes \>`that's very bad'\\
+%\hspace*{1cm} (C) recently there's been a lot of murders \>`that's extremely bad' ''
+%\end{tabbing}
+%which seems to suggest that the severity of crimes has this order:\\
+%\hspace*{1cm} theft $<$ rape $<$ murder\\
+%but this general ordering can have exceptions depending on circumstances.
+
+%This example shows that sometimes \textbf{quantitative} representations may be necessary:\\
+%\hspace*{1cm} ``During the financial crisis,\\
+%\hspace*{1cm} (A) many people committed suicide;\\
+%\hspace*{1cm} (B) children were sold as prostitutes;\\
+%\hspace*{1cm} (C) decades of savings were destroyed''
+%So one may react with the feeling ``that's very bad''.  But how was ``\underline{very} bad'' inferred?  Assuming we have a KB that let us infer that:\\
+%\hspace*{1cm} A $\rightarrow$ bad\\
+%\hspace*{1cm} B $\rightarrow$ bad\\
+%\hspace*{1cm} C $\rightarrow$ bad\\
+%how can we deduce ``very bad''?  We have 3 heterogeneous contributing factors.  One plausible solution is to assign degrees of badness to each of A, B, and C, and then add them up.
+
+%Note that this example should be a simple reasoning task involving only a few inference steps.
+
+%If the 3 contributing factors \textit{add up} to yield ``very bad'' (even approximately), the individual factors must be \textit{numerical}.  Or, maybe it is a simple counting of contributing factors?  3 bad things?  Not very satisfactory --- the things can have varying degrees.
+
+%``I'm even more sure I don't want to be prostitute, after seeing the bad conditions''.  This is binary.
+
+%But sometimes a rule for a predicate has many antecedents and only some of them are satisfied.  In the binary approach we may qualify them as exceptions.  But there are often many factors that may contribute to a predicate such as $smart$ or $charismatic$.  If you have known John for 10 years there may have been many incidences where he was smart/dumb or charismatic/dull.  In that case we may want to ``add up'' all those contributions.  In other words, it may be desirable to use a single number to summarize a large number of contributions, as long as the contributions are not exceptional.
+
+%Suppose the AGI wants to erect these hypotheses:\\
+%\hspace*{1cm} kind $\leftarrow$ attractive\\
+%\hspace*{1cm} humorous $\leftarrow$ charismatic
+
+%What if Z is not needed.  All we need is to convert results to binary, qualified form?
+
+%Also, might it be necessary to use numerical Z even for single inference steps?\\
+%For example:\\
+%sluttish $\rightarrow$ not good wife (Z to Z)\\
+%criminal $\rightarrow$ should be punished (Z to Z)\\
+%obscene $\rightarrow$ should avoid speaking (Z to Z)\\
+%attractive $\rightarrow$ I like (Z to Z)
+
+%During pattern recognition it is often necessary to recognize an entity \textit{partially}, for example, the picture below may be a ``0.7 face''.  It seems that fuzziness is needed at a very fundamental level.
+%\begin{figure}[H]
+%\centering
+%\input{CrossEyesFace}
+%\caption{a fuzzy face}
+%\end{figure}
+
+\section{Semantics of Z}
+
+There is some confusion about the interpretation of fuzziness, which I will try to clarify here.  I am influenced by Pei Wang's ideas \citep*{Wang2006}.
+
+$\catZ$ is a measure of \textit{degree} or \textit{gradedness}.  Standard fuzzy theory employs the ``membership function'' to represent \textit{the degree to which an element belongs to a class}, but there is no consensus as to how the membership functions are defined.  Let's think of ``the degree to which a person is smart'', is it really arbitrary?
+
+While there are no exact procedures to measure vague concepts (eg smartness), it is mandatory that a common-sense machine should possess some ways of assessing them, just like the human brain does.  In my AGI this is achieved by having a comprehensive knowledgebase of rules (acquired via machine learning) that compute numerical degrees of concepts.  Such rules are mini-algorithms (or ``\textbf{micro-theories}''\footnote{The term is used informally, not referring to Guha's notion of micro-theories in Cyc.}) that are \textbf{emergent properties} of intelligent learning systems.  They establish a \textit{distributed and approximate consensus} of how to measure vague concepts.
+
+From another perspective:  PCA (principal component analysis) can calculate the component of a dataset that represents its greatest variance.  For example, PCA may identify the male-female axis of a set of movie-goers, or the liberal-conservative axis of a group of politicians.  When we map this axis to [0,1], we can get a fuzzy value of the concept male/female or liberal/conservative.  This may answer the question ``where do fuzzy numbers come from?'' \footnote{Abram Demski suggested this to me in discussion.}
+
+If we regard $\catZ$ as a measure of degrees, $\catZ$ theory is mathematically as rigorous as probability theory.  $\catZ$ is a measure of degrees just as the height $H$ is a measure of how tall an object is.  Also, the $\catZ$-value can be inexact just as $H$ can be inexact, but this inexactitude is modeled separately by \textit{distributing probabilities over $\catZ$} (\S\ref{sec:combinePZ}).
+
+$\catZ$ is not an approximation of probability; \S\ref{sec:probabilistic-interpretation} gives a probabilistic interpretation of vagueness, but in practice we can treat $\mathcal{P}$ and $\catZ$ as \textbf{orthogonal} to each other.  Possibility theory defines fuzziness as a weaker form of probability (as non-additive probability), but this is not the approach of $\catZ$ logic.
+
+Finally I want to dispel the myth that probability is mathematically more rigorously defined than fuzziness:
+
+\begin{tabular}{|p{7.5cm}|p{7.5cm}|} \hline
+probability is defined by Kolmogorov's axioms &
+fuzziness can be defined by similar axioms (\S\ref{sec:fuzziness-axioms})\\
+\hline
+probability follows a rigorous calculus &
+fuzziness follows a rigorous calculus\\
+\hline
+probability is a subjective measure that exists only in the mind &
+fuzziness is a subjective measure\\
+\hline
+probability can be exactly calculated for some cases, eg: dice or coin &
+fuzziness can be exactly calculated for some cases, eg: age, temperature\\
+\hline
+some probabilities in our mind have obscure origin, eg: predicting the outcome of an election &
+some fuzzy values in our mind have obscure origin, eg: which leader is more charismatic\\
+\hline
+\end{tabular}
+
+Quantum mechanics or Heisenberg uncertainty does not prove that probabilities exist in the physical world.  On the other hand, studies in chaos and complex systems reveal that macroscopic descriptions are emergent and distinct from microscopic descriptions even though the former can be reduced to the latter.  Thus the recognition of fuzzy macroscopic patterns is every bit as real as the subjective use of probabilities to describe physical systems.  Vague concepts are also useful in thinking about pure mathematics -- for example, recognition of fuzzy similarities may assist mathematical reasoning.
+
+%Inference in $\catZ$ is also different from traditional fuzzy logic because it does not use the implication operator $\rightarrow$ (\S\ref{sec:Z-conditionals}).
+
+\section{Probabilistic interpretation of vagueness?}
+\label{sec:probabilistic-interpretation}
+
+One way to interpret vagueness as probability is to interpret\\
+\hspace*{1cm} $Q(x); \; z = z_0$\\
+as\\
+\hspace*{1cm} ``Among all possible contexts, $Q(x)$ is true with probability $z_0$''.\\
+For example, if $smart(john); \; z=0.8$ then John is smart in $80\%$ of circumstances.
+
+More examples:\\
+\hspace*{1cm} \begin{tabular}{|l|l|} \hline
+\textbf{z = 0.8}             & \textbf{Interpretation}\\ \hline
+John is very smart           & John is smart in $80\%$ of circumstances\\ \hline
+Peter is very fat            & Peter is fatter in $80\%$ of comparisons (with other folks)\\ \hline
+Jane is very pretty          & Jane is judged pretty by $80\%$ of beholders\\ \hline
+\end{tabular}
+
+%Despite this interpretation, it is easier and more elegant to regard $\mathcal{P}$ and $\catZ$ as orthogonal to each other.  For example, if we have a rule that says ``the fatter a person, the clumsier s/he is'', we can represent it with this Bayesian network:
+%\begin{figure}[H]
+%\centering
+%\input{BayesNet-fat-clumsy.tex}
+%\caption{Bayesian network with Z-valued nodes}
+%\end{figure}
+%where the nodes are $\catZ$-valued (continuously valued).  
+
+There seems to be two problems with this interpretation.  The first concerns the min-max calculus (\S\ref{sec:min-max-VS-sum-product}) -- if $\catZ$ is really probability, why does it not obey the probabilistic sum-product calculus?
+
+The second problem is very subtle, and concerns the nature of matters of degree.  Consider these 2 statements:\\
+\hspace*{1cm} A: ``Mary is 0.8 probably ugly''  ($p = 0.8$; thus a 0.2 chance of NOT ugly)\\
+\hspace*{1cm} B: ``Jane is 0.8 ugly''  ($z = 0.8$)\\
+Suppose John \emph{must} find a pretty girl.  If John has seen Jane and judged her to be 0.8 ugly, then there seems to be no uncertainty about it in this context (John being the judge and Jane having her present looks, etc).  So if John really must find a 0.9 pretty girl then he should prefer Mary (whom he hasn't met and has $p=0.2$ chance of being pretty).
+
+In \S\ref{sec:P(Z)-defined} we will consider probability distributions over fuzziness, where this problem reveals a subtle difference in the shapes of probability distributions.
+
+\{ TO-DO:  \citep*{Brachman2004} proposed a probabilistic way to handling fuzziness which at a deep level is identical to my approach.  \}
+
+\section{Reference classes}
+
+The measure of a $\catZ$ value is dependent upon its \textit{reference class}.  For example, if we want to say how ``young'' a person is, the reference class may be ``all people'' or ``all tenured professors''.  The measure of ``youngness'' thus varies depending on the reference class.
+
+Once the reference class is fixed, it seems that $\catZ$ is \textit{not} context-dependent.  For example, we can say ``John is a young man who owns an old dog''.  The dog is described as ``old'' using its own reference class (dogs), not John's reference class (humans).
+
+\section{Numerical scale of Z}
+\label{sec:Z-numerical-scale}
+
+Many ``natural'' quantities occur in the range $[0,\infty)$.  For example, the height, weight, age, or ugliness of a person can theoretically range from 0 to $\infty$.  It is unnatural to set artificial upper limits to these measures.  However, it may be possible to extend these concepts to the range $(-\infty,\infty)$.  For example, the age of AGI may be $\sim-10$ because it is not yet born.  I reserve this possibility but will use $[0,\infty)$ for now.
+
+$\catZ$ is defined in $[0,1]$.  So we need \textbf{membership functions} to map $[0,\infty)$ to $[0,1]$.  I choose a sigmoid function with parameter $\xi$ because it has some nice properties.  We need two orientations because some concepts get more and more positive as $x \rightarrow \infty$, while others the opposite.
+\begin{equation}
+\label{eqn:Z-squashing-fns}
+Z_1(x) = e^{-\ln 2 \; \cdot \; (x/\xi)^2} \quad \mbox{and} \quad Z_2(x) = 1-e^{- \ln 2 \; \cdot \; (x/\xi)^2} 
+\end{equation}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{MappingFunctions.png}
+\caption{membership functions}
+\end{figure}
+
+\textbf{Negation} is defined as $1-z$.  As a consequence of this, for any concept, $z = 0$ means the \textit{antithesis} of that concept.  For example $Z(young) = 0$ would mean �old�. Another consequence is that the point at $z = 0.5$ is the \textit{point of neutrality}, which is where a concept is neither true nor false.
+
+Some concepts (such as ``chair'', ``absurd'') do not have natural opposites.  For these concepts, $z = 0$ means the \textit{complete absence} of the qualities in question.
+
+%Naturally opposite concepts can be represented by 2 predicates, $Q^+$ and $Q^-$, with $z$ values joined at 0 in the middle:
+%\begin{table}[H]
+%\hspace*{4cm} 
+%\begin{tabular}{c c c}
+%{\bfseries $z^+ = 1$} & {\bfseries $z^+ = z^- = 0$} & {\bfseries $z^- = 1$}\\
+%\multicolumn{3}{c}{$|$\textemdash\textemdash\textemdash\textemdash\textemdash\textemdash\textemdash+\textemdash\textemdash\textemdash\textemdash\textemdash\textemdash\textemdash$|$}\\
+%hot       & room temperature & cold\\
+%masculine & unisex           & feminine\\
+%pretty    & average looks    & ugly\\
+%young     & middle age       & old
+%\end{tabular}
+%\end{table}
+
+Negation can cause some confusion because ``not young'' can mean either ``middle age'' or ``old''.  The only treatment of fuzzy negation that is entirely consistent with our common-sense is to distribute probabilities over fuzziness,  which will be developed after \S\ref{sec:P(Z)-defined}.
+
+The interpretation of the parameter $\xi$ in eqn (\ref{eqn:Z-squashing-fns}) is that it marks the \textit{point of neutrality} on the x-axis, for which z=0.5.  This is illustrated as follows:  we map the human age $x$ to the $\catZ$-concept of ``young'', where I (subjectively) define ``40 years old'' as the neutral point of ``young'':
+\begin{figure}[H]
+\centering
+\includegraphics{neutral-point.png}
+\caption{neutral point}
+\end{figure}
+This means, after 40, one gets more and more ``not young'' according to this definition.  
+
+Thus the numerical scale of $\catZ$ is:\\
+\begin{table}[H]
+\parbox{3cm}{\caption{}}
+\begin{tabular}{|l||l|}
+\hline
+{\bfseries z} & {\bfseries interpretation}\\ \hline
+1.0     & definitely or extremely\\
+0.9     & very\\
+0.7-0.8 & moderately\\
+0.6     & slightly\\ \hline
+0.5     & neutral\\ \hline
+0.4     & slightly not\\
+0.3-0.2 & moderately not\\
+0.1     & very not\\
+0.0     & definitely not\\ \hline
+\end{tabular}
+\end{table}
+
+Note:  A question has been raised whether we can define opposite concepts with 2 predicates, $Q^+$ and $Q^-$, with $z^+$ and $z^-$ joining at 0 in the middle.  This is not entirely satisfactory because the negation of $Q^+$ would not \textit{cover} $Q^-$, nor vice versa.  Therefore, the choice of $z=0.5$ as neutrality point is quite essential.
+
+\section{Why Z obeys min-max calculus}
+\label{sec:min-max-VS-sum-product}
+
+Probabilities obey sum-product calculus;  $\catZ$ obeys \textbf{min-max calculus} \citep*{Zadeh1965}, ie:
+\begin{eqnarray}
+z_1 \Zand z_2    & \defeq &  min(z_1, z_2) \\
+z_1 \Zor   z_2    & \defeq &  max(z_1, z_2).
+\end{eqnarray}
+My justification for min-max is as follows:
+
+As an example, consider the statement:\\
+\hspace*{1cm} S1: \textit{``John have had sex with 1000 women''}\\
+but it turns out that all those women had only had cybersex with him.  Most people would agree that cybersex is not quite the same as real sex (some may say it's a borderline case ($z=0.5$)).  Suppose we subjectively think that cybersex is 0.7 real sex (as a measure of degree), then what would be the ``degree of truthfulness'' of the statement S1 (assuming that we accept the fact that he had cybersex with 1000 women)?
+
+If we use the sum-product calculus (as with probabilities), the answer would be $ 0.7^{1000} $ which is almost zero.
+
+Whereas if we use the min-max calculus, the answer would be $min\{0.7, 0.7, ...\} = 0.7$.  So, did John have sex with 1000 women?\\
+\hspace*{1cm} answer A:  ``Of course not.''\\
+\hspace*{1cm} answer B:  ``Well... sort of.''\\
+My view is that the conjunction of 1000 vague events should have the same vagueness as the individual events.  You may try this with other examples of graded events.
+
+%If this is still unclear, consider more examples:\\
+%\hspace*{1cm} S2: ``John ate 100 hotdogs in 1 hour'' (but they are all mini-hotdogs)\\
+%\hspace*{1cm} S3: ``John defeated 20 chessmasters'' (but they each offered him 2 free moves)\\
+%\hspace*{1cm} S4: ``John is fluent in 20 languages'' (but they are computer programming languages)\\
+%\hspace*{1cm} S5: ``John finished reading 50 novels'' (but they are all abridged versions)\\
+%Would you accept these statements as \textit{partially} true?  Min-max calculus would grant that they are ``somewhat'' true.  Sum-product, however, would infer that they are effectively completely false.
+
+\section{Axiomatic description}
+\label{sec:fuzziness-axioms}
+
+In summary, $\catZ$ is the relaxation of the classical-logic view that a statement is either true or false;  {true, false} is relaxed to [0,1].
+
+Here is a set of axioms that describes $\catZ$:
+
+Z1. $z \in [0,1]$ \\
+Z2. $z$ varies continuously within $(0,1)$ \\
+Z3. $z=0.5$ is the point of neutrality\\
+Z4. $\catZ$ obeys min-max calculus when applied by logic conjunction and disjunction
+
+The meaning of Z2 is yet to be clarified.  For now I'd just state it informally.  Also, it would be nice to formulate $\catZ$ calculus in a way similar to Cox's postulates for probabilities, but that is not my current priority.
+
+\section{A fuzzy paradox}
+
+A common problem in fuzzy logic is concerning the truth value of statements such as ``Q and not Q''.  It can be resolved using our understanding of $\catZ$ negation:
+
+Suppose $Z(tall(john)) = 0.6$ (which means that John is slightly tall)\\
+then\\
+\hspace*{1cm} $ tall(john) \Zand \neg tall(john) = 0.4$ (which means this is slightly false)\\
+\hspace*{1cm} $ tall(john) \Zor \neg tall(john) = 0.6$ (which means this is slightly true)
+
+On the other hand, if $Z(tall(john)) = 0.4$ (which means that John is slightly short)\\
+then\\
+\hspace*{1cm} $ tall(john) \Zand \neg tall(john) = 0.4$ (which means this is slightly false)\\
+\hspace*{1cm} $ tall(john) \Zor \neg tall(john) = 0.6$ (which means this is slightly true)
+
+All these are reasonable conclusions.
+
+\section{Unifying AND and OR}
+\label{sec:unifying-AND-and-OR}
+
+We seek to unify AND and OR by using a single operator $\varodot$ with a parameter $\theta$ such that when $\theta = 0$ it reduces to AND and when $\theta = 1$ it becomes OR.
+
+A simple way to define $\varodot$ is:
+\begin{equation}
+X_1 \bigodot_\theta X_2 = (1-\theta) (X_1 \Zand X_2) + \theta (X_1 \Zor X_2).
+\end{equation}
+
+The animation (Figure \ref{movie:unified-AND-OR}) shows the graph of $X_1 \varodot X_2$ as $\theta$ varies.
+
+\begin{figure}[H]
+\centering
+\includemovie[
+  poster,
+  text={\small(** Click to play **)}
+]{200px}{200px}
+{unified-AND-OR.swf}
+\caption{Graph of $X_1 \varodot X_2$ as $\theta$ varies.\\
+\scriptsize{You need to have a PDF viewer that supports Flash, such as Adobe Reader.\\
+Make the Reader trust this document.\\
+For maximum pleasure click the "play" and "loop" options.}}
+\label{movie:unified-AND-OR}
+\end{figure}
+
+\section{``Soft'' min-max and concept learning}
+
+\{ TO-DO:  I have some doubts about this section; the argument is a bit unclear.  Maybe soft min-max are unnecessary afterall... \}
+
+As an example, these are 2 exemplars of ``chair'' that most people consider to be typical:
+\begin{figure}[H]
+\centering
+\includegraphics{2-chairs.png}
+\end{figure}
+Usually, the old-fashioned chair is 4-legged and is made of wood; and the office swivel chair can rotate and has wheels.  These are the \textbf{sfeatures} of the exemplars stored in memory.  It would be atypical for a wooden chair to have wheels and have a seat that can rotate above the 4 legs.  So, even though both chairs are very typical chairs, their features cannot be exchanged freely while maintaining the same level of typicality.
+
+\hspace*{1cm} \begin{tabular}{|l|l|l|} \hline
+\textbf{features}            & \textbf{degree} &\\ \hline
+wooden $\Zand$ 4-legged     & 1.0             & typical old-fashioned chair\\
+rotating $\Zand$ has wheels & 1.0             & typical office chair\\
+has wheels $\Zand$ 4-legged & 0.9             & atypical chair\\
+\hline
+\end{tabular}
+
+It seems that crisp min and max cannot represent this (but I may be mistaken about this point).  Anyway, I created a ``soft'' version of min-max (the idea is to use $z_1, z_2$ as their own weights in a weighted average):
+
+\hspace*{1cm} \begin{tabular}{|l|l|}
+\hline
+{\textbf{soft min (= AND)}} & {\textbf{soft max (= OR)}}\\ \hline
+\rule[-7mm]{0mm}{16mm} 
+$\displaystyle z_1 \; \widetilde{\wedge} \; z_2 = \frac{z_1 (1-z_1) + z_2 (1-z_2)}{1 - z_1 + 1 - z_2} $
+& $\displaystyle z_1 \; \widetilde{\vee} \; z_2 = \frac{z_1 z_1 + z_2 z_2}{z_1 + z_2} $ \\
+\hline
+\end{tabular}
+\parbox{4cm}{\begin{equation}
+\label{eqn:soft-min-max}
+\end{equation}}
+
+It can be verified that soft- min and max satisfy the boundary conditions of classical logic, provided that we make $0/0 = 1$ in the min case.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{soft-max.png}
+\caption{comparison of max and soft max}
+\end{figure}
+
+\section{Z modifiers}
+\label{sec:Z-modifiers}
+
+To make $\catZ$ logic more versatile, we need to augment it with \textbf{modifiers} which correspond to natural-language hedges like:\\
+\hspace*{1cm} extremely \hspace*{1cm} very \hspace*{1cm} moderately \hspace*{1cm} slightly\\
+so we can express things like:\\
+\hspace*{1cm} $\mbox{lukewarm} \leftarrow \mbox{moderately(warm)}$\\
+\hspace*{1cm} $\mbox{obese} \leftarrow \mbox{very(fat)}$
+
+In general, we can define a $\catZ$-modifier as a function $\Gamma: [0,1] \rightarrow [0,1]$,
+\begin{equation}
+z_0 := \Gamma(z_1)
+\end{equation}
+We further restrict the class of $\Gamma$ to make the system simpler.  I suggest to use Gaussian functions with the mean $z^*$ as a parameter, and the variance would be fixed to a certain constant.  So
+\begin{equation}
+z_0 := \Gamma(z_1; z^*) = \frac{1}{\sigma \sqrt{2 \pi}} e^{- (z_1-z^*)^2 / 2 \sigma^2}
+\label{eqn:fuzzy-moderator-Gaussian}
+\end{equation}
+For example, the $\Gamma$'s for ``slightly'' and ``very'' can be:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{fuzzy-modifiers.png}
+\caption{Fuzzy modifiers with $z^* = 0.6, 1.0$}
+\end{figure}
+
+We can have better control over the shapes of $\Gamma$ by using other functions and having more parameters, but I suspect that such sophistication is not needed for common-sense reasoning.
+
+For example, we can define ``lukewarm'' as ``warm'' with $z \in [0.6,0.8]$, or:\\
+\hspace*{1cm} $\mbox{lukewarm} \leftarrow \Gamma_{0.6}(\mbox{warm}) \Zand \Gamma_{0.8}(\mbox{warm})$\\
+using 2 $Gamma$'s with fixed variances.  The result is the blue curve on the left.  We get the interval [0.6,0.8] by taking $> 0.5$ as true, and thus ``lukewarm'' would be a binary predicate.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{Gamma-for-lukewarm.png}
+\caption{Two representations of ``lukewarm''}
+\end{figure}
+On the other hand, if we use a tailored $\Gamma$ to represent ``lukewarm'' on the right, it would be a $\catZ$-predicate with continuous values like ``slightly lukewarm'' and ``very lukewarm''.  This seems to be unnecessarily sophisticated.
+
+\{ TO-DO:  One problem with this method is that the predicate ``lukewarm'' changes abruptly at the boundaries.  Another example is ``middle-aged''.  \}
+
+\{ TO-DO:  Prove that combinations of $\Gamma$ and $\Zand ,\; \Zor$ can be universal approximators. \}
+
+\section{Z-conditionals}
+\label{sec:Z-conditionals}
+
+In general, inference is driven by rules.  In $\catZ$ logic all rules take the form of $\catZ$-conditionals.  A $\catZ$-conditional is specified by a combination of min's and max's (similar to DNFs (disjunctive normal forms) in classical logic):
+\begin{equation}
+z_0 \; := \; \bigZor_i \; \bigZand_j \; \Gamma(z_{ij})
+%z_0 \; := \; \widetilde{\bigvee_i} \; \widetilde{\bigwedge_j} \; \Gamma(z_{ij}; z^*_{ij}, v_{ij}) \, = \; \widetilde{\bigvee} \; \{ z_{11} \, \widetilde{\wedge} \, z_{12} \, \widetilde{\wedge} \cdots, z_{21} \, \widetilde{\wedge} \, z_{22} \, \widetilde{\wedge} \cdots, \, \cdots \}
+\end{equation}
+
+Notice that a $\catZ$ rule directly assigns a $\catZ$ value to $z_0$ \textit{without the use of an implication operator}, which is very different from traditional fuzzy logics:
+
+\subsection{Traditional fuzzy logic}
+
+A fuzzy implication is a map $\Rightarrow: [0,1] \times [0,1] \rightarrow [0,1]$ satisfying these boundary conditions from binary logic:\\
+\hspace*{1cm} \begin{tabular}{|l|l|l|} \hline
+$\Rightarrow$ & 0 & 1\\ \hline
+0             & 1 & 1\\
+1             & 0 & 1\\ \hline
+\end{tabular}
+
+A fuzzy implication statement:  $(Z_1 \Zand Z_2) \Rightarrow Z_0$  means that the fuzzy values $z_0,z_1,z_2$ obey the equation:
+$$ ((z_1 \Zand z_2) \Rightarrow z_0) = z_c $$
+where $z_c$ is the truth value of the implication statement.  Compared to my approach, this has an extra level of indirectness.  Is it really necessary that we know the truth value of an implication statement?  (Cf \S\ref{sec:P-and-ClassicalLogic}: In probabilistic logic, the probability conditional $P(A|B)$ serves as the implication statement, but we usually do not ask about its own probability.)  One trouble with traditional fuzzy logic is that we cannot even perform \textit{modus ponens} unless we allow interval fuzzy values.\footnote{Suppose we define the operators for a very simple fuzzy logic: $a \Rightarrow b \equiv \neg a \vee b$, $\neg a \equiv 1-a $, and $a \vee b \equiv min(a,b)$.  \citep*{Kenevan1992} has given an inference algorithm for this logic, but it is very complicated and involves interval fuzzy values, and so is not very suitable for further complex development.}
+
+% Now given that $Z_1 = z_1$ and $Z_1 \Rightarrow Z_0$, ie $ (z_1 \Rightarrow z_0) = z_c $, ie $min(1-z_1,z_0)=z_c$ we still cannot determine $z_0$.}
+
+% TO-DO:  weighted soft min-max may not be needed, if we have fuzzy modifiers
+
+%An example involving vagueness: ``smart''\\
+%\hspace*{1cm} smart $\leftarrow$ humorous\\
+%\hspace*{1cm} smart $\leftarrow$ articulate\\
+%\hspace*{1cm} smart $\leftarrow$ blah
+
+\section{Combining B, P, Z}
+\label{sec:combinePZ}
+
+\subsection{The truth value P(Z)}
+\label{sec:P(Z)-defined}
+
+How to combine $\mathcal{P}$ and $\catZ$?  The answer is simple because there is no other choice:  the semantics of probabilities dictate that $\mathcal{P}$ must be \textit{distributed over events}.  In the current system, events are either $\mathcal{B}$ or $\catZ$ (the latter are \textit{continuous} events).  So we \emph{distribute $\mathcal{P}$ over $\mathcal{B}$ and $\catZ$}.  In this sense, fuzziness is more fundamental than probabilities.
+
+If a $\catZ$ value is uncertain --- for example, we may not be sure how tall Mary is (the $\catZ$-value of her tallness may be 0.6-0.8, say, so we can assume a uniform probability distribution over the interval [0.6,0.8] which is the green rectangle below) --- and we can approximate it by a Beta distribution over $\catZ$ with a mean at 0.7 and the same variance:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{P-over-Z-Marys-Tallness2.png}
+\caption{an example $\mathcal{P}(\catZ)$ distribution}
+\end{figure}
+where the probability density should sum to 1: $ \int^1_0 P(z) dz = 1 $.
+
+On the other hand, if a $\mathcal{P}$ value is uncertain, we simply \textit{ignore} its error (eg, by choosing the mid-point of a P-interval).  \S\ref{sec:PointValued} tried to justify this.
+
+The following commutative diagram shows the relationship between $\mathcal{B}$, $\mathcal{P(B)}$, $\catZ$, and $\mathcal{P(Z)}$:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{P(Z)-commutative-diagram.png}
+\end{figure}
+
+The inner square contains the 4 types of truth values.  The outer square are the corresponding logics, showing their logical operators.  The radial arrows point to the ``underlying sets'' of TVs.
+
+\subsection{An example}
+
+Consider the common sense notion:\\
+\hspace*{1cm} \textit{The richer a person, the more powerful s/he is.}\\
+Note that this rule is inexact:  there are exceptions (where some rich people are not powerful and some powerful people are not rich) and deviations (the data points do not fall on a straight line):
+
+\begin{figure}[H]
+\centering
+\includegraphics{rich-vs-powerful.png}
+\end{figure}
+
+There are reasons to believe that the identity function (red line) represents the least-error regression function:  first, the $\catZ$ values are in ``natural scale'' (ie, $z=1$ corresponds to $\infty$) so $(z_1,z_2)$ at $(1,1)$ is obvious if we accept the original statement;  secondly, when $z_1 = 0.5$, the person is neither rich nor poor, and we should have nothing to say whether the person is powerful or not, as far as the original statement is concerned.
+
+\underconst
+
+\subsection{Unifying all truth values to PZ}
+\label{sec:unifying-P(Z)}
+
+Up to now there are 4 possible TV types:
+\begin{table}[H]
+\parbox{3cm}{\caption{}}
+\begin{tabular}{|l|l|l|} \hline
+\multicolumn{3}{|c|}{\textbf{truth values}}\\ \hline
+category                   & meaning                                      & definition \\ \hline
+$\mathcal{B}$              & binary                                       & $b \in \{true, false\} $\\
+$\catZ$              & fuzzy                                        & $z \in [0,1] $\\
+$\mathcal{P}(\mathcal{B})$ & $\mathcal{P}$ distributed over $\catZ$ & $ P(b=false) = p_0 $\\
+                           &                                              & $ P(b=true) = p_1 $\\
+$\mathcal{P}(\catZ)$ & $\mathcal{P}$ distributed over $\catZ$ & $ P(z=z_1) \sim Beta(z_1) $\\ \hline
+\end{tabular}
+\end{table}
+I find that they can be unified to type $\mathcal{P(Z)}$, which can make things simpler.  Below is how to represent the other 3 TV types as $\mathcal{P(Z)}$:
+
+\subsubsection{Type $\mathcal{B}$}
+
+Some variables have a strong ``binary flavor''.  For example, in common sense, a person is either dead or alive, although a more nuanced view will have grades of being dead.  If deadness is a $\catZ$ variable, z = 0 would be ``definitely alive'', z = 1 would be ``definitely dead'' (eg reduced to ash), and z = 0.5 would correspond to a state that is difficult to classify as dead or alive, eg a brain-dead, vegetative state.  z = 0.7 may be a state that is more dead than brain-dead and yet more alive than ash, eg --- I have to pause for a while to think of an example --- a body under cryonic preservation.  And z = 0.4 may be some kind of near-death experience.  Anyway, one can expect the probability distribution of $z_{dead}$ to be polarized with a trough in the middle.  This can be represented by a Beta distribution with a large variance:
+\begin{figure}[H]
+\centering
+\includegraphics{deadness.png}
+%\caption{Z = deadness}
+\end{figure}
+When the polarization gets extreme (eg the toss of a coin is either head or tail), the distribution becomes a $\bigsqcup$ shape.  The degree of polarization (ie amount of variance) can be estimated statistically, if data is available.
+
+It appears that all common-sensical $\mathcal{B}$ variables are actually \textbf{polarized} $\catZ$ variables.  Another example is a person being either married or not married, and there are grey areas like gay marriage or marriage for the green card, etc.
+
+Actually the Beta distribution (eqn \ref{eqn:beta-distro}) is capable of representing 3 types of characteristics (with $a = 1$ and $b = 1$ as points of transition separating the 3 regimes):
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{binary-fuzzy-unary-characters.png}
+\end{figure}
+The unary type represents concepts such as ``normal'', ``broken'', ``healthy'', or ``natural''.  In such concepts, the state at $z = 1$ can be clearly defined (eg, John was perfectly healthy when he was a kid), but as we approach $z = 0$ the cases become very improbable and inexhaustible (eg, it is impossible to find a person who is ``utmost unhealthy'' because it is always possible to think of more extreme and improbable unhealthy ways.  Also, committing suicide is not the limiting case --- suicide is not the same as unhealthy --- so the interval is open-ended.)
+
+\textbf{About the mean and variance.}  In the fuzzy regime, the smaller the variance, the shaper the peak and thus the more confident we are about the $\catZ$ value;  The variance is a measure of confidence in this regime.  In the binary regime, the greater the variance, the more \textit{polarized} the distribution becomes;  The variance is a measure of binary character.  In the unary regime, the meaning of the variance is unclear.
+
+%The transition occurs at $a = 1$ or $b = 1$:
+%\begin{figure}[H]
+%\centering
+%\includegraphics{Beta-distro-watershed.png}
+%\end{figure}
+
+%If we know the mean $\mu$, the variance at the transition point is given by:
+%\begin{equation}
+%v_0 = \frac{(\mu-1)^2 \mu}{2-\mu} \quad or \quad v_1 = \frac{\mu^2(1-\mu)}{\mu+1}
+%\end{equation}
+%The important thing to understand is that the meaning of the variance is \textit{reversed} after the transition point.  Usually, the variance increases when the sharpness decreases.  But when we have ``binary character'', the distribution gets sharper when variance \textit{increases}, as the probability mass is being pushed to the extremes.  Thus, greater variance here means greater precision.
+
+%Something is wrong here.  There is not one transition point, but a band?  The transition occurs when, giving more variance will give more to the poles.  But this is always true!  So there is no clear cut boundary.  At one extreme is variance = 0, where one of $a, b = \infty$, or when one of $a, b = 0$.  When the variance gets to its maximum, $a = b = 0$ and we have fractional Dirac deltas at the poles, which is fine with the binary interpretation.  The question is when does the binary regime start?  It seems that there is really a transitional band.  It is difficult to say that the J shape is binary or fuzzy.  Examples of J are ``normal'', ``sane'', ``healthy'', ``natural'', etc.  J may be called the ``unary'' regime.
+
+%\textbf{About the mean.}  In the fuzzy regime, the mean is at or near the most probable value, and the variance is a measure of uncertainty about the mean.  In the binary regime, the interpretation is different.  Here, the most probable values are at 0 or 1, and the mean indicates which extreme has higher probability.  The variance indicates the degree of polarization --- the higher, the more ``binary''.
+
+To illustrate this with an example:  In the fuzzy regime, I can say ``John is 0.7 dead because he's in a cryonic state'', and I can use a small variance to indicate that I am confidence that John is in a cryonic state and \textit{not elsewhere}.  In the binary regime, however, I can only indicate the probability of ``John being dead or not'' where ``dead'' is an ``either-or'' condition.  The highest probabilities are concentrated at 1 (``definitely dead'') and 0 (``definitely alive''), and the cryonic state has low probability.  Under this regime there is no way to accentuate (make more probable) the cryonic state --- one can only do so in the fuzzy regime.  This is exactly what we would expect with a binary variable.
+
+%This has consequences when we perform belief revision (\S\ref{ch:belief-revision}), when we need to update variances.
+
+%Once we established that a variable is polarized, what if we then assert its probability?  Eg P(dead) = 0.7?  This is interesting.  Equally interesting, is when we know P(dead) = 0.7, and then assert its polarity.
+
+\subsubsection{Type $\catZ$}
+
+We can create a $\mathcal{P(Z)}$ distribution with a peak around $z$.  The variance depends on how confident we are of the $z$ value.  If unspecified, we can assign a typical variance to it.
+
+\subsubsection{Type $\catPB$}
+
+For example, ``Mary is probably married'', with p = 0.8.\\
+ie \hspace*{1cm} $P(married) = 0.8, \quad \quad P(\neg married) = 0.2$.\\
+
+In general, for any $\mathcal{P(Z)}$ variable $Z$, especially in the binary regime, one can set the probability of ``Z'' (viewed as a binary event) to be equal to the probability mass for $z \geq \frac{1}{2}$ which is given by the CDF of the Beta distribution, ie, the regularized incomplete Beta function:
+$$ F(x; a, b) = \frac{ B(x; a, b) }{ B(a, b) } = I_x(x; a, b) $$
+where $B(x)$ is the incomplete Beta function:
+$$ B(x; a, b) = \int^x_0 t^{a-1} (1-t)^{b-1} dt \mbox{.}$$
+Thus
+$$ P(Z = \mbox{true}) = P(z \ge \frac{1}{2}) = 1 - P(\Zneg Z) = 1 - P(z < \frac{1}{2}) = 1 - I_x(1/2; a, b) $$
+
+The desired mean $\mu$ can be solved from:
+\begin{eqnarray}
+I_x(1/2; a, b) = p\\
+\mu = a/(a+b)
+\label{eqn:mean-and-p}
+\end{eqnarray}
+
+An interesting observation:  As the variance $v$ increases, it eventually reaches a maximum $v_{max}$ where $a=b=0$ and the Beta distribution is undefined.  From Mathematica experiments, if we keep $ \mu = a / (a+b) $  fixed:\\
+$$ \lim_{a,b \rightarrow 0} I_x(1/2) = \mu - 1 $$
+This implies that, in the extreme polarized case:\\
+$$ p = 1 - I_x(1/2) = 1 - (1 - \mu) = \mu $$
+
+%The mean is related to $p$ by the simple formula (I'm assuming that the real distribution is like the rectangular distribution and therefore I find it's mean):
+%
+%\mu = \begin{cases}
+%1 - \frac{1}{4p} & \quad 1 \geq p \geq \frac{1}{2} \\
+%\frac{1}{4(1-p)} & \quad \frac{1}{2} > p \geq 0
+%\end{cases}
+%\label{eqn:mean-and-p}
+%\end{equation}
+
+The variance represents the degree of polarization of the variable, which varies from one variable to another, and can be quite arbitrary if unspecified.
+
+%The inverse of eqn (\ref{eqn:mean-and-p}) is (with an extension to cover extremes):
+%\begin{equation}
+%p = \begin{cases}
+%1                  & \quad \mu > 0.75 \\
+%\frac{1}{4(1-\mu)} & \quad 0.75 \geq \mu \geq 0.5 \\
+%1 - \frac{1}{4\mu} & \quad 0.5 > \mu \geq 0.25 \\
+%0                  & \quad 0.25 > \mu
+%\end{cases}
+%\label{eqn:mean-to-p-conversion}
+%\end{equation}
+
+Inference of $\mathcal{P(Z)}$ logic will be treated in \S\ref{ch:inference}.
+
+%\section{PZ logic formulated as FOL axioms}
+%
+%In this section I give the complete axioms for PZB logic, expressed in FOL.  That means, a FOL system will have the power of PZB logic when equipped with these axioms.  Thus, this allows us to build an AGI using a FOL inference engine as the core.
+
+%ref1:  truth-value(s1, mean1, variance1)
+%ref0:  truth-value(s0, mean0, variance0)
+%
+%1. How to represent a rule?  eg  bachelor :- male & ~married
+%rule-and(bachelor, male, not_married).
+%rule-not(not_married, married).
+%
+%2. How to deduce the TV of s0 given s1?
+%retract(ref0).
+%truth-value(s0, new-mean, new-variance).
+
+%\section{Outstanding problems}
+
+%1. There will be many factors.  It seems that the structural organization of factors is more important than numerical curve fits.
+
+%2. Often I feel that the numerical values aren't that important at all.  Also I feel that there are many rules that are just B -- for example, $smart \leftarrow creative$.  Even if we have a Z rule, we should be able to talk about the B counterpart.  This is very perplexing... the Z rule may take away the meta-reasoning ability of B rules...?  But the B rule will retain that ability.  Maybe the Z rule can also have the ability of meta-reasoning?  That 'creative' is a component of 'smart'?
+
+%3. The exact form of $P(Z)$ can be irregular, especially when it is given by several factors.
+
+%4. ``Almost P (interpreted as binary)'' is ``close to P (interpreted as Z) $\wedge$ not P (interpreted as binary)''.  So it can be a strictly-B rule with a Z-literal translated to B.  But if the Z-literal is ``not that close to P'' then ``almost P'' may be partially true.  ``Almost P'' can be slightly true, slightly not true, very true etc.  And that seems to depend on the evaluation of ``close to P''.  Because ``close to P'' can be Z, then it seems that ``almost P'' can be Z too.  
+
+%5. The question is whether ``almost P'' is B or Z.  Maybe in various contexts it can be both?  Or may be if it is ``very almost'' then we can as well make it B.  But if it is ``slightly not almost'' then we should make it Z.
+
+%6. The problem now seems to be that we need meta-level intervention to decide what kind of TVs to use.  But the base logic (object-level logic) has difficulty deciding on its own.  This is a problem because the base logic is not well-defined.  We need some simple rules to decide what kind of TVs to use.
+
+%7. It's obvious we need a choice of TVs.  In the ``almost'' case... there is perhaps a distinction between base logic and meta-logic, but this distinction is orthogonal to the choice of TVs.  Maybe there is always a choice of TVs but it is too sophisticated for the base logic?  But somehow the base logic has to make a choice... 
+
+%8. Do rules have ``intrinsic'' TVs for each slot?
+
+%9. Another problem is how to learn B rules *gradually*?  Perhaps we start with P(B) rules and then their P's tend to $\{0,1\}$?  How about Z rules -- do they ever turn into B rules?  Maybe some of the predicates turn binary?

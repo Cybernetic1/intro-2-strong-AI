@@ -1,0 +1,80 @@
+\chapter{Belief revision}
+\label{ch:belief-revision}
+
+\minitoc
+
+Belief revision concerns the problem of conflicting conclusions and, in the extreme, contradictions.
+
+One simple question is:  If we arrive at two P(Z) distributions from two separate inference chains, how to combine the answers?
+
+It seems that this is related to statistical inference.  Suppose we have a population.  A set of observations gives the estimate of the mean and variance:\\
+\hspace*{1cm} $x_1, x_2, ..., x_{n_1} \sim Beta(\mu_1, v_1)$\\
+Another set of observations gives another pair of estimates:\\
+\hspace*{1cm} $y_1, y_2, ..., y_{n_2} \sim Beta(\mu_2, v_2)$\\
+The question is to find a reasonable way to combine the 2 sets of observations to give a new estimate:\\
+\hspace*{1cm} $x_1, x_2, ..., y_1, y_2, ... \sim Beta(\mu_0, v_0)$\\
+In other words, how to express $(\mu_0, v_0)$ in terms of $(\mu_1, v_1)$ and $(\mu_2, v_2)$?
+
+Maybe the $\mu_0$ is just the weighted average of $\mu_1$ and $\mu_2$?  $n_1, n_2$ can be assumed to be equal to the supports $w_1, w_2$ which can be calculated from the confidences $c_1, c_2$.
+
+Some assumptions in the above may not be entirely justified:  the population size is typically small and the 2 samples may have overlap, ie, not independent.
+
+\section{Justifications}
+
+Justifications are the reasons why we believe in something.
+
+\textbf{Justification-based Truth Maintenance Systems} (JTMS) keep track of justifications explicitly.  They are needed because otherwise we would not be able to recall why certain beliefs are in the mind.
+
+\{ TO-DO:  For example... \}
+
+This may be a requirement in addition to probabilistic reasoning.
+
+\section{Many-worlds representation}
+
+\begin{flushright}
+\emph{The test of a first-rate intelligence is the ability\\
+to hold two opposed ideas in the mind at the same time,\\
+and still retain the ability to function.}\\
+--- F Scott Fitzgerald
+\end{flushright}
+
+With probabilistic logic, it may be possible to represent multiple possible worlds in a single KB, by storing multiple potentially-conflicting assumptions in the KB.
+
+For example, in the \textit{Truman Show} movie, there may be 2 competing assumptions in Truman's mind:\\
+\hspace*{1cm} A1.  Truman's world is normal.\\
+\hspace*{1cm} A2.  Turman's world is populated by fake actors.
+
+In binary logic we can only accept either A1 or A2, thus the belief revision problem becomes unnecessarily much harder.
+
+If we use probabilistic logic, then all we need is to impose that probabilities of alternative assumptions (ie, mutually exclusive or disjoint events) sum to 1.  Disjoint means that $P(A \cap B) = 0$, ie, A and B cannot be true at the same time.  The general rule is:\\
+\hspace*{1cm} If we have a set of assumptions such that $P(A_i \cap A_j) = 0 \; \mbox{for all} \; i \neq j$,\\
+\hspace*{1cm} then $\sum P(A_i) = 1$.
+
+\subsection{Deliberative assumptions and ATMS}
+
+Sometimes we make deliberative assumptions for more efficient reasoning, for example:  \textit{``Assuming the teacher will not check, I copy my classmate's homework''}.
+
+This is in contrast to the kind of \textbf{implicit assumptions} described above, which are treated probabilistically, for example:  ``The teacher may check my homework with probability 0.2''.
+
+The difference is that we deliberately force the reasoner to speculate on the consequences of an assumption as if its probability is 1.
+
+This kind of reasoning is similar to binary logic, in which we must be careful about keeping track of conflicting assumptions.  \textbf{Assumption-based Truth Maintenance Systems} (ATMS) are developed specifically for this purpose.
+
+ATMS seems somewhat redundant if we have probabilistic logic, where we can deal with multiple assumptions without probabilistic conflict (which in binary logic would result in conflicts).
+
+If an assumption is particularly important, a probabilistic reasoner can take expected utilities into consideration.
+
+\section{Consistency check}
+\label{sec:consistency-check}
+
+A few types of consistency checks are needed.
+
+\section{Conflict resolution}
+\label{sec:conflict-resolution}
+
+Ie, what to do when an inconsistency is found.
+
+\section{Theory revision}
+
+See \S\ref{sec:inductive-learner}.
+

@@ -1,0 +1,360 @@
+\documentclass[12pt, a4paper]{report}
+
+%dvips OR pdftex
+\usepackage[pdftex, pdfauthor={YKY}, bookmarks, anchorcolor=blue, colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue, breaklinks, plainpages=false, pdfpagelabels, hypertexnames=false]{hyperref}
+\usepackage{breakurl}
+\usepackage[final]{graphicx}
+\usepackage{float}
+\usepackage[square]{natbib}
+\usepackage{color}
+\usepackage{amsmath}     % for {equation} {cases} {xleftarrow}
+\usepackage{bbm}         % for math fonts with double lines
+\usepackage{amssymb}     % for \curlyvee and \therefore
+\usepackage{stmaryrd}    % for \bigcurlyvee, \widetilde{\bigwedge}
+\usepackage{wasysym}     % for \iint (double integral)
+\usepackage{makeidx}
+\usepackage[style=list,acronym=true]{glossaries}
+\usepackage{alg}
+\usepackage{minitoc}
+\usepackage[sf,bf,big,raggedright,compact]{titlesec}
+\usepackage{fancyhdr}
+\usepackage{movie15}
+\usepackage{caption}
+\usepackage{parskip}     % may not need
+\usepackage[pointedenum]{paralist}  % compactenum, compactitem etc
+\usepackage{enumitem}    % fixes para top seperation in {enumerate}
+\setlist{topsep=-1ex}
+\usepackage{amsthm}      % theorem style
+
+%\newenvironment{compactitem}[0]{\begin{enumerate}[label=\textbullet,noitemsep]}{\end{enumerate}}
+
+\newenvironment{compactenum-}[0]{\begin{compactenum}}{\end{compactenum}\vspace{3ex}}
+\newenvironment{compactitem-}[0]{\begin{compactitem}}{\end{compactitem}\vspace{3ex}}
+\newenvironment{enumerate-}[0]{\begin{enumerate}}{\end{enumerate}\vspace{3ex}}
+
+%\newenvironment{compactenuma}[0]{\begin{enumerate}[nosep,label=\alpha]}{\end{enumerate}}
+
+\definecolor{TodoColor}{rgb}{0.1,0.4,0.1}   % Dark Green
+\definecolor{LogicColor}{rgb}{0.4,0.1,0.4}  % Magenta
+\definecolor{Green} {rgb}{0.1,0.4,0.1}
+\definecolor{Red}   {rgb}{1.0,0.4,0.4}
+\definecolor{Blue}  {rgb}{0.1,0.1,0.6}
+\definecolor{Purple}{rgb}{0.4,0.1,0.3}
+
+\newcommand{\code}   [1]{{\footnotesize{\ttfamily #1}}}
+\newcommand{\formula}[1]{\textcolor{LogicColor}{#1}}
+\newcommand{\todo}   [1]{\textcolor{TodoColor}{To do: #1}}
+\newcommand{\english}[1]{\rmfamily \textit{``#1''}\sffamily}
+\newcommand{\kb}     [1]{[s$_#1$]:}
+\renewcommand{\star}{$* \;$}
+\newcommand{\app}{$\circ \;$}
+\newcommand{\eg}{\textbf{Example:} }
+\newcommand{\question}[1]{\textcolor{Red}{Question: #1}}
+\newcommand{\tab}{\hspace*{1cm} }
+
+\newcommand{\vect}[1]{\mbox{\boldmath$#1$}}             %% vector
+
+\newcommand{\underconst}{\includegraphics[scale=0.5]{UnderConst.png}}
+
+%%%%%%%%%%%%%%%%% Symbols defined by me %%%%%%%%%%%%%%%%%%%
+\newcommand{\defeq}{\stackrel{def}{=}}
+% fuzzy and probabilistic logic operators
+\newcommand{\tv}[1]{$\langle${#1}$\rangle$}
+\newcommand{\Zand}{\stackrel{Z}{\wedge}}
+\newcommand{\Zor}{\stackrel{Z}{\vee}}
+\newcommand{\Zneg}{\stackrel{Z}{\neg}}
+\newcommand{\Pand}{\stackrel{P}{\wedge}}
+\newcommand{\Por}{\stackrel{P}{\vee}}
+\newcommand{\bigZand}{\stackrel{Z}{\bigwedge}}
+\newcommand{\bigZor}{\stackrel{Z}{\bigvee}}
+\newcommand{\bigPand}{\stackrel{P}{\bigwedge}}
+\newcommand{\bigPor}{\stackrel{P}{\bigvee}}
+\newcommand{\Pandor}{\stackrel{P}{\varodot}}
+\newcommand{\Zandor}{\stackrel{Z}{\varodot}}
+\newcommand{\bigPandor}{\stackrel{P}{\bigodot}}
+\newcommand{\bigZandor}{\stackrel{Z}{\bigodot}}
+\newcommand{\Pimp}{\rightarrowtriangle}       % probabilistic implication ->
+\newcommand{\PimpL}{\leftarrowtriangle}       % probabilistic implication <-
+\newcommand{\rewrite}[1]{\stackrel{#1}{\Rightarrow}}
+\newcommand{\narrow}[1]{\stackrel{#1}{\leadsto}}
+% categories
+\newcommand{\catP}{\mathcal{P}}
+\newcommand{\catZ}{\mathcal{Z}}
+\newcommand{\catB}{\mathcal{B}}
+\newcommand{\catC}{\mathcal{C}}
+\newcommand{\catPB}{\mathcal{P(B)}}
+\newcommand{\catPZ}{\mathcal{P(Z)}}
+\newcommand{\setN}{\mathbb{N}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\Hyp}{\mathbbm{Hyp}}
+
+\fontsize{13pt}{15pt} \selectfont
+\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\mtcfont}{\small\sffamily}
+%\renewcommand{\mtcSfont}{\small\sffamily}
+%\renewcommand{\mtcSSfont}{\small\sffamily}
+%\renewcommand{\mtcSSSfont}{\small\sffamily}
+%\renewcommand{\mtifont}{\small\sffamily}
+\renewcommand{\mtcfont}{\normalsize\sffamily}
+\renewcommand{\mtcSfont}{\normalsize\sffamily}
+\renewcommand{\mtcSSfont}{\normalsize\sffamily}
+\renewcommand{\mtcSSSfont}{\normalsize\sffamily}
+\renewcommand{\mtifont}{\normalsize\sffamily}
+%\renewcommand{\mtcfont}{\large\sffamily}
+%\renewcommand{\mtcSfont}{\large\sffamily}
+%\renewcommand{\mtcSSfont}{\large\sffamily}
+%\renewcommand{\mtcSSSfont}{\large\sffamily}
+%\renewcommand{\mtifont}{\large\sffamily}
+\renewcommand{\mtctitle}{}
+\renewcommand{\chaptername}{Ch }
+
+\newtheoremstyle{examples}{}{}{\upshape}{}{\bfseries}{}{\newline}{#1 #2 \mdseries{#3}}
+\theoremstyle{examples} \newtheorem{example}{Example}[section]
+
+\titlespacing{\chapter}{0pt}{0pt}{0pt}
+\titleformat{\chapter}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+\titleformat{\appendix}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+\titleformat{\section}[hang]{\sffamily\bfseries\Large\color{blue}}{\thesection \hspace{10pt}}{0pt}{}
+\titleformat{\subsection}[hang]{\sffamily\bfseries\large\color{blue}}{\thesubsection \hspace{5pt}}{0pt}{}
+\titleformat{\subsubsection}[hang]{\sffamily\bfseries\color{blue}}{\thesubsubsection \hspace{5pt}}{0pt}{}
+
+\newcommand{\algrepeatforever}{\textbf{repeat forever}\\\algbegin}
+
+\interfootnotelinepenalty=50000
+
+\title{\textbf{Genifer\\-- an artificial general intelligence}}
+\author{YKY (general.intelligence@Gmail.com)\\ \\
+with input from:\\
+Abram Demski\\
+Ben Goertzel\\
+Martin Magnusson\\
+William Taysom\\
+Russell Wallace\\
+Pei Wang
+}
+\date{\copyright \quad latest revision: \today}
+
+\setlength{\headheight}{0cm}
+\setlength{\hoffset}{0cm}
+\setlength{\topmargin}{-2cm}
+\setlength{\oddsidemargin}{-2cm}
+\setlength{\evensidemargin}{-2cm}
+\setlength{\textwidth}{19.5cm}
+\setlength{\textheight}{28cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\footskip}{0.9cm}  % between bottom of page and page number
+\setlength{\floatsep}{0cm}
+\setlength{\textfloatsep}{0.6cm}
+\setlength{\intextsep}{0.5cm}
+\setlength{\parindent}{0em}   % em = width of capital M
+  % ex = height of lowercase letter x
+% \setlength{\topsep}{-1ex}
+\setlength{\pltopsep}{-3ex}   % for compact-enum
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\rhead{}
+\lhead{}
+\cfoot{}
+\rfoot{\thepage}
+\fancypagestyle{plain}{\rfoot{\thepage}}
+%\pagestyle{plain}
+
+\includeonly{introduction, architecture, knowledge-representation, logic, vagueness, probabilities, confidence, inference, pattern-recognition, belief-revision, induction, natural-language, memory-systems, planning, program-synthesis, value-judgements, vision, implementation, business-aspects, quick-start, symbols}
+
+\makeindex
+\makeglossaries
+
+\begin{document}
+%\font\normalfont=cmss14
+\renewcommand{\normalsize}{\fontsize{13pt}{15pt}\selectfont}
+\fontsize{13pt}{15pt} \selectfont
+
+%\pagestyle{plain}
+%\newcommand\ps@plain{
+%\renewcommand\@oddhead{}
+%\let\@evenhead\@oddhead
+%\renewcommand\@evenfoot
+%    {\hfil{\thepage}}
+%\let\@oddfoot\@evenfoot
+%}
+
+\maketitle
+\dominitoc
+
+\setcounter{chapter}{-1}
+\chapter{Preface, executive summary, to-do list}
+
+\begin{enumerate}
+
+\item  This book is a perpetual draft.
+
+\item  My personal reason for developing AGI is to achieve life extension.
+
+\item  The source code of $\mbox{Genifer}$ is hosted on \href{http://code.google.com/p/genifer/}{Google Code}, including some very easy \href{http://code.google.com/p/genifer/downloads/list}{tutorial slides}.  Also feel free to \href{mailto:Generic.Intelligence@Gmail.com}{contact me}!
+
+\end{enumerate}
+
+\begin{flushright}
+--- YKY
+\end{flushright}
+
+{\sffamily\bfseries\Huge Executive summary:}
+
+\vspace{1em}
+\begin{description}
+
+\item[Inference:] Genifer descended from classical logic-based A.I.  Its 3 modes of inference are deduction, abduction (explaining), and induction (learning).  This is common to NARS, OpenCog, Cyc.
+
+\item[Logic:] Genifer is based on an \textbf{algebra of concept composition}, which replaces predicate logic as the internal structure of propositions.
+
+\item[KB:] Genifer's KB stores logic formulas, similar to classical A.I. systems such as Cyc, and NARS.  OpenCog is an exception in that it stores its knowledge as a hypergraph called AtomSpace.
+
+\item[Uncertainty:] Genifer uses fuzzy-probabilistic logic, the probabilistic part is an exact algorithm for belief propagation in Bayesian networks.  The fuzzy-probabilistic calculus is created by YKY based on the Beta distribution.
+
+\item[Bootstrapping:] Genifer will be written in its own language, which is a \textbf{logical-functional} programming language based on Genifer's logic and an existing functional programming language such as Clojure or Haskell.
+
+\end{description}
+
+\vspace{2em}
+
+\color{TodoColor}
+
+{\sffamily\bfseries\Huge To-do:}
+
+\begin{description}
+
+\item[Ch 1 (Introduction)]  Explain the new ideas that I learned about the relationship between propositional logic and topological logic.
+
+\item[Ch 2 (Architecture)]  Explain AIXI, algorithmic complexity, Solomonoff induction, etc.  Explain distributive architecture.  New idea that bootstrapping is possible.
+
+\item[Ch 3 (KR)] --- ok ---
+
+\item[Ch 4 (Logic)]  New logic of concept composition.  Ideas about equational unification and concepts.  Explain background notions, eg paradoxes.
+
+\item[Ch 5 (Z)]  Add new idea on the ``Java-girl paradox'', which is in draft paper.
+
+\item[Ch 8 (Inference)]  Copy and paste Bayesian inference and factor graph stuff from the Lisp code to here.
+
+\item[Ch 9 (Pattern recognition)]  Matrix technique on similarity.
+
+\item[Ch 11 (Learning)]  A lot of new material is in the slides.
+
+\item[Ch 12 (NL)] New idea of semantic parsing.  New diagrams from GUI.
+
+\item[Ch 13 (Memory)]  Explain hierarchical clustering idea, ontology.
+
+\item[Ch 14 (Planning)]  May need re-think.
+
+\item[Ch 18 (Implementation)]  Bootstrap Genifer in its own language.
+
+\item[Appendix A]  Recommend more books for AGI sub-areas.  Especially math books.
+
+\end{description}
+
+%end of to-do
+\color{black}
+
+\tableofcontents
+
+\include{introduction}
+\include{architecture}
+\include{knowledge-representation}
+% \chapter{Slideshow: logic}
+\include{logic}
+\include{vagueness}
+\include{probabilities}
+\include{confidence}
+\include{inference}
+\include{pattern-recognition}
+\include{belief-revision}
+\include{induction}
+\include{natural-language}
+\include{memory-systems}
+\include{planning}
+\include{program-synthesis}
+\include{value-judgements}
+\include{vision}
+\include{implementation}
+\include{business-aspects}
+\include{quick-start}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Symbols}
+\include{symbols}
+
+%\glossary{name={},description={}}
+\newglossaryentry{ATMS}{name={ATMS},description={assumption-based truth maintenance system}}
+\newglossaryentry{ATP}{name={ATP},description={automated theorem proving}}
+\newglossaryentry{backward chaining}{name={backward chaining},description={a deduction algorithm that makes deduction steps backwards, starting with the goal to be proved}}
+\newglossaryentry{BDI}{name={BDI},description={belief-desire-intention (architecture)}}
+\newglossaryentry{BN}{name={BN},description={Bayesian network}}
+\newglossaryentry{CDF}{name={CDF},description={cumulative distribution function}}
+\newglossaryentry{CNF}{name={CNF},description={conjunctive normal form}}
+\newglossaryentry{DNF}{name={DNF},description={disjunctive normal form}}
+\newglossaryentry{DP}{name={DP},description={deductive planning}}
+\newglossaryentry{EA}{name={EA},description={evolutionary algorithm}}
+\newglossaryentry{FOL}{name={FOL},description={first-order logic}}
+\newglossaryentry{forward chaining}{name={forward chaining},description={a deduction algorithm that performs deduction steps starting from the premises}}
+\newglossaryentry{ground}{name={ground},description={(logic) a formula is ground if it does not contain variables}}
+\newglossaryentry{HO}{name={HO},description={higher-order}}
+\newglossaryentry{HOL}{name={HOL},description={higher-order logic}}
+\newglossaryentry{IE}{name={IE},description={inference engine}}
+\newglossaryentry{ILP}{name={ILP},description={inductive logic programming}}
+\newglossaryentry{JTMS}{name={JTMS},description={justification-based truth maintenance system}}
+\newglossaryentry{KB}{name={KB},description={knowledge base}}
+\newglossaryentry{KR}{name={KR},description={knowledge representation}}
+\newglossaryentry{LBAI}{name={LBAI},description={logic-based AI}}
+\newglossaryentry{LGG}{name={LGG},description={least general generalization}}
+\newglossaryentry{literal}{name={literal},description={(logic) a literal is an atomic formula or its negation}}
+\newglossaryentry{LTM}{name={LTM},description={Long-Term Memory}}
+\newglossaryentry{MDL}{name={MDL},description={minimum description length}}
+\newglossaryentry{MEA}{name={MEA},description={means-end analysis}}
+\newglossaryentry{NL}{name={NL},description={natural language}}
+\newglossaryentry{NP}{name={NP},description={noun phrase}}
+\newglossaryentry{NR}{name={NR},description={natural reasoning (= common-sense / human-like reasoning)}}
+\newglossaryentry{PCA}{name={PCA},description={principal component analysis}}
+\newglossaryentry{PDF}{name={PDF},description={probability density function}}
+\newglossaryentry{predicate logic}{name={predicate logic},description={any logic of first-order or above, ie, not propositional logic}}
+\newglossaryentry{RL}{name={RL},description={reinforcement learning}}
+\newglossaryentry{RRL}{name={RRL},description={relational reinforcement learning}}
+\newglossaryentry{RSI}{name={RSI},description={recursive self-improvement}}
+\newglossaryentry{rule}{name={rule},description={a logic formula with variables (opposite of ground)}}
+\newglossaryentry{SAT}{name={SAT},description={logical satisfiability}}
+\newglossaryentry{SLD}{name={SLD},description={selective linear definite clause resolution}}
+\newglossaryentry{SLS}{name={SLS},description={stochastic local search}}
+\newglossaryentry{SVM}{name={SVM},description={support vector machines}}
+\newglossaryentry{term}{name={term},description={A terms is recursively defined as either a variable, a constant, or applications of functions to arguments which are terms}}
+\newglossaryentry{TRS}{name={TRS},description={term rewriting system}}
+\newglossaryentry{TV}{name={TV},description={truth value}}
+\newglossaryentry{VP}{name={VP},description={verb phrase}}
+\newglossaryentry{WM}{name={WM},description={Working Memory, part of the KB that has faster processing speed}}
+\newglossaryentry{ZOL}{name={ZOL},description={zeroth-order logic (= propositional logic)}}
+
+\index{RSI (recursive self-improvement) |see{self-programming}}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Abbreviations and glossary}
+\printglossary
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{plainnat}
+\bibliography{AGI-book}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\chapter*{Acknowledgements}
+
+In addition to the people listed on the title page, I'd like to thank the AGI mailing-list participants for years of discussions.
+
+\end{document}
