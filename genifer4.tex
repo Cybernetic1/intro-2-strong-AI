@@ -4,6 +4,73 @@
 \end{flushright}
 \minitoc
 
+\section{Genifer 4.0 theory}
+
+Make the correspondence:
+\begin{center}
+\begin{tabular}{ccc}
+logic formulas & $\Leftrightarrow$ & algebra over the ring of truth values \\
+facts (propositions) & $\Leftrightarrow$ & formal series \\
+rules & $\Leftrightarrow$ & operators \\
+KB & $\Leftrightarrow$ & vector space \\
+   &					& (representation of logic algebra) \\ 
+pattern matching & $\Leftrightarrow$ & filter: KB $\rightarrow$ KB \\ 
+deduction & $\Leftrightarrow$ & apply operators \\
+learning & $\Leftrightarrow$ & find operator \\ 
+memory & $\Leftrightarrow$ & vector space $\times t$ \\ 
+actions & $\Leftrightarrow$ & some meta-operations (?) \\
+	 &						 & between memories
+\end{tabular}
+\end{center}
+
+\section{逻辑推导}
+
+\section{学习}
+
+% \setmainfont{SimSun}
+
+学习的目的是寻找一组逻辑\  formulas 去解释这世界。  所谓解释即推导。
+
+学习的方法是\  inductive learning，即由事实诱导出法则\  (induce rules from facts)。 Rules 就是逻辑範式。
+
+Induction 需要的是一个\  general-to-specific order。  传统逻辑中这个序由两方面达成：
+\begin{enumerate}
+\item 某个\  concept 比另一个\  concept 更一般，例如： 动物／狗
+\item conjunctions 的增加，例如： 戴眼镜\  $\wedge$ 长头发
+\end{enumerate}
+
+压缩的方法必须是\  ``semantic distance preserving''，意即： 在语义空间中相似的点被压缩到相邻的逻辑範式。
+
+Gradient descent 的原理是我们必须知道\  $\frac{\partial\mathcal{E}}{\partial\mathbf{r}}$ 的值，其中 $\mathcal{E}$ 是误差，$\mathbf{r}$ 是法则空间中的座标。
+
+误差\  $\mathcal{E}$ 由下式给出：
+$$ \mathcal{E} = || R^\infty(\mathcal{F}) - \mathcal{F}^* || $$ 
+$\mathcal{F}$ 是已知事实，$\mathcal{F}^*$ 是新的要学习的事实，$R$ 是所有法则，$r \in R$。
+
+问题似乎是： 法则的诱导似乎不能单是基於语法。 概念阶层的诱导是基於： Liebniz 和\  $a R b$。
+
+Liebniz extensionality:
+\begin{eqnarray}
+xZ \rightarrow yZ \Leftrightarrow x \supset y \\
+Zx \rightarrow Zy \Leftrightarrow x \supset y
+\end{eqnarray}
+
+There are 2 ways to generalize a logic formula:
+\begin{enumerate}
+\item adding \textbf{conjunctions}
+\item using concepts that admit \textbf{substitutions}
+\end{enumerate}
+
+The relation of subsumption is \textit{intrinsic} to the logic.  
+
+\section{动作}
+
+还有一个问题就是在 4.0 中的动作，其意义为何？
+
+动作的例子包括： focus, manifest, extract, apply-predicate, reset-program-counter, ……
+
+基本上是 Working Memory 和 Tape 之间的抄写。  但如果 Working Memory 是一些 algebraic terms，则抄写应该是一 filtering process。
+
 \section{Algebraic logic}
 
 My motivation for studying algebraic logic is to develop better inference and learning algorithms for logic.  In the 1990s, the invention of SVMs by Vapnik revolutionized the field of statistical learning, and SVMs remain to be the best general spatial learner today.  What if we can invent something similar to logic as what SVM is to spatial domains?
@@ -51,59 +118,3 @@ first-order objects & $\longrightarrow$ & shapes / regions in space\\
 predicates          & $\longrightarrow$ & points in space\\
 logical entailment  & $\longrightarrow$ & ?\\
 \end{tabular}
-
-\section{Genifer 4.0 理论}
-
-Make the correspondence:
-\begin{center}
-\begin{tabular}{ccc}
-logic formulas & $\Leftrightarrow$ & algebra over the ring of truth values \\
-KB & $\Leftrightarrow$ & formal series \\
-rule & $\Leftrightarrow$ & operator \\
-pattern matching & $\Leftrightarrow$ & filter: KB $\rightarrow$ KB \\ 
-deduction & $\Leftrightarrow$ & apply operators \\
-learning & $\Leftrightarrow$ & find operator \\ 
-\end{tabular}
-\end{center}
-
-\subsection{逻辑推导}
-
-\subsection{学习}
-
-% \setmainfont{SimSun}
-
-学习的目的是寻找一组逻辑\  formulas 去解释这世界。  所谓解释即推导。
-
-学习的方法是\  inductive learning，即由事实诱导出法则\  (induce rules from facts)。 Rules 就是逻辑範式。
-
-Induction 需要的是一个\  general-to-specific order。  传统逻辑中这个序由两方面达成：
-\begin{enumerate}
-\item 某个\  concept 比另一个\  concept 更一般，例如： 动物／狗
-\item conjunctions 的增加，例如： 戴眼镜\  $\wedge$ 长头发
-\end{enumerate}
-
-压缩的方法必须是\  ``semantic distance preserving''，意即： 在语义空间中相似的点被压缩到相邻的逻辑範式。
-
-Gradient descent 的原理是我们必须知道\  $\frac{\partial\mathcal{E}}{\partial\mathbf{r}}$ 的值，其中 $\mathcal{E}$ 是误差，$\mathbf{r}$ 是法则空间中的座标。
-
-误差\  $\mathcal{E}$ 由下式给出：
-$$ \mathcal{E} = || R^\infty(\mathcal{F}) - \mathcal{F}^* || $$ 
-$\mathcal{F}$ 是已知事实，$\mathcal{F}^*$ 是新的要学习的事实，$R$ 是所有法则，$r \in R$。
-
-问题似乎是： 法则的诱导似乎不能单是基於语法。 概念阶层的诱导是基於： Liebniz 和\  $a R b$。
-
-Liebniz extensionality:
-\begin{eqnarray}
-xZ \rightarrow yZ \Leftrightarrow x \supset y \\
-Zx \rightarrow Zy \Leftrightarrow x \supset y
-\end{eqnarray}
-
-There are 2 ways to generalize a logic formula:
-\begin{enumerate}
-\item adding \textbf{conjunctions}
-\item using concepts that admit \textbf{substitutions}
-\end{enumerate}
-
-The relation of subsumption is \textit{intrinsic} to the logic.  
-
-\familydefault

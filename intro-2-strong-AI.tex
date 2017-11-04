@@ -1,8 +1,14 @@
 \documentclass[12pt, a4paper]{report}
 
-\usepackage{fontspec}
+\ifdefined\chinchin
 \usepackage{xeCJK}
-\setCJKmainfont{SimSun}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\newcommand{\cc}[2]{#1}
+\else
+\newcommand{\cc}[2]{#2}
+\fi
+
+%\usepackage{fontspec}		% not sure why it's included
 
 %dvips OR pdftex
 \usepackage[pdfauthor={YKY}, bookmarks, anchorcolor=blue, colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue, breaklinks, plainpages=false, pdfpagelabels, hypertexnames=false]{hyperref}
@@ -190,8 +196,8 @@ Pei Wang
 \maketitle
 \dominitoc
 
-\setcounter{chapter}{-1}
-\chapter{Preface, executive summary, to-do list}
+\chapter*{Preface, executive summary, to-do list}
+\addcontentsline{toc}{chapter}{\cc{序}{Preface}}
 
 \begin{enumerate}
 
@@ -265,32 +271,160 @@ Pei Wang
 
 \tableofcontents
 
-\include{introduction}
-\include{architecture}
-\include{knowledge-representation}
-% % \chapter{Slideshow: logic}
-\include{logic}
-\include{genifer4}
-\include{vagueness}
-\include{probabilities}
-\include{confidence}
-\include{inference}
-\include{pattern-recognition}
-\include{belief-revision}
-\include{induction}
-\include{natural-language}
-\include{memory-systems}
-\include{planning}
-\include{program-synthesis}
-\include{value-judgements}
-\include{vision}
-\include{implementation}
-\include{business-aspects}
-\include{quick-start}
+\setcounter{chapter}{-1}
+\chapter{\cc{导论}{Introduction}}
+
+	\section{\cc{鸡与蛋问题，罐头中的罐头刀}{Chicken-and-egg problem}}
+
+\part{\cc{技巧}{Techniques}}
+
+\chapter{\cc{机器学习基础}{Machine learning basics}}
+
+	\section{\cc{归纳偏见与「没有免费午餐」}{Inductive bias and ``no free lunch'' theorem}}
+	\section{\cc{结构主义、后结构主义}{Structuralism, post-structuralism}}
+	
+\chapter{\cc{逻辑}{Logic}}
+
+	\section{\cc{人脑思考的三大模式}{The 3 main modes of human thinking}}
+
+		\subsection{Deduction}
+		\subsection{Abduction}
+		\subsection{Induction}
+
+	\section{\cc{命题逻辑}{Propositional logic}}
+	
+	\section{\cc{谓词逻辑／一阶逻辑}{Predicate logic / first-order logic}}
+	
+	\section{\cc{逻辑推理算法}{Inference (classical)}}
+	
+		\subsection{\cc{消解算法 (resolution)}{Resolution algorithm}}
+		\subsection{\cc{同一化算法 (unification)}{Unification algorithm}}
+	
+	\section{\cc{二阶逻辑／高阶逻辑}{Second-order / higher-order logic}}
+	
+	\section{\cc{$\lambda$-演算，组合逻辑}{$\lambda$-calculus, combinatory logic}}
+	
+	\section{\cc{代数逻辑、逻辑的几何化}{Algebraic logic, geometrization}}
+
+	\section{\cc{范畴论、范畴逻辑}{Category theory, categorical logic}}
+	
+	\section{\cc{量子逻辑}{Quantum logic}}
+	
+	\section{\cc{项重写系统}{Term rewriting systems}}
+	
+	\section{\cc{图重写系统，超图}{Graph rewriting systems, hypergraphs}}
+
+\chapter{\cc{不确定性}{Uncertainty}}
+
+	\section{\cc{模糊性}{Fuzziness}}
+
+	\section{\cc{机率}{Probability}}
+	
+		\subsection{Bayesian networks}
+
+	\section{\cc{可信度}{Confidence}}
+
+	\section{\cc{推理算法}{Uncertain inference}}
+	
+		\subsection{MCMC (Markov chain Monte Carlo)}
+
+\chapter{\cc{神经网络}{Neural networks}}
+
+	\section{\cc{神经科学}{Neuroscience}}
+	
+		\subsection{\cc{大脑结构}{Brain architecture}}
+		\subsection{\cc{神经元}{Neurons}}
+		\subsection{\cc{神经化学}{Neuro-chemistry}}	
+	
+	\section{\cc{神经网络的数学}{Mathematics of neural networks}}
+
+		\subsection{\cc{非线性分析}{Non-linear analysis}}
+		\subsection{\cc{拓扑度理论}{Degree theory}}
+		\subsection{\cc{同调论／奇点理论}{Homology}}
+		\subsection{\cc{调和分析}{Harmonic analysis}}
+	
+	\section{\cc{深度学习}{Deep learning}}
+
+\chapter{\cc{进化算法}{Evolution}}
+
+	\section{\cc{自然进化历史}{History of natural evolution}}
+	\section{\cc{进化算子及其算子谱}{Spectrum of the evolution operator}}
+
+\chapter{\cc{强化学习}{Reinforcement learning}}
+
+	\section{\cc{控制论，微分几何}{Control theory / differential geometry}}
+	
+	\section{\cc{最优化}{Optimization}}
+	
+\part{\cc{功能组别}{Faculties}}
+
+\chapter{\cc{模式识别}{Pattern recognition}}
+
+	\section{\cc{视觉}{Vision}}
+
+\chapter{\cc{信念修正，真理维修}{Belief revision / truth maintenance}}
+
+\chapter{\cc{归纳学习}{Inductive learning}}
+
+	\section{\cc{基於逻辑的归纳学习}{Logic-based inductive learning}}
+
+\chapter{\cc{自然语言}{Natural language}}
+
+	\section{\cc{语法}{Syntax theory}}
+
+	\section{\cc{语义}{Semantic theory}}
+		\subsection{\cc{Abduction-as-interpretation}{Abduction as interpretation}}
+		\subsection{\cc{Montague 语法}{Montague grammar}}
+		\subsection{\cc{Categorial 语法}{Categorial grammar}}
+
+\chapter{\cc{计划}{Planning}}
+
+	\section{\cc{自动程式生成}{Program synthesis}}
+
+
+\part{\cc{系统}{Architecture}}
+
+\chapter{\cc{认知系统架构}{Cognitive architectures}}
+
+\chapter{\cc{记忆系统}{Memory systems}}
+
+	\section{\cc{工作记忆}{Working memory}}
+	
+	\section{\cc{事件记忆}{Episodic memory}}
+	
+\chapter{\cc{实践}{Implementation}}
+
+	\section{\cc{道德问题}{Ethical issues}}
+	
+	\section{\cc{商业化}{Business aspects}}
+
+
+%\include{introduction}
+%\include{architecture}
+%\include{knowledge-representation}
+%% % \chapter{Slideshow: logic}
+%\include{logic}
+%\include{genifer4}
+%\include{vagueness}
+%\include{probabilities}
+%\include{confidence}
+%\include{inference}
+%\include{pattern-recognition}
+%\include{belief-revision}
+%\include{induction}
+%\include{natural-language}
+%\include{memory-systems}
+%\include{planning}
+%\include{program-synthesis}
+%\include{value-judgements}
+%\include{vision}
+%\include{implementation}
+%\include{business-aspects}
+%\include{quick-start}
 
 \clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{Symbols}
+\addcontentsline{toc}{chapter}{\cc{符号表}{Symbols}}
 \include{symbols}
 
 %\newglossaryentry{}{name={},description={}}
@@ -345,23 +479,23 @@ Pei Wang
 
 \clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{Abbreviations and glossary}
+\addcontentsline{toc}{chapter}{\cc{专有名词与缩写}{Abbreviations and glossary}}
 \printglossaries
 
 \clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{Bibliography}
+\addcontentsline{toc}{chapter}{\cc{参考文献}{Bibliography}}
 \bibliographystyle{plainnat}
 \bibliography{AGI-book}
 
 \clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{Index}
+\addcontentsline{toc}{chapter}{\cc{索引}{Index}}
 \printindex
 
 \phantomsection
-\addcontentsline{toc}{chapter}{Acknowledgements}
-\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{\cc{致谢}{Acknowledgements}}
+\chapter*{\cc{致谢}{Acknowledgements}}
 
 In addition to the people listed on the title page, I'd like to thank the AGI mailing-list participants for years of discussions.
 
