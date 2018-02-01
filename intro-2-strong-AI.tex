@@ -1,7 +1,7 @@
-\documentclass[12pt, a4paper]{report}
+\documentclass[12pt,a4paper]{report}
 
 \ifdefined\chinchin
-\usepackage{xeCJK}
+\usepackage[CJKspace]{xeCJK}
 \setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
 \newcommand{\cc}[2]{#1}
 \else
@@ -15,9 +15,21 @@
 % \usepackage{breakurl}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage[square]{natbib}
+\usepackage{tikz-cd}		% commutative diagrams
+\usepackage{tikz}
+\usepackage{comment}
+
+% \usepackage{csquotes}
+\usepackage[backend=biber,refsection=chapter,bibstyle=authoryear,citestyle=authoryearbrack]{biblatex}
+\bibliography{AGI-book}
+\defbibheading{secbib}[\bibname]{%
+	\section*{#1}%
+	\markboth{#1}{#1}}
+%\usepackage[sectionbib,square]{natbib}
+%\usepackage{chapterbib}
+
 \usepackage{color}
-\usepackage{amsmath}     % for {equation} {cases} {xleftarrow}
+\usepackage{amsmath}     % for {equation} {cases} {xleftarrow}, [\mathindent]
 \usepackage{bbm}         % for math fonts with double lines
 \usepackage{amssymb}     % for \curlyvee and \therefore
 \usepackage{stmaryrd}    % for \bigcurlyvee, \widetilde{\bigwedge}
@@ -28,13 +40,17 @@
 \usepackage{minitoc}
 \usepackage[sf,bf,big,raggedright,compact]{titlesec}
 \usepackage{fancyhdr}
-\usepackage{movie15}
+% \usepackage{movie15}
 \usepackage{caption}
 \usepackage{parskip}     % may not need
 \usepackage[pointedenum]{paralist}  % compactenum, compactitem etc
 \usepackage{enumitem}    % fixes para top seperation in {enumerate}
 \setlist{topsep=-1ex}
 \usepackage{amsthm}      % theorem style
+\usepackage{ulem} % underline unbroken with \uline
+\usepackage{CJKfntef}
+%\xeCJKsetup{underline/format=\color{black}}
+%\usepackage{unicode-math}
 
 %\newenvironment{compactitem}[0]{\begin{enumerate}[label=\textbullet,noitemsep]}{\end{enumerate}}
 
@@ -54,64 +70,48 @@
 \newcommand{\code}   [1]{{\footnotesize{\ttfamily #1}}}
 \newcommand{\formula}[1]{\textcolor{LogicColor}{#1}}
 \newcommand{\todo}   [1]{\textcolor{TodoColor}{To do: #1}}
-\newcommand{\english}[1]{\textit{``#1''}}
-%\newcommand{\english}[1]{\rmfamily \textit{``#1''}\sffamily}
-\newcommand{\kb}     [1]{[s$_#1$]:}
-\renewcommand{\star}{$* \;$}
-\newcommand{\app}{$\circ \;$}
-\newcommand{\eg}{\textbf{Example:} }
-\newcommand{\question}[1]{\textcolor{Red}{Question: #1}}
-\newcommand{\tab}{\hspace*{1cm} }
+%\newcommand{\english}[1]{\textit{``#1''}}
+\newcommand{\english}[1]{\rmfamily \textit{``#1''}\sffamily}
 
 \newcommand{\vect}[1]{\mbox{\boldmath$#1$}}             %% vector
-
 \newcommand{\underconst}{\includegraphics[scale=0.5]{UnderConst.png}}
 
 %%%%%%%%%%%%%%%%% Symbols defined by me %%%%%%%%%%%%%%%%%%%
-\newcommand{\defeq}{\stackrel{def}{=}}
-% fuzzy and probabilistic logic operators
-\newcommand{\tv}[1]{$\langle${#1}$\rangle$}
-\newcommand{\Zand}{\stackrel{Z}{\wedge}}
-\newcommand{\Zor}{\stackrel{Z}{\vee}}
-\newcommand{\Zneg}{\stackrel{Z}{\neg}}
-\newcommand{\Pand}{\stackrel{P}{\wedge}}
-\newcommand{\Por}{\stackrel{P}{\vee}}
-\newcommand{\bigZand}{\stackrel{Z}{\bigwedge}}
-\newcommand{\bigZor}{\stackrel{Z}{\bigvee}}
-\newcommand{\bigPand}{\stackrel{P}{\bigwedge}}
-\newcommand{\bigPor}{\stackrel{P}{\bigvee}}
-\newcommand{\Pandor}{\stackrel{P}{\varodot}}
-\newcommand{\Zandor}{\stackrel{Z}{\varodot}}
-\newcommand{\bigPandor}{\stackrel{P}{\bigodot}}
-\newcommand{\bigZandor}{\stackrel{Z}{\bigodot}}
-\newcommand{\Pimp}{\rightarrowtriangle}       % probabilistic implication ->
-\newcommand{\PimpL}{\leftarrowtriangle}       % probabilistic implication <-
+
+\newcommand{\unline}[1]{\CJKunderline*[format=\color{black}]{#1}}
+\newcommand{\tab}{\hspace*{2cm}}
+
+\newcommand*\sigmoid{\vcenter{\hbox{\includegraphics{../sigmoid.png}}}}
+\newcommand*\rectifier{\vcenter{\hbox{\includegraphics{../rectifier.png}}}}
+\newcommand*\KB{\vcenter{\hbox{\includegraphics{../KB-symbol.png}}}}
+\newcommand*\KBsmall{\vcenter{\hbox{\includegraphics{../KB-symbol2.png}}}}
+\newcommand*\NN{\vcenter{\hbox{\includegraphics{../NN-symbol.png}}}}
+\newcommand*\Graph{\vcenter{\hbox{\includegraphics{../graph-symbol.png}}}}
+\newcommand*\Hypergraph{\vcenter{\hbox{\includegraphics{../hypergraph-symbol.png}}}}
+\newcommand*\Tree{\vcenter{\hbox{\includegraphics{../tree-symbol.png}}}}
+\newcommand*\NewSym[1]{\vcenter{\hbox{\includegraphics{#1}}}}
+\newcommand{\dashh}{\textemdash~}
 \newcommand{\rewrite}[1]{\stackrel{#1}{\Rightarrow}}
-\newcommand{\narrow}[1]{\stackrel{#1}{\leadsto}}
-% categories
-\newcommand{\catP}{\mathcal{P}}
-\newcommand{\catZ}{\mathcal{Z}}
-\newcommand{\catB}{\mathcal{B}}
-\newcommand{\catC}{\mathcal{C}}
-\newcommand{\catPB}{\mathcal{P(B)}}
-\newcommand{\catPZ}{\mathcal{P(Z)}}
-\newcommand{\setN}{\mathbb{N}}
-\newcommand{\setR}{\mathbb{R}}
-\newcommand{\Hyp}{\mathbbm{Hyp}}
+\newcommand{\defeq}{\stackrel{def}{=}}
 
-\fontsize{12pt}{15pt} \selectfont
-\renewcommand{\familydefault}{\sfdefault}
-%\renewcommand{\mtcfont}{\small\sffamily}
-%\renewcommand{\mtcSfont}{\small\sffamily}
-%\renewcommand{\mtcSSfont}{\small\sffamily}
-%\renewcommand{\mtcSSSfont}{\small\sffamily}
-%\renewcommand{\mtifont}{\small\sffamily}
+%\fontsize{14pt}{14pt} \selectfont
+%\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\mtcfont}{\small\bfseries}
+%\renewcommand{\mtcSfont}{\small\bfseries}
+%\renewcommand{\mtcSSfont}{\small\bfseries}
+%\renewcommand{\mtcSSSfont}{\small\bfseries}
+%\renewcommand{\mtifont}{\small\bfseries}
+%\renewcommand{\mtcfont}{\small}
+%\renewcommand{\mtcSfont}{\small}
+%\renewcommand{\mtcSSfont}{\small}
+%\renewcommand{\mtcSSSfont}{\small}
+%\renewcommand{\mtifont}{\small}
 
-\renewcommand{\mtcfont}{\normalsize\sffamily}
-\renewcommand{\mtcSfont}{\normalsize\sffamily}
-\renewcommand{\mtcSSfont}{\normalsize\sffamily}
-\renewcommand{\mtcSSSfont}{\normalsize\sffamily}
-\renewcommand{\mtifont}{\normalsize\sffamily}
+%\renewcommand{\mtcfont}{\normalsize\sffamily}
+%\renewcommand{\mtcSfont}{\normalsize\sffamily}
+%\renewcommand{\mtcSSfont}{\normalsize\sffamily}
+%\renewcommand{\mtcSSSfont}{\normalsize\sffamily}
+%\renewcommand{\mtifont}{\normalsize\sffamily}
 
 %\renewcommand{\mtcfont}{\large\sffamily}
 %\renewcommand{\mtcSfont}{\large\sffamily}
@@ -125,19 +125,28 @@
 \theoremstyle{examples} \newtheorem{example}{Example}[section]
 
 \titlespacing{\chapter}{0pt}{0pt}{0pt}
-\titleformat{\chapter}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
-\titleformat{\appendix}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
-\titleformat{\section}[hang]{\sffamily\bfseries\Large\color{blue}}{\thesection \hspace{10pt}}{0pt}{}
-\titleformat{\subsection}[hang]{\sffamily\bfseries\large\color{blue}}{\thesubsection \hspace{5pt}}{0pt}{}
-\titleformat{\subsubsection}[hang]{\sffamily\bfseries\color{blue}}{\thesubsubsection \hspace{5pt}}{0pt}{}
+%\titleformat{\chapter}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+%\titleformat{\appendix}[hang]{\sffamily\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+%\titleformat{\section}[hang]{\sffamily\bfseries\Large\color{blue}}{\thesection \hspace{10pt}}{0pt}{}
+%\titleformat{\subsection}[hang]{\sffamily\bfseries\large\color{blue}}{\thesubsection \hspace{5pt}}{0pt}{}
+%\titleformat{\subsubsection}[hang]{\sffamily\bfseries\color{blue}}{\thesubsubsection \hspace{5pt}}{0pt}{}
+\titleformat{\chapter}[hang]{\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+\titleformat{\appendix}[hang]{\bfseries\Huge\color{blue}}{\thechapter \hspace{30pt}}{0pt}{}
+\titleformat{\section}[hang]{\bfseries\Large\color{blue}}{\thesection \hspace{10pt}}{0pt}{}
+\titleformat{\subsection}[hang]{\bfseries\large\color{blue}}{\thesubsection \hspace{5pt}}{0pt}{}
+\titleformat{\subsubsection}[hang]{\bfseries\color{blue}}{\thesubsubsection \hspace{5pt}}{0pt}{}
 
 \newcommand{\algrepeatforever}{\textbf{repeat forever}\\\algbegin}
 
+\makeatletter
+\renewcommand{\boxed}[1]{\fbox{\m@th$\displaystyle\scalebox{0.9}{#1}$} \,}
+\makeatother
+
 \interfootnotelinepenalty=50000
 
-\title{\textbf{Genifer\\-- an artificial general intelligence}}
+\title{\textbf{Introduction to strong AI}}
 \author{YKY (甄景贤 general.intelligence@Gmail.com)\\ \\
-with input from:\\
+previous collaborators and commenters:\\
 Abram Demski\\
 Ben Goertzel\\
 Martin Magnusson\\
@@ -174,15 +183,16 @@ Pei Wang
 \fancypagestyle{plain}{\rfoot{\thepage}}
 %\pagestyle{plain}
 
-\includeonly{introduction, architecture, knowledge-representation, logic, genifer4, vagueness, probabilities, confidence, inference, pattern-recognition, belief-revision, induction, natural-language, memory-systems, planning, program-synthesis, value-judgements, vision, implementation, business-aspects, quick-start, symbols}
+\includeonly{introduction, architecture, knowledge-representation, logic2, genifer4, vagueness, probabilities, confidence, inference, pattern-recognition, belief-revision, induction, natural-language, memory-systems, planning, program-synthesis, value-judgements, vision, implementation, business-aspects, quick-start, symbols}
 
 \makeindex
 \makeglossaries
 
 \begin{document}
 %\font\normalfont=cmss14
-\renewcommand{\normalsize}{\sffamily\fontsize{12pt}{15pt}\selectfont}
-\fontsize{12pt}{15pt} \selectfont
+%\renewcommand{\normalsize}{\sffamily\fontsize{14pt}{14pt}\selectfont}
+%\renewcommand{\normalsize}{\fontsize{12pt}{12pt}\selectfont}
+%\fontsize{12pt}{12pt} \selectfont
 
 %\pagestyle{plain}
 %\newcommand\ps@plain{
@@ -195,6 +205,10 @@ Pei Wang
 
 \maketitle
 \dominitoc
+
+% =====================================================================================
+\begin{comment}
+
 
 \chapter*{Preface, executive summary, to-do list}
 \addcontentsline{toc}{chapter}{\cc{序}{Preface}}
@@ -213,7 +227,7 @@ Pei Wang
 --- YKY
 \end{flushright}
 
-{\sffamily\bfseries\Huge Executive summary:}
+{\bfseries\Huge Executive summary:}
 
 \vspace{1em}
 \begin{description}
@@ -234,7 +248,7 @@ Pei Wang
 
 \color{TodoColor}
 
-{\sffamily\bfseries\Huge To-do:}
+{\bfseries\Huge To-do:}
 
 \begin{description}
 
@@ -269,53 +283,33 @@ Pei Wang
 %end of to-do
 \color{black}
 
+\end{comment}
+
 \tableofcontents
+\adjustmtc
 
 \setcounter{chapter}{-1}
 \chapter{\cc{导论}{Introduction}}
 
+	\minitoc
 	\section{\cc{鸡与蛋问题，罐头中的罐头刀}{Chicken-and-egg problem}}
 
 \part{\cc{技巧}{Techniques}}
 
 \chapter{\cc{机器学习基础}{Machine learning basics}}
 
+	\minitoc
 	\section{\cc{归纳偏见与「没有免费午餐」}{Inductive bias and ``no free lunch'' theorem}}
 	\section{\cc{结构主义、后结构主义}{Structuralism, post-structuralism}}
-	
-\chapter{\cc{逻辑}{Logic}}
 
-	\section{\cc{人脑思考的三大模式}{The 3 main modes of human thinking}}
+%\bibliographystyle{plainnat}
+%\bibliography{AGI-book}
 
-		\subsection{Deduction}
-		\subsection{Abduction}
-		\subsection{Induction}
-
-	\section{\cc{命题逻辑}{Propositional logic}}
-	
-	\section{\cc{谓词逻辑／一阶逻辑}{Predicate logic / first-order logic}}
-	
-	\section{\cc{逻辑推理算法}{Inference (classical)}}
-	
-		\subsection{\cc{消解算法 (resolution)}{Resolution algorithm}}
-		\subsection{\cc{同一化算法 (unification)}{Unification algorithm}}
-	
-	\section{\cc{二阶逻辑／高阶逻辑}{Second-order / higher-order logic}}
-	
-	\section{\cc{$\lambda$-演算，组合逻辑}{$\lambda$-calculus, combinatory logic}}
-	
-	\section{\cc{代数逻辑、逻辑的几何化}{Algebraic logic, geometrization}}
-
-	\section{\cc{范畴论、范畴逻辑}{Category theory, categorical logic}}
-	
-	\section{\cc{量子逻辑}{Quantum logic}}
-	
-	\section{\cc{项重写系统}{Term rewriting systems}}
-	
-	\section{\cc{图重写系统，超图}{Graph rewriting systems, hypergraphs}}
+\include{logic2}
 
 \chapter{\cc{不确定性}{Uncertainty}}
 
+	\minitoc
 	\section{\cc{模糊性}{Fuzziness}}
 
 	\section{\cc{机率}{Probability}}
@@ -328,8 +322,11 @@ Pei Wang
 	
 		\subsection{MCMC (Markov chain Monte Carlo)}
 
+
+
 \chapter{\cc{神经网络}{Neural networks}}
 
+	\minitoc
 	\section{\cc{神经科学}{Neuroscience}}
 	
 		\subsection{\cc{大脑结构}{Brain architecture}}
@@ -346,6 +343,7 @@ Pei Wang
 	\section{\cc{深度学习}{Deep learning}}
 
 \chapter{\cc{进化算法}{Evolution}}
+
 
 	\section{\cc{自然进化历史}{History of natural evolution}}
 	\section{\cc{进化算子及其算子谱}{Spectrum of the evolution operator}}
@@ -380,7 +378,6 @@ Pei Wang
 \chapter{\cc{计划}{Planning}}
 
 	\section{\cc{自动程式生成}{Program synthesis}}
-
 
 \part{\cc{系统}{Architecture}}
 
@@ -422,10 +419,10 @@ Pei Wang
 %\include{business-aspects}
 %\include{quick-start}
 
-\clearpage
-\phantomsection
-\addcontentsline{toc}{chapter}{\cc{符号表}{Symbols}}
-\include{symbols}
+%\clearpage
+%\phantomsection
+%\addcontentsline{toc}{chapter}{\cc{符号表}{Symbols}}
+%\include{symbols}
 
 %\newglossaryentry{}{name={},description={}}
 \newglossaryentry{ATMS}{name={ATMS},description={assumption-based truth maintenance system}}
@@ -482,11 +479,11 @@ Pei Wang
 \addcontentsline{toc}{chapter}{\cc{专有名词与缩写}{Abbreviations and glossary}}
 \printglossaries
 
-\clearpage
-\phantomsection
-\addcontentsline{toc}{chapter}{\cc{参考文献}{Bibliography}}
-\bibliographystyle{plainnat}
-\bibliography{AGI-book}
+%\clearpage
+%\phantomsection
+%\addcontentsline{toc}{chapter}{\cc{参考文献}{Bibliography}}
+%\bibliographystyle{plainnat}
+%\bibliography{AGI-book}
 
 \clearpage
 \phantomsection
