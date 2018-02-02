@@ -1958,11 +1958,14 @@
   </bcf:bibdata>
   <bcf:section number="4">
     <bcf:citekey order="1">Cox2007</bcf:citekey>
-    <bcf:citekey order="2">Ireson-Paine2000</bcf:citekey>
-    <bcf:citekey order="3">Jacobs1999</bcf:citekey>
-    <bcf:citekey order="4">Lawvere1963</bcf:citekey>
-    <bcf:citekey order="5">Lawvere2003</bcf:citekey>
-    <bcf:citekey order="6">Lawvere1963</bcf:citekey>
+    <bcf:citekey order="2">Lambek1986</bcf:citekey>
+    <bcf:citekey order="3">Sorensen2006</bcf:citekey>
+    <bcf:citekey order="4">Ireson-Paine2000</bcf:citekey>
+    <bcf:citekey order="5">Crole1993</bcf:citekey>
+    <bcf:citekey order="6">Jacobs1999</bcf:citekey>
+    <bcf:citekey order="7">Lawvere1963</bcf:citekey>
+    <bcf:citekey order="8">Lawvere2003</bcf:citekey>
+    <bcf:citekey order="9">Lawvere1963</bcf:citekey>
   </bcf:section>
   <!-- SECTION 0 (cont.) -->
   <bcf:section number="0">

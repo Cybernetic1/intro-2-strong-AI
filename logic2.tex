@@ -32,7 +32,7 @@ a \rightarrow b = \top & \Leftrightarrow & \neg a \vee b = \top \nonumber \\
 \end{eqnarray}
 所以 $a \leq b$ 定义了一个 order relation，这就是 the Boolean lattice associated with the Boolean algebra，两者是等价的。 
 
-这是最小的包含两个命题的 Boolean lattice：
+这是包含两个命题的 Boolean lattice（但似乎不是 complete atomic Boolean lattice）：
 \begin{equation}
 \vcenter{\hbox{\includegraphics[scale=0.6]{Boolean-lattice.png}}}
 \end{equation}
@@ -44,7 +44,7 @@ a \rightarrow b = \top & \Leftrightarrow & \neg a \vee b = \top \nonumber \\
 \end{eqnarray}
 \begin{tabbing}
 \hspace*{2cm}\=  \kill
-因为： \> 由假的前提 ($\bot$) 可以推出任意结论 (``ex falso sequitur quodlibet'')，\\
+因为： \> 由假的前提 ($\bot$) 可以推出任意结论 (\english{ex falso sequitur quodlibet})，\\
       \> 而由任意前提都可以推出 恒真命题 ($\top$)。\\
 \end{tabbing}
 
@@ -69,7 +69,7 @@ $a \rightarrow b \Leftrightarrow a \leq b$ 但方向相反，原因是 $0 \leq 1
 \draw[thick] (a) edge[->] (b);
 \end{tikzpicture}&
 \end{eqnarray}
-在上例中（fig. \ref{regular knowledge lattice}），状态空间 包含所有可能的命题组合，可以说这个 lattice 是 ``completely regular'' （但这 terminology 可能不正确）。 
+在上例中（fig. \ref{regular knowledge lattice}），状态空间 包含所有可能的命题组合，可以说这个 lattice 是 ``regular'' 的（但这 terminology 可能不正确）。 
 
 如果在 lattice 中加入一些已知的 knowledge，例如 $y \rightarrow x$，则某些 节点 会消失，而且加入了一个新的 edge： 
 \begin{equation}
@@ -81,8 +81,7 @@ $a \rightarrow b \Leftrightarrow a \leq b$ 但方向相反，原因是 $0 \leq 1
 
 		\subsection{Heyting algebra}
 
-
-
+\underconst
 
 		\subsection{Boolean ring}
 
@@ -147,7 +146,31 @@ h_1 f_1 + h_2 f_2 + ... + h_s f_s = 0.
 \vcenter{\hbox{\includegraphics[scale=0.7]{world-of-logical-structures.png}}}
 \end{equation}
 
-在上图中最「麻烦」的似乎是 由 propositional logic 提升到 predicate logic 的 \textit{fibration}。  从一阶谓词逻辑 可以扩充到 高阶逻辑 (simple type theory)。  在这里，根据 Curry-Howard isomorphism，propositions 对应 types，predicates 对应 \textbf{type constructors}。  Type constructor 是指任何输出是 ``type'' 的函数。  而 simple type theory 与 CCC 有 equivalence of categories； 在这 等价关系中，types 对应於 morphisms（例如 morphism $f: A \rightarrow B$ 对应於 $x: A \vdash f(x): B$）。 换句话说，似乎只要有 morphisms 的范畴 就可以模拟 predicates。
+在上图中最「麻烦」的似乎是 由 propositional logic 提升到 predicate logic 的 \textbf{fibration}。 从命题逻辑上升到 type theory 可以透过 Curry-Howard isomorphism（下节介绍）；  在这过程中，propositions 对应 \textbf{types}，predicates 对应 \textbf{dependent types}。
+
+举例来说：
+\begin{eqnarray}
+\boxed{命题}  \quad & \mbox{『约翰是男人』} & \quad \formula{Male(john)} \nonumber \\
+\boxed{命题}  \quad & \mbox{『约翰爱玛莉』} & \quad \formula{Loves(john, mary)} 
+\end{eqnarray}
+Predicate 是一种函数，它吃一些 objects，吐出一个 proposition。
+
+在 type theory 那边，dependent type 吃一些 terms，吐出一个 type。 例如 $\formula{ARRAY}(n)$ 是一个 dependent type，它吃掉一个整数 $n$，吐出一个长度为 $n$ 的 $\formula{ARRAY}$ type。 
+
+两边之间有这样的 Curry-Howard 对应：
+\begin{eqnarray}
+\mbox{\textbf{Logic}} &  & \mbox{\textbf{Type theory}} \nonumber \\
+\mbox{formulas} & \leftrightsquigarrow & \mbox{types} \nonumber \\
+\mbox{proofs} & \leftrightsquigarrow & \mbox{terms} \nonumber \\
+\mbox{predicates} & \leftrightsquigarrow & \mbox{dependent type: terms $\rightarrow$ type}
+\end{eqnarray}
+Dependent type 是一个吃 terms 吐出 type 的函数。  它对应於逻辑 predicate，换句话说，predicate 是一个吃 proofs 吐出 proposition 的东西。  这有点奇怪，因为 predicate 通常吃的是逻辑里的 objects（也可以叫做 logic constants）。  但细想一下，如果 $\formula{john}$ 存在於 $\formula{Male}$ 这个集合内，则 $\formula{john}$ 顺理成章地可以看成是 $\formula{Male(john)}$ 此一命题的 proof。 换句话说，逻辑 objects 可以看成是逻辑上的 proofs。
+
+Simple type theory 与 CCC 有 equivalence of categories（在 \parencite{Lambek1986} 书中有论述）； 在这 等价关系中，types 对应於 morphisms（例如 morphism $f: A \rightarrow B$ 对应於 $x: A \vdash f(x): B$）。 换句话说，似乎要模拟 predicate logic 的关键是需要某些 ``morphisms''。
+
+注意： simple type theory 亦被叫作 higher-order logic，它是 first-order logic 的扩充，但这扩充并不需要经过 Curry-Howard isomorphism，因此往往造成混淆。  现代逻辑的研究似乎特别关注 Curry-Howard 同构。
+
+% Type constructor 是指任何输出是 ``type'' 的函数。 
 
 	\section{\cc{Curry-Howard 同构}{Curry-Howard isomorphism}}
 
@@ -155,9 +178,12 @@ $\lambda$-calculus 是一切「计算」(computable functions) 的形式。  Typ
 
 在 proof theory 里面，逻辑的 \textbf{后设法则} (meta-logical rules) 描述怎样由一些 逻辑式子 推导 到另一些 式子。 由 Brouwer-Heyting-Kolmogorov 提出的想法是： 将 \textbf{逻辑蕴涵} (implication) 看成是一些 functions 或 mappings。 这个想法再经 Curry-Howard 进一步发展，认为 proofs 就是「计算」，所以对应於 $\lambda$-terms。 
 \begin{eqnarray}
-\lambda\mbox{-terms} & \sim & \mbox{proofs} \nonumber \\
-\mbox{types}         & \sim & \mbox{propositions}
+\textbf{Type theory}                              &      & \textbf{Logic} \nonumber \\
+\mbox{(``programs'')} \quad \lambda\mbox{-terms}  & \sim & \mbox{proofs} \nonumber \\
+\mbox{types}                                      & \sim & \mbox{propositions}
 \end{eqnarray}
+
+详细可参看 \parencite{Sorensen2006} 一书。
 
 	\section{\cc{模型论}{Model theory}}
 
@@ -249,6 +275,8 @@ $F$ 的迴路构成一个 RNN (recurrent neural network)。  RNN 的特性是它
 		\subsection{functorial semantics, ``internal language''}
 
 将 模型论 用 范畴论 的方法表述，得到 \textbf{functorial semantics}。 
+
+在 \parencite{Crole1993} 一书里有解释：
 
 \textbf{Internal language} 是指 一个范畴 $\mathbf{C}$ 诱导出的 algebraic theory $Th(\mathbf{C})$，叫作 $\mathbf{C}$ 的 internal language.  This language is extremely useful because it allows us to reason about the category $\mathbf{C}$ as though it were the category $\mathbf{Set}$ of sets and functions.  For example, if $f: A \rightarrow B$ is a morphism of $\mathbf{C}$, then there is a \textbf{proved term} $x: A \vdash f(x): B$ in $Th(\mathbf{C})$.
 
