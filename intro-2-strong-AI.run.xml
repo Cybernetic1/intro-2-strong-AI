@@ -41,7 +41,7 @@
   >
 ]>
 <requests version="1.0">
-  <internal package="biblatex" priority="9" active="1">
+  <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
       <file>intro-2-strong-AI.bcf</file>
@@ -51,7 +51,6 @@
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
-      <file>blx-unicode.def</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>authoryear.bbx</file>
@@ -80,7 +79,7 @@
       <file>intro-2-strong-AI.bcf</file>
     </requires>
     <requires type="editable">
-      <file>AGI-book.bib</file>
+      <file>../AGI-book.bib</file>
     </requires>
   </external>
 </requests>

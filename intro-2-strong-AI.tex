@@ -2,7 +2,7 @@
 
 \ifdefined\chinchin
 \usepackage[CJKspace]{xeCJK}
-\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=AR PL KaitiM GB]{SimSun}
 \newcommand{\cc}[2]{#1}
 \else
 \newcommand{\cc}[2]{#2}
@@ -21,17 +21,28 @@
 
 % \usepackage{csquotes}
 \usepackage[backend=biber,refsection=chapter,bibstyle=authoryear,citestyle=authoryearbrack]{biblatex}
-\bibliography{AGI-book}
+\bibliography{../AGI-book}
 \defbibheading{secbib}[\bibname]{%
 	\section*{#1}%
 	\markboth{#1}{#1}}
 %\usepackage[sectionbib,square]{natbib}
 %\usepackage{chapterbib}
 
+% Fix spilling of titles in bibliography:
+\DeclareFieldFormat*{title}{#1}
+
+\DeclareFieldFormat*{titlecase}{%
+    \ifdef{\currentfield}
+      {\ifcurrentfield{title}
+         {\usefield{\uline}{\currentfield}}%
+         {#1}}
+      {#1}}
+
 \usepackage{color}
 \usepackage{amsmath}     % for {equation} {cases} {xleftarrow}, [\mathindent]
 \usepackage{bbm}         % for math fonts with double lines
 \usepackage{amssymb}     % for \curlyvee and \therefore
+\usepackage{mathtools}		% for \mathrel \substack
 \usepackage{stmaryrd}    % for \bigcurlyvee, \widetilde{\bigwedge}
 \usepackage{wasysym}     % for \iint (double integral)
 \usepackage{makeidx}
@@ -478,11 +489,12 @@ Pei Wang
 \addcontentsline{toc}{chapter}{\cc{专有名词与缩写}{Abbreviations and glossary}}
 \printglossaries
 
-%\clearpage
-%\phantomsection
-%\addcontentsline{toc}{chapter}{\cc{参考文献}{Bibliography}}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\cc{参考文献}{Bibliography}}
 %\bibliographystyle{plainnat}
 %\bibliography{AGI-book}
+\printbibliography
 
 \clearpage
 \phantomsection

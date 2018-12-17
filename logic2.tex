@@ -185,6 +185,42 @@ $\lambda$-calculus 是一切「计算」(computable functions) 的形式。  Typ
 
 详细可参看 \parencite{Sorensen2006} 一书。
 
+同一书中，还有以下两个列表：
+
+\begin{eqnarray}
+\textbf{Type theory}        &      & \textbf{Logic} \nonumber \\
+\mbox{type} 	 			& \sim & \mbox{formula}	 \nonumber \\ 
+\mbox{type variable} 	 	& \sim & \mbox{propositional variable}	 \nonumber \\ 
+\mbox{type constructor} 	& \sim & \mbox{connective}	 \nonumber \\ 
+\mbox{function space} 	 	& \sim & \mbox{implication}	 \nonumber \\ 
+\mbox{product} 	 			& \sim & \mbox{conjunction}	 \nonumber \\ 
+\mbox{disjoint sum} 	 	& \sim & \mbox{disjunction}	 \nonumber \\ 
+\mbox{empty type} 	 		& \sim & \mbox{absurdity}	 \nonumber \\ 
+\mbox{term} 	 			& \sim & \mbox{proof}	 \nonumber \\ 
+\mbox{object variable} 	 	& \sim & \mbox{assumption}	 \nonumber \\ 
+\mbox{constructor} 	 		& \sim & \mbox{introduction}	 \nonumber \\ 
+\mbox{destructor} 	 		& \sim & \mbox{elimination}	 \nonumber \\ 
+\mbox{redex} 	 			& \sim & \mbox{proof detour}	 \nonumber \\ 
+\mbox{reduction} 	 		& \sim & \mbox{normalization}	 \nonumber \\ 
+\mbox{normal form} 	 		& \sim & \mbox{normal proof}	 \nonumber \\ 
+\mbox{inhabitation} 		& \sim & \mbox{provability}	
+\end{eqnarray}
+
+\begin{eqnarray}
+\textbf{Type theory}                &      & \textbf{First-order logic} \nonumber \\
+\mbox{types} 						& \sim & \mbox{formulas} \nonumber \\
+\mbox{terms} 						& \sim & \mbox{proofs} \nonumber \\
+\mbox{dependent types} 				& \sim & \mbox{connectives, eg. $\wedge, \vee$} \nonumber \\
+\mbox{dependent type} 				& \sim & \mbox{atomic formula} \nonumber \\
+\mbox{type constructors} 			& \sim & \mbox{predicates / relations} \nonumber \\
+\mbox{product type} 				& \sim & \mbox{universal formula} \nonumber \\
+\mbox{abstraction $\lambda a. M$}	& \sim & \mbox{proof by generalization} \nonumber \\
+\mbox{application $M t$} 			& \sim & \mbox{proof by specialization} \nonumber \\
+\mbox{abstract type or module} 		& \sim & \mbox{existential type} \nonumber \\
+\mbox{encapsulation} 				& \sim & \mbox{proof by $\exists$-introduction} \nonumber \\
+\mbox{opening a package} 			& \sim & \mbox{proof by $\exists$-elimination}
+\end{eqnarray}
+
 	\section{\cc{模型论}{Model theory}}
 
 模型论 由 Tarski 开始研究，它的目的是 找出一些数学结构（通常是 \textbf{代数结构}），这些结构符合某个 logic theory 的描述。  Logic theory 即一些 \textbf{逻辑式子} 的集合。
@@ -346,7 +382,7 @@ Topologically, cylinders 的产生是来自 domains 的 Cartesian 乘积，\\
 	\begin{tikzpicture}[overlay]
 	\draw[fill] (-0.53,-0.1) rectangle (-0.05,0.33);
 	\end{tikzpicture}
-} {}_{\forall} = \{ (x_1, x_2) |\; \forall \hat{x_1}.\;  R(\hat{x_1}, x_2)  \} 
+} {}_{\forall} = \{ (x_1, x_2) |\; \forall \hat{x}_1.\;  R(\hat{x}_1, x_2)  \} 
 \end{equation}
 同样地，
 \begin{equation}
@@ -358,7 +394,7 @@ $\exists$ 的 cylindrification 是这个集合：
 	\begin{tikzpicture}[overlay]
 	\draw[fill] (-0.53,-0.1) rectangle (-0.05,0.33);
 	\end{tikzpicture}
-} {}_{\exists} = \{ (x_1, x_2) |\; \exists \hat{x_1}.\;  R(\hat{x_1}, x_2)  \} 
+} {}_{\exists} = \{ (x_1, x_2) |\; \exists \hat{x}_1.\;  R(\hat{x}_1, x_2)  \} 
 \end{equation}
 
 或者 \textbf{等效地}，可以将 $\forall$ 和 $\exists$ 表示成 定义域内 $X_2$ 成分的 \textbf{投影}：
@@ -380,11 +416,11 @@ $\exists$ 的 cylindrification 是这个集合：
 \begin{tikzpicture}[overlay]
 \draw[red,line width=3pt] (-0.11,-0.1) -- (-0.11,0.4);
 \end{tikzpicture}
-{}_{\forall} &= {\forall}_{x_1} &= \{ x_2 |\; \forall \vec{x}.\;  \left[ x_2 = \pi_2(\vec{x}) \;\rightarrow\; \vec{x} \in R \right] \} 
+{}_{\forall} &= {\forall}_{x_1} &= \{ x_2 |\; \forall \vec{x}.\;  \left[ x_2 = \pi_2(\vec{x}) \;\Rightarrow\; \vec{x} \in R \right] \} 
 \end{eqnarray}
 \begin{tabbing}
 \hspace*{2cm}\=  \kill
-注意： \> 在第二式中的 $\rightarrow$ 是必需的，不能用 $\wedge$ 代替，这是很微妙的区别，而两式并不完全对称。 \\
+注意： \> 在第二式中的 $\Rightarrow$ 是必需的，不能用 $\wedge$ 代替，这是很微妙的区别，而两式并不完全对称。 \\
       \> 被量词 $\exists x$ 和 $\forall x$ \textbf{束缚} (bound) 的变量，\uline{是那个被 投映 忽略了的变量}，而不是被投映到的变量。 \\
 \end{tabbing}
 
@@ -446,7 +482,7 @@ Fibration 的定义：
 \vcenter{\hbox{\includegraphics[scale=0.6]{predicate-logic-as-topology.png}}}
 \end{equation}
 
-谓词逻辑 可以 看作是 命题逻辑 之上的一个 \textbf{fibration}：
+谓词逻辑 可以 看作是 命题逻辑 之上的一个 \textbf{fibration},记作 $\mathrel{\substack{\mathbf{Pred}\\\downarrow\\\mathbf{Set}}} $：
 \begin{equation}
 \vcenter{\hbox{\includegraphics[scale=0.6]{predicate-logic-as-fibration.png}}}
 \end{equation}
@@ -455,15 +491,24 @@ Fibration 的定义：
 		\subsection{\cc{Lawvere 量词}{Lawvere quantification}}
 		\label{sec:Lawvere-quantification}
 
+如果要将 逻辑 表述成 范畴论，则所有 逻辑运算 都应该表示成 某些 mappings。 其中最难搞的是 $\forall$ 和 $\exists$，因为表面看上去它们是一些 meta-logical 符号而已。 我觉得 Lawvere 提出的解决办法是很惊人的。
+
 \parencite{Lawvere1963} 提出，$\exists$ 和 $\forall$ 分别是某个 substitution map $f$ 的左和右 \textbf{adjoint} functors：
 \begin{equation}
  \exists \dashv f \dashv \forall 
 \end{equation}
 
-$f$ 是一个叫 ``weakening'' 的函子，它的作用是将 论域 $X$ 扩充映射到 $X \times Y$，$Y$ 是一个新的 variable：
+$f$ 是一个叫 ``weakening'' 的函子，它的作用是将 论域 $X$ \textbf{扩充} 映射到 $X \times X_0$，$X_0$ 是一个新的 variable：
 \begin{equation}
-f: X \rightarrow X \times Y
+f: X \rightarrow X \times X_0
 \end{equation}
+
+假设 $X$ 和 $Y$ 是任意的 \textbf{论域}，而 $f: X \rightarrow Y$ 代表 论域的 \textbf{转变}，
+%\begin{tikzpicture}
+%\draw[red,fill=red] (0,0) ellipse (5pt and 7pt);
+%\end{tikzpicture} 是任意区域（子集），
+所以 $f$ 是一种 ``substitution map''。
+
 则可以定义：
 \begin{eqnarray}
 \exists{}_f &=& 
@@ -472,31 +517,44 @@ f: X \rightarrow X \times Y
 % \draw[fill=red] (-0.4,-0.1) rectangle (-0.05,0.25);
 %\end{tikzpicture}
 %{}_{\exists} =
-\{ y |\; \exists x.\;  \left[ y = f(x) \;\wedge\; x \in R \right] \} \nonumber \\
+\{ y \in Y |\; \exists x \in X.\;  \left[ y = f(x) \;\wedge\; x \in S \right] \} \nonumber \\
 \forall{}_f &=&
 %\begin{tikzpicture}[overlay]
 %\draw[red,fill=red] (-0.24,0.11) ellipse (5pt and 7pt);
 % \draw[fill=red] (-0.4,-0.1) rectangle (-0.05,0.25);
 %\end{tikzpicture}
 %{}_{\forall} =
-\{ y |\; \forall x.\;  \left[ y = f(x) \;\rightarrow\; x \in R \right] \}
+\{ y \in Y |\; \forall x \in X.\;  \left[ y = f(x) \;\Rightarrow\; x \in S \right] \}
 \end{eqnarray}
-这里 $X$ 和 $Y$ 是任意的 \textbf{论域}，而 $f: X \rightarrow Y$ 代表 论域的 \textbf{转变}，
-%\begin{tikzpicture}
-%\draw[red,fill=red] (0,0) ellipse (5pt and 7pt);
-%\end{tikzpicture} 是任意区域（子集），
-所以 $f$ 是一种 ``substitution map''。
 
-还有这两个等式 但我暂时不太理解： For all $S \subseteq X, T \subseteq Y$:
+以上对 $\forall{}_f$ 和 $\exists{}_f$ 的定义，等价於以下的定义：  The following 2 formulas are from \parencite{Abramsky2011}.  For all $S \subseteq X, T \subseteq Y$:
 \begin{eqnarray}
-& S \subseteq f^{-1} T \quad \quad \Longleftrightarrow \quad \quad \exists {}_f  S \subseteq T &\\
+&S \subseteq f^{-1} T \quad \quad \Longleftrightarrow \quad \quad \exists {}_f  S \subseteq T& \\
 &\vcenter{\hbox{\includegraphics[scale=0.7]{Lawvere-quantifier-exists.png}}}& \nonumber
 \end{eqnarray}
 
 \begin{eqnarray}
-&f^{-1} T \subseteq S \quad \quad \Longleftrightarrow \quad \quad T \subseteq \forall {}_f  S & \\
+&f^{-1} T \subseteq S \quad \quad \Longleftrightarrow \quad \quad T \subseteq \forall {}_f  S& \\
 &\vcenter{\hbox{\includegraphics[scale=0.7]{Lawvere-quantifier-forall.png}}}& \nonumber
 \end{eqnarray}
+
+They can be interpreted in a ``cylindrical'' way:  Let $X = X_1 \times X_2$ and $Y = X_2$.  Then $f$ is a projection onto the second component, $X_1 \times X_2 \rightarrow X_2$:
+\begin{equation}
+\vcenter{\hbox{\includegraphics[scale=0.7]{Lawvere-cylindrification.png}}}
+\end{equation}
+
+Lawvere's generalization suggests that $f$ need not be a simple projection onto a component dimension (as in cylindric algebra).  It seems to work where $f$ is any non-injective function.  For example, let
+\begin{equation}
+f(x_1, x_2) = (|x_1|, x_2)
+\end{equation}
+where $|\cdot|$ is the absolute value function.  Then we have the following behavior:
+\begin{equation}
+\vcenter{\hbox{\includegraphics[scale=0.7]{Lawvere-quantifiers-abs-example.png}}}
+\end{equation}
+\begin{equation}
+\vcenter{\hbox{\includegraphics[scale=0.7]{Lawvere-quantifiers-abs-example2.png}}}
+\end{equation}
+
 
 \parencite{Lawvere2003}, \parencite{Lawvere1963}
 
