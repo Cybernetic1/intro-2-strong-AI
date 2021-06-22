@@ -30,7 +30,9 @@ a \rightarrow b = \top & \Leftrightarrow & \neg a \vee b = \top \nonumber \\
  & \Leftrightarrow & a \vee b = a \nonumber \\
  & \Leftrightarrow & a \leq b \quad \quad \text{(by definition of lattice)}
 \end{eqnarray}
-所以 $a \leq b$ 定义了一个 order relation，这就是 the Boolean lattice associated with the Boolean algebra，两者是等价的。 
+所以 $a \leq b$ 定义了一个 order relation，这就是 the Boolean lattice associated with the Boolean algebra，两者是等价的。 其实 $\le$ 表示的是 $\vdash$，亦即逻辑的 deducibility 关系。
+
+(Hasse diagram 表示 lattice 的 $\le$ 关系，但它每个 edge 只表示 ``$a$ immediately covers $b$'' 这种关系，即 $a < b$ and $\neg \exists x. \; a < x < b$.)
 
 这是包含两个命题的 Boolean lattice（但似乎不是 complete atomic Boolean lattice）：
 \begin{equation}
@@ -80,6 +82,8 @@ $a \rightarrow b \Leftrightarrow a \leq b$ 但方向相反，原因是 $0 \leq 1
 这时，状态 lattice 变得 ``irregular''，但 $F$ 只需在这 lattice 中容许的节点上移动。
 
 		\subsection{Heyting algebra}
+
+Heyting lattice 和 Boolean lattice 有什么分别？
 
 \underconst
 
